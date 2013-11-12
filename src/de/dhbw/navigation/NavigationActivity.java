@@ -57,7 +57,7 @@ public class NavigationActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setHomeButtonEnabled(true);
         
-        
+        selectItem(0);
 	}
 
 	@Override
