@@ -12,12 +12,23 @@
     <string name="drawer_open">Menü öffnen</string>
     <string name="drawer_close">Menü schließen</string>
     
+    <string name="link_list_element_icon">Link-Icon</string>
+    
     <string-array name="nav_array">
     	<item>Vote</item>
     	<item>Konto</item>
     	<item>Info</item>
     	<item>Links</item>
     	<item>Einstellungen</item>    
+    </string-array>
+    
+    <string-array name="link_array">
+    	<item>Forum</item>
+    	<item>Vip</item>
+    	<item>Banmanagement</item>
+    	<item>Facebook</item>
+    	<item>Youtube</item>
+    	<item>Twitter</item>   
     </string-array>
     
 </resources>

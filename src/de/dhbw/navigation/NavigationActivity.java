@@ -49,7 +49,7 @@ public class NavigationActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);        
         
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mNavigationTitles));
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_navigation_drawer_list_item, mNavigationTitles));
         
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
