@@ -2,7 +2,22 @@
 <resources>
 
     <string name="app_name">Kadconia</string>
-    <string name="action_settings">Settings</string>
+    
+    <string name="action_settings">Einstellungen</string>
+    
     <string name="hello_world">Hello world!</string>
+    
+    <string name="title_activity_navigation">Kadconia</string>
 
+    <string name="drawer_open">Menü öffnen</string>
+    <string name="drawer_close">Menü schließen</string>
+    
+    <string-array name="nav_array">
+    	<item>Vote</item>
+    	<item>Konto</item>
+    	<item>Info</item>
+    	<item>Links</item>
+    	<item>Einstellungen</item>    
+    </string-array>
+    
 </resources>
