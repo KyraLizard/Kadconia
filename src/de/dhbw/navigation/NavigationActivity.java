@@ -1,5 +1,6 @@
 package de.dhbw.navigation;
 
+import de.dhbw.links.LinkFragment;
 import de.dhbw.navigation.R;
 
 import android.os.Bundle;
@@ -87,9 +88,10 @@ public class NavigationActivity extends Activity {
 		
 		switch (position)
 		{
-			/*case 0:
+			case 0:
+				fragment = new LinkFragment();
 				break;
-			case 1:
+			/*case 1:
 				break;
 			case 2:
 				break;*/
@@ -102,6 +104,7 @@ public class NavigationActivity extends Activity {
 	    android.app.FragmentManager fragmentManager = getFragmentManager();
 	    fragmentManager.beginTransaction()
 	                   .replace(R.id.content_frame, fragment)
+	                   .addToBackStack(null)
 	                   .commit();
 
 	    // Highlight the selected item, update the title, and close the drawer

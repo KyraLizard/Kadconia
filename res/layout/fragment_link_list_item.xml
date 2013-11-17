@@ -3,4 +3,6 @@
 	android:id="@+id/link_list_element_text"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:gravity="center"
+	android:padding="10dp"
 />
