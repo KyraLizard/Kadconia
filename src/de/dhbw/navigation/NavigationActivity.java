@@ -88,13 +88,9 @@ public class NavigationActivity extends Activity {
 		
 		switch (position)
 		{
-			case 0:
+			case 3:
 				fragment = new LinkFragment();
 				break;
-			/*case 1:
-				break;
-			case 2:
-				break;*/
 			default:
 				fragment = new TestFragment();
 				break;

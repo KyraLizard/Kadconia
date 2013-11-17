@@ -1,11 +1,6 @@
 package de.dhbw.links;
 
-import java.util.ArrayList;
-
 import de.dhbw.navigation.R;
-import de.dhbw.navigation.R.array;
-import de.dhbw.navigation.R.id;
-import de.dhbw.navigation.R.layout;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -14,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 
