@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataBaseLinks{
+public class DataBaseLinks implements DataBaseTable{
 
 	// table name
 		private static final String TABLE_NAME = "links";
