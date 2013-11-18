@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:id="@+id/pref_language"
+        android:title="@string/pref_language"
+        android:summary="@string/pref_language_summary"
+        android:defaultValue="@string/pref_language_default"
+        android:entries="@array/language"
+        android:entryValues="@array/language_alias"
+        />
+    <CheckBoxPreference
+        android:id="@+id/pref_wlan_only"
+        android:title="@string/pref_wifi_only"
+        android:summary="@string/pref_wifi_only_summary"
+        android:defaultValue="false"
+        />
+    <EditTextPreference
+        android:id="@+id/pref_vote_name"
+        android:title="@string/pref_vote_name"
+        android:summary="@string/pref_vote_name_summary"
+        android:defaultValue="@string/pref_vote_name_default"
+        />
+    <EditTextPreference
+        android:id="@+id/pref_konto_token"
+        android:title="@string/pref_konto_token"
+        android:summary="@string/pref_konto_token_summary"
+        android:defaultValue="@string/pref_konto_token_default"
+        />
+</PreferenceScreen>

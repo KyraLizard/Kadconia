@@ -2,7 +2,9 @@ package de.dhbw.navigation;
 
 import de.dhbw.links.LinkFragment;
 import de.dhbw.navigation.R;
+import de.dhbw.settings.SettingsActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Fragment;
@@ -91,6 +93,10 @@ public class NavigationActivity extends Activity {
 			case 3:
 				fragment = new LinkFragment();
 				break;
+            case 4:
+                Intent mIntent = new Intent(this, SettingsActivity.class);
+                startActivity(mIntent);
+                return;
 			default:
 				fragment = new TestFragment();
 				break;
@@ -129,9 +135,15 @@ public class NavigationActivity extends Activity {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
           return true;
         }
+
+        switch (item.getItemId())
+        {
+            case R.id.action_settings:
+                Intent mIntent = new Intent(this, SettingsActivity.class);
+                startActivity(mIntent);
+        }
         // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
     }
-
 }
