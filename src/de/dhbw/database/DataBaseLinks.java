@@ -33,7 +33,17 @@ public class DataBaseLinks{
 	
 	public void initTable (SQLiteDatabase db) {
 		
-		// TODO: Links hinzufügen
+		// TODO: Links hinzufÃ¼gen
+        /*
+            o	Forum
+            o	VIP
+            o	Banmanagement
+            o	Facebook
+            o	Youtube
+            o	Twitter (Kade)
+         */
+
+        addLink(db, new Link("Forum", "http://m.kadcon.de/index.php?page=Portal", ""));
 	}
 	
 	// link functions
