@@ -1,7 +1,11 @@
 package de.dhbw.database;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseLinks{
 
@@ -16,8 +20,8 @@ public class DataBaseLinks{
 
 	// create table query
 	    private static final String CREATE_TABLE_LINKS_QUERY = "CREATE TABLE " + TABLE_NAME + "("
-	            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT" + KEY_URL
-	            + " TEXT" + KEY_IMAGE + " TEXT" + ");";
+	            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_URL
+	            + " TEXT," + KEY_IMAGE + " TEXT" + ");";
 
 	public String getTableName() {
 		return TABLE_NAME;
@@ -32,18 +36,13 @@ public class DataBaseLinks{
 	}
 	
 	public void initTable (SQLiteDatabase db) {
-		
-		// TODO: Links hinzufügen
-        /*
-            o	Forum
-            o	VIP
-            o	Banmanagement
-            o	Facebook
-            o	Youtube
-            o	Twitter (Kade)
-         */
 
-        addLink(db, new Link("Forum", "http://m.kadcon.de/index.php?page=Portal", ""));
+        addLink(db, new Link("Forum", "http://m.kadcon.de/index.php?page=Portal", "ic_link_forum"));
+        addLink(db, new Link("Shop", "http://shop.kadcon.de/", "ic_link_shop"));
+        addLink(db, new Link("Banmanagement", "http://kadcon.de/banmanagement/", "ic_link_ban"));
+        addLink(db, new Link("Facebook", "https://m.facebook.com/Kadcon.de", "ic_link_facebook"));
+        addLink(db, new Link("Youtube", "http://m.youtube.com/user/kadconDE", "ic_link_youtube"));
+        addLink(db, new Link("Twitter (Kademlia)", "https://mobile.twitter.com/Kademlias", "ic_link_twitter"));
 	}
 	
 	// link functions
@@ -57,5 +56,27 @@ public class DataBaseLinks{
 		
 		db.insert(TABLE_NAME, null, mContentValues);
 	}
+
+    public List<Link> getAllLinks(SQLiteDatabase db)
+    {
+        List<Link> mLinkList = new ArrayList<Link>();
+        String query = "SELECT * FROM " + TABLE_NAME;
+
+        Cursor cursor = db.rawQuery(query, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Link link = new Link();
+                link.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+                link.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+                link.setUrl(cursor.getString(cursor.getColumnIndex(KEY_URL)));
+                link.setImage(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
+
+                // Adding workout to list
+                mLinkList.add(link);
+            } while (cursor.moveToNext());
+        }
+        return mLinkList;
+    }
 		
 }
