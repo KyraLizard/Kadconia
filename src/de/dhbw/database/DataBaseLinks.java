@@ -39,10 +39,10 @@ public class DataBaseLinks implements DataBaseTable{
 
         addLink(db, new Link("Forum", "http://m.kadcon.de/index.php?page=Portal", "ic_link_forum"));
         addLink(db, new Link("Shop", "http://shop.kadcon.de/", "ic_link_shop"));
-        addLink(db, new Link("Banmanagement", "http://kadcon.de/banmanagement/", "ic_link_ban"));
+        addLink(db, new Link("Ban\nManagement", "http://kadcon.de/banmanagement/", "ic_link_ban"));
         addLink(db, new Link("Facebook", "https://m.facebook.com/Kadcon.de", "ic_link_facebook"));
         addLink(db, new Link("Youtube", "http://m.youtube.com/user/kadconDE", "ic_link_youtube"));
-        addLink(db, new Link("Twitter (Kademlia)", "https://mobile.twitter.com/Kademlias", "ic_link_twitter"));
+        addLink(db, new Link("Twitter\n(Kademlia)", "https://mobile.twitter.com/Kademlias", "ic_link_twitter"));
 	}
 	
 	// link functions
@@ -66,14 +66,14 @@ public class DataBaseLinks implements DataBaseTable{
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Link link = new Link();
-                link.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
-                link.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
-                link.setUrl(cursor.getString(cursor.getColumnIndex(KEY_URL)));
-                link.setImage(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
+                Link mLink = new Link();
+                mLink.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+                mLink.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+                mLink.setUrl(cursor.getString(cursor.getColumnIndex(KEY_URL)));
+                mLink.setImage(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
 
                 // Adding workout to list
-                mLinkList.add(link);
+                mLinkList.add(mLink);
             } while (cursor.moveToNext());
         }
         return mLinkList;

@@ -71,9 +71,9 @@ public class LinkFragment extends Fragment{
 		public View getView(int position, View convertView, ViewGroup parent) {
 			
 			LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View mGridViewElement = inflater.inflate(R.layout.fragment_link_list_item, parent, false);
+            View mGridViewElement = inflater.inflate(R.layout.fragment_link_item, parent, false);
 			
-            TextView mGridViewElementText = (TextView) mGridViewElement.findViewById(R.id.link_list_element_text);
+            TextView mGridViewElementText = (TextView) mGridViewElement.findViewById(R.id.link_element_text);
             mGridViewElementText.setText(mLinkList.get(position).getName());
 
             int mImageId = getResources().getIdentifier(mLinkList.get(position).getImage(), "drawable", mContext.getPackageName());

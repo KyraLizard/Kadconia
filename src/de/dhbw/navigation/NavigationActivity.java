@@ -1,5 +1,6 @@
 package de.dhbw.navigation;
 
+import de.dhbw.infos.InfoFragment;
 import de.dhbw.links.LinkFragment;
 import de.dhbw.navigation.R;
 import de.dhbw.settings.SettingsActivity;
@@ -90,6 +91,9 @@ public class NavigationActivity extends Activity {
 		
 		switch (position)
 		{
+            case 2:
+                fragment = new InfoFragment();
+                break;
 			case 3:
 				fragment = new LinkFragment();
 				break;
@@ -103,8 +107,7 @@ public class NavigationActivity extends Activity {
 		}
 		
 	    // Insert the fragment by replacing any existing fragment
-	    android.app.FragmentManager fragmentManager = getFragmentManager();
-	    fragmentManager.beginTransaction()
+        getFragmentManager().beginTransaction()
 	                   .replace(R.id.content_frame, fragment)
 	                   .addToBackStack(null)
 	                   .commit();

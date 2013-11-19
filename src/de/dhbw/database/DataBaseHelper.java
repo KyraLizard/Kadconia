@@ -9,18 +9,18 @@ import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 	
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "Kadconia.db";
 
     private List<DataBaseTable> mDatabaseTables = new ArrayList<DataBaseTable>();
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mDatabaseTables.add(new DataBaseLinks());
+        mDatabaseTables.add(new DataBaseInfos());
     }
 
     public void onCreate(SQLiteDatabase db) {
-
-        mDatabaseTables.add(new DataBaseLinks());
 
         for (DataBaseTable mDataBaseTable : mDatabaseTables)
             mDataBaseTable.createTable(db);
