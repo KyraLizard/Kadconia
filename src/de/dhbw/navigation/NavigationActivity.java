@@ -3,6 +3,7 @@ package de.dhbw.navigation;
 import de.dhbw.infos.InfoFragment;
 import de.dhbw.links.LinkFragment;
 import de.dhbw.navigation.R;
+import de.dhbw.serverstatus.ServerStatusFragment;
 import de.dhbw.settings.SettingsActivity;
 
 import android.content.Intent;
@@ -91,13 +92,16 @@ public class NavigationActivity extends Activity {
 		
 		switch (position)
 		{
-            case 2:
+            case 0:
+                fragment = new ServerStatusFragment();
+                break;
+            case 3:
                 fragment = new InfoFragment();
                 break;
-			case 3:
+			case 4:
 				fragment = new LinkFragment();
 				break;
-            case 4:
+            case 5:
                 Intent mIntent = new Intent(this, SettingsActivity.class);
                 startActivity(mIntent);
                 return;

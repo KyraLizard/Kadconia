@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -76,8 +77,9 @@ public class LinkFragment extends Fragment{
             TextView mGridViewElementText = (TextView) mGridViewElement.findViewById(R.id.link_element_text);
             mGridViewElementText.setText(mLinkList.get(position).getName());
 
-            int mImageId = getResources().getIdentifier(mLinkList.get(position).getImage(), "drawable", mContext.getPackageName());
-            mGridViewElementText.setCompoundDrawablesWithIntrinsicBounds(0, mImageId, 0, 0);
+            ImageView mGridViewElementIcon = (ImageView) mGridViewElement.findViewById(R.id.link_element_icon);
+            int imageId = getResources().getIdentifier(mLinkList.get(position).getImage(), "drawable", mContext.getPackageName());
+            mGridViewElementIcon.setImageResource(imageId);
 
             mGridViewElement.setOnClickListener(new LinkOnClickListener(mLinkList.get(position).getUrl()));
             

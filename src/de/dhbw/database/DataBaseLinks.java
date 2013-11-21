@@ -39,7 +39,7 @@ public class DataBaseLinks implements DataBaseTable{
 
         addLink(db, new Link("Forum", "http://m.kadcon.de/index.php?page=Portal", "ic_link_forum"));
         addLink(db, new Link("Shop", "http://shop.kadcon.de/", "ic_link_shop"));
-        addLink(db, new Link("Ban\nManagement", "http://kadcon.de/banmanagement/", "ic_link_ban"));
+        addLink(db, new Link("Bans", "http://kadcon.de/banmanagement/", "ic_link_ban"));
         addLink(db, new Link("Facebook", "https://m.facebook.com/Kadcon.de", "ic_link_facebook"));
         addLink(db, new Link("Youtube", "http://m.youtube.com/user/kadconDE", "ic_link_youtube"));
         addLink(db, new Link("Twitter\n(Kademlia)", "https://mobile.twitter.com/Kademlias", "ic_link_twitter"));

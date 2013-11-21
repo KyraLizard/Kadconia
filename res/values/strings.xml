@@ -27,6 +27,7 @@
     <string name="link_list_element_icon">Link-Icon</string>
     
     <string-array name="nav_array">
+        <item>Serverstatus</item>
     	<item>Vote</item>
     	<item>Konto</item>
     	<item>Info</item>
