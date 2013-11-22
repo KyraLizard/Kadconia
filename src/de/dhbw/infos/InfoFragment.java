@@ -1,25 +1,25 @@
 package de.dhbw.infos;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
+import android.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import de.dhbw.database.DataBaseHelper;
 import de.dhbw.database.DataBaseInfos;
-import de.dhbw.database.DataBaseLinks;
 import de.dhbw.database.Info;
-import de.dhbw.database.Link;
 import de.dhbw.navigation.R;
 
 public class InfoFragment extends Fragment{
@@ -78,14 +78,16 @@ public class InfoFragment extends Fragment{
             TextView mGridViewElementText = (TextView) mGridViewElement.findViewById(R.id.info_element_text);
             mGridViewElementText.setText(mInfoList.get(position).getName());
 
-            //int mImageId = getResources().getIdentifier(mInfoList.get(position).getImage(), "drawable", mContext.getPackageName());
-            mGridViewElementText.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_link_ban, 0, 0);
-            //mGridViewElement.setOnClickListener(new InfoOnClickListener(mInfoList.get(position).getId()));
+            ImageView mGridViewElementIcon = (ImageView) mGridViewElement.findViewById(R.id.info_element_icon);
+            int mImageId = getResources().getIdentifier(mInfoList.get(position).getImage(), "drawable", mContext.getPackageName());
+            mGridViewElementIcon.setImageResource(mImageId);
+
+            mGridViewElement.setOnClickListener(new InfoOnClickListener(mInfoList.get(position).getId()));
             
 			return mGridViewElement;
         }
 
-        /*public class InfoOnClickListener implements View.OnClickListener
+        public class InfoOnClickListener implements View.OnClickListener
         {
             private int id;
 
@@ -98,20 +100,28 @@ public class InfoFragment extends Fragment{
 
                 Fragment fragment = null;
 
+                Log.d("Test", String.valueOf(id));
+
                 switch (id)
                 {
-                    case 0:
-                        fragment = new RulesFragment();
                     case 1:
-                        fragment = new ServerIPFragment();
+                        fragment = new RulesFragment();
+                        break;
                     case 2:
+                        fragment = new ServerIpFragment();
+                        break;
+                    /*case 3:
                         fragment = new AdminListFragment();
-                    case 3:
-                        fragment = new DisclaimerFragment();
+                        break;
                     case 4:
+                        fragment = new DisclaimerFragment();
+                        break;
+                    case 5:
                         fragment = new ImpressumFragment();
+                        break;*/
                     default:
-                        return;
+                        fragment = new RulesFragment();
+                        break;
                 }
 
                 switchToFragment(fragment);
@@ -119,12 +129,12 @@ public class InfoFragment extends Fragment{
 
             private void switchToFragment (Fragment fragment)
             {
-                getFragmentManager().beginTransaction()
-                                    .add(fragment, null)
-                                    .addToBackStack(null)
-                                    .commit();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
-        }*/
+        }
 		
 	}
 }

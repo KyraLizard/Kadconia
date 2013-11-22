@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/info_element_text"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:gravity="center"
-	android:padding="10dp"
-    android:drawablePadding="8dp"
-/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/info_element_layout"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center"
+android:orientation="vertical"
+android:padding="15dp">
+<ImageView
+    android:id="@+id/info_element_icon"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:gravity="center"
+    android:layout_margin="10dp"/>
+<TextView
+    android:id="@+id/info_element_text"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textSize="13sp"
+    android:gravity="center" />
+</LinearLayout>
