@@ -7,17 +7,19 @@ public class Server {
 
     private int id;
     private String name;
+    private String owner;
     private String ip;
     private int port;
 
     public Server() {
     }
 
-    public Server(String name, String ip, int port) {
+    public Server(String name, String owner, String ip, int port) {
 
-        this.name = name;
-        this.ip = ip;
-        this.port = port;
+        setName(name);
+        setOwner(owner);
+        setIp(ip);
+        setPort(port);
     }
 
     public int getId() {
@@ -26,6 +28,14 @@ public class Server {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getName() {
