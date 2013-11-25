@@ -34,6 +34,10 @@ public class Server {
         return owner;
     }
 
+    public String getFormattedOwner () {
+        return Character.toUpperCase(getOwner().charAt(0)) + getOwner().substring(1);
+    }
+
     public void setOwner(String owner) {
         this.owner = owner;
     }

@@ -45,20 +45,24 @@ public class ServerIpFragment extends ListFragment{
         List<Server> serverList = mDataBaseServer.getAllServer(mDataBase);
         List<String> serverNameList = new ArrayList<String>();
         for (Server server : serverList)
-            serverNameList.add(server.getName());
+        {
+            serverNameList.add(server.getFormattedOwner() + " " + server.getName());
+            serverNameList.add("IP: " + server.getIp() + ", Port: " + server.getPort());
+        }
 
-        setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverip_element, serverNameList, serverList));
+        setListAdapter(new ServerIpAdapter(mContext, R.layout.fragment_serverip_element, serverNameList));
+        //setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverip_element, serverNameList, serverList));
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public class ServerStatusAdapter extends ArrayAdapter<String>
+    public class ServerIpAdapter extends ArrayAdapter<String>
     {
-        private List<Server> mServerList;
+        private List<String> objects;
 
-        public ServerStatusAdapter(Context context, int resource, List<String> objects, List<Server> mServerList) {
+        public ServerIpAdapter(Context context, int resource, List<String> objects) {
             super(context, resource, objects);
-            this.mServerList = mServerList;
+            this.objects = objects;
         }
 
         @Override
@@ -67,13 +71,15 @@ public class ServerIpFragment extends ListFragment{
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.fragment_serverip_element, parent, false);
 
-            Server server = mServerList.get(position);
-
             TextView textView = (TextView) view.findViewById(R.id.server_element_text);
 
-            textView.setText(server.getName() + ": " + server.getIp() + ":" + server.getPort());
+            if (position % 2 == 0)
+                view.setBackgroundResource(R.drawable.background_border);
+
+            textView.setText(objects.get(position));
 
             return textView;
+
             //return super.getView(position, convertView, parent);
         }
     }
