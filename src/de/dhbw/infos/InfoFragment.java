@@ -98,7 +98,7 @@ public class InfoFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                Fragment fragment = null;
+                Fragment fragment;
 
                 Log.d("Test", String.valueOf(id));
 
@@ -110,10 +110,10 @@ public class InfoFragment extends Fragment{
                     case 2:
                         fragment = new ServerIpFragment();
                         break;
-                    /*case 3:
-                        fragment = new AdminListFragment();
+                    case 3:
+                        fragment = new AdminFragment();
                         break;
-                    case 4:
+                    /*case 4:
                         fragment = new DisclaimerFragment();
                         break;
                     case 5:

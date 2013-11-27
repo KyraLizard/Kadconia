@@ -117,9 +117,10 @@ public class NavigationActivity extends Activity {
 	                   .commit();
 
 	    // Highlight the selected item, update the title, and close the drawer
-	    mDrawerList.setItemChecked(position, true);
+	    //mDrawerList.setItemChecked(position, true);
 	    setTitle(mNavigationTitles[position]);
 	    mDrawerLayout.closeDrawer(mDrawerList);
+        mDrawerList.setItemChecked(position, false);
 	}
 	
 	 @Override
