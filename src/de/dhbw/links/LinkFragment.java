@@ -44,8 +44,8 @@ public class LinkFragment extends Fragment{
 		return mGridView;
 		//return super.onCreateView(inflater, container, savedInstanceState);
 	}
-	
-	public class LinkAdapter extends BaseAdapter
+
+    public class LinkAdapter extends BaseAdapter
 	{
 		private List<Link> mLinkList;
 		

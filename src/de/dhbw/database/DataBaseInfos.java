@@ -38,8 +38,7 @@ public class DataBaseInfos implements DataBaseTable{
         addInfo(db, new Info("Serverregeln", "ic_info_rules"));
         addInfo(db, new Info("Server-IPs\n(Adressen)", "ic_info_ips"));
         addInfo(db, new Info("Liste\nMods/Admins", "ic_info_admins"));
-        addInfo(db, new Info("Disclaimer", "ic_info_disclaimer"));
-        addInfo(db, new Info("Impressum", "ic_info_impressum"));
+        addInfo(db, new Info("Kontakt", "ic_info_kontakt"));
 	}
 	
 	// link functions

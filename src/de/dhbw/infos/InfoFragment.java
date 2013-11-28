@@ -5,7 +5,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +22,16 @@ import de.dhbw.database.Info;
 import de.dhbw.navigation.R;
 
 public class InfoFragment extends Fragment{
-	
+
+    private String mTitle;
 	private List<Info> mInfoList;
     private Context mContext;
-	
-	@Override
+
+    public InfoFragment(String title) {
+        mTitle = title;
+    }
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
@@ -45,8 +49,14 @@ public class InfoFragment extends Fragment{
 		return mGridView;
 		//return super.onCreateView(inflater, container, savedInstanceState);
 	}
-	
-	public class InfoAdapter extends BaseAdapter
+
+    @Override
+    public void onResume() {
+        getActivity().setTitle(mTitle);
+        super.onResume();
+    }
+
+    public class InfoAdapter extends BaseAdapter
 	{
 		private List<Info> mInfoList;
 		
@@ -98,9 +108,8 @@ public class InfoFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                Fragment fragment;
-
                 Log.d("Test", String.valueOf(id));
+                Fragment fragment;
 
                 switch (id)
                 {
@@ -113,26 +122,31 @@ public class InfoFragment extends Fragment{
                     case 3:
                         fragment = new AdminFragment();
                         break;
-                    /*case 4:
-                        fragment = new DisclaimerFragment();
+                    case 4:
+                        fragment = new KontaktFragment();
                         break;
-                    case 5:
-                        fragment = new ImpressumFragment();
-                        break;*/
                     default:
                         fragment = new RulesFragment();
                         break;
                 }
 
-                switchToFragment(fragment);
-            }
+                for (Info info : mInfoList)
+                {
+                    if (info.getId() == id)
+                    {
+                        getActivity().setTitle(info.getName());
+                    }
+                }
 
-            private void switchToFragment (Fragment fragment)
-            {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+
+            private void switchToFragment (int id)
+            {
+
             }
         }
 		

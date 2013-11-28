@@ -35,10 +35,16 @@
     	<item>Einstellungen</item>    
     </string-array>
 
+    <string-array name="kontakt">
+        <item>Mark Atzmüller</item>
+        <item>mark.atzmueller@gmx.de</item>
+    </string-array>
+
     <string-array name="language">
         <item>German (Germany)</item>
         <item>English (US)</item>
     </string-array>
+
     <string-array name="language_alias">
         <item>de-DE</item>
         <item>en-US</item>

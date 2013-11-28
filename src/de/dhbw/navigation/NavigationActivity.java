@@ -96,7 +96,7 @@ public class NavigationActivity extends Activity {
                 fragment = new ServerStatusFragment();
                 break;
             case 3:
-                fragment = new InfoFragment();
+                fragment = new InfoFragment(mNavigationTitles[position]);
                 break;
 			case 4:
 				fragment = new LinkFragment();
