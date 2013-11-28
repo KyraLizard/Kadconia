@@ -5,6 +5,7 @@ import de.dhbw.links.LinkFragment;
 import de.dhbw.navigation.R;
 import de.dhbw.serverstatus.ServerStatusFragment;
 import de.dhbw.settings.SettingsActivity;
+import de.dhbw.vote.VoteFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -94,6 +95,9 @@ public class NavigationActivity extends Activity {
 		{
             case 0:
                 fragment = new ServerStatusFragment();
+                break;
+            case 1:
+                fragment = new VoteFragment();
                 break;
             case 3:
                 fragment = new InfoFragment(mNavigationTitles[position]);

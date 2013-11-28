@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vote_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <WebView
+        android:id="@+id/vote_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/vote_image_captcha"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <EditText
+        android:id="@+id/vote_edittext_captcha"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <EditText
+        android:id="@+id/vote_edittext_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
