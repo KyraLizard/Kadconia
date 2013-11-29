@@ -9,30 +9,48 @@
     <WebView
         android:id="@+id/vote_webview"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:layout_weight="0"/>
     <ImageView
         android:id="@+id/vote_image_captcha"
         android:layout_width="match_parent"
         android:layout_height="65dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/background_border"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/vote_text_captcha"
+        android:layout_marginTop="15dp" />
     <EditText
         android:id="@+id/vote_edittext_captcha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
         android:padding="10dp"
-        android:background="@drawable/background_border"/>
+        android:background="@drawable/background_border"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/vote_text_name"
+        android:layout_marginTop="15dp"/>
     <EditText
         android:id="@+id/vote_edittext_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
         android:padding="10dp"
-        android:background="@drawable/background_border"/>
+        android:background="@drawable/background_border"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp" />
     <Button
         android:id="@+id/vote_button_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="15dp"/>
+        android:layout_margin="15dp"
+        android:text="@string/vote_button_submit"/>
 </LinearLayout>

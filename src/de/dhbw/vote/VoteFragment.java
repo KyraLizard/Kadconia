@@ -3,6 +3,7 @@ package de.dhbw.vote;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -10,6 +11,9 @@ import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JsResult;
@@ -27,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import de.dhbw.navigation.R;
+import de.dhbw.settings.SettingsActivity;
 
 /**
  * Created by Mark on 28.11.13.
@@ -35,24 +40,29 @@ public class VoteFragment extends Fragment {
 
     private Context mContext;
     private View mView;
+    private boolean submitButtonLock;
+
+    private WebView mWebView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        setHasOptionsMenu(true);
 
         mContext = getActivity();
 
         mView = inflater.inflate(R.layout.fragment_vote, container, false);
 
-        WebView webView = (WebView) mView.findViewById(R.id.vote_webview);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new WebAppInterface(mContext), "WebApp");
+        mWebView = (WebView) mView.findViewById(R.id.vote_webview);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.addJavascriptInterface(new WebAppInterface(mContext), "WebApp");
 
         EditText nameField = (EditText) mView.findViewById(R.id.vote_edittext_name);
         EditText captchaField = (EditText) mView.findViewById(R.id.vote_edittext_captcha);
 
-        nameField.setText("Name");  //TODO: Hier Name aus Einstellungen einfügen
+        nameField.setText("Vettel1");  //TODO: Hier Name aus Einstellungen einfügen
 
-        webView.setWebViewClient(new WebViewClient() {
+        mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 Log.d("TestOnPageFinished", url);
@@ -76,10 +86,33 @@ public class VoteFragment extends Fragment {
             }
         });
 
-        webView.loadUrl("http://minecraft-server.eu/?go=servervote&id=2421");
+        reloadPage();
         Log.d("TestLoadUrl", "Load URL");
 
         return mView;
+    }
+
+    public void reloadPage() {
+        mWebView.loadUrl("http://minecraft-server.eu/?go=servervote&id=2421");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.action_refresh:
+                ((ImageView) mView.findViewById(R.id.vote_image_captcha)).setImageResource(0);
+                reloadPage();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.vote, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public class WebAppInterface {
@@ -95,6 +128,7 @@ public class VoteFragment extends Fragment {
             ImageView imageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
             new DownloadImageTask(imageView).execute(url);
             imageView.setBackgroundResource(0);
+            submitButtonLock = false;
         }
 
         public void error() {
