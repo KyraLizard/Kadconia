@@ -18,7 +18,8 @@
         android:theme="@android:style/Theme.Holo" >
         <activity
             android:name="de.dhbw.navigation.NavigationActivity"
-            android:label="@string/title_activity_navigation" >
+            android:label="@string/title_activity_navigation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
