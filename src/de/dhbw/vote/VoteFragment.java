@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,6 +43,13 @@ public class VoteFragment extends Fragment {
     private Context mContext;
     private View mView;
     private boolean submitButtonLock;
+    private int mWebpageState = 0;
+        /*  0: Start,
+            1: Seite wird geladen,
+            2: Seite (und Bild) ist geladen,
+            3: Bewertungsskript wird geladen,
+            4: Message ausgegeben
+         */
 
     private WebView mWebView;
 
@@ -72,11 +80,16 @@ public class VoteFragment extends Fragment {
             public void onClick(View view) {
                 if (submitButtonLock)
                     Toast.makeText(mContext, "Das Bild ist noch nicht geladen", Toast.LENGTH_LONG).show();
-                else
-                {
-                    mWebView.loadUrl("javascript:(function(){document.getElementById('recaptcha_response_field').value = " + mCaptchaField.getText() + ";\n" +
-                            "document.getElementsByName('mcname')[0].value = " + mNameField.getText() + "; \n" +
+                else {
+                    Log.d("Test", "Submit-Button mit geladenem Bild gedrückt");
+                    String test = "javascript:(function(){document.getElementById('recaptcha_response_field').value = '" + mCaptchaField.getText() + "';" +
+                            "document.getElementsByName('mcname')[0].value = '" + mNameField.getText() + "';" +
+                            "document.forms[1].submit();})()";
+                    Log.d("TestCode", test);
+                    mWebView.loadUrl("javascript:(function(){document.getElementById('recaptcha_response_field').value = '" + mCaptchaField.getText() + "';" +
+                            "document.getElementsByName('mcname')[0].value = '" + mNameField.getText() + "';" +
                             "document.forms[1].submit();})()");
+                    mWebpageState = 3;
                 }
             }
         });
@@ -86,21 +99,26 @@ public class VoteFragment extends Fragment {
             public void onPageFinished(WebView view, String url) {
                 Log.d("TestOnPageFinished", url);
 
-                view.loadUrl("javascript:(function(){var i=0;\n" +
-                        "var intervalID = setInterval(function() \n" +
-                        "{\n" +
-                        "if (document.getElementById('recaptcha_image') != undefined)\n" +
-                        "{\n" +
-                        "WebApp.loadImage(document.getElementById('recaptcha_image').firstChild.src);\n" +
-                        "clearInterval(intervalID);\n" +
-                        "}\n" +
-                        "else\n" +
-                        "{\n" +
-                        "i++;\n" +
-                        "if (i>3)\n" +
-                        "WebApp.error();\n" +
-                        "}\n" +
-                        "}, 1000);})()");
+               if (mWebpageState == 1) {
+                    view.loadUrl("javascript:(function(){var i=0;\n" +
+                            "var intervalID = setInterval(function() \n" +
+                            "{\n" +
+                            "if (document.getElementById('recaptcha_image') != undefined)\n" +
+                            "{\n" +
+                            "WebApp.loadImage(document.getElementById('recaptcha_image').firstChild.src);\n" +
+                            "clearInterval(intervalID);\n" +
+                            "}\n" +
+                            "else\n" +
+                            "{\n" +
+                            "i++;\n" +
+                            "if (i>3)\n" +
+                            "WebApp.error();\n" +
+                            "}\n" +
+                            "}, 1000);})()");
+                } else if (mWebpageState == 3) {
+                    mWebView.loadUrl("javascript:(function(){WebApp.showToast(document.getElementsByClassName('ui-state-error ui-corner-all')[0].childNodes[1].childNodes[3].textContent);})()");
+                    mWebpageState = 4;
+                }
                 super.onPageFinished(view, url);
             }
         });
@@ -113,6 +131,7 @@ public class VoteFragment extends Fragment {
 
     public void reloadPage() {
         submitButtonLock = true;
+        mWebpageState = 1;
         mWebView.loadUrl("http://minecraft-server.eu/?go=servervote&id=2421");
     }
 
@@ -122,7 +141,9 @@ public class VoteFragment extends Fragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                ((ImageView) mView.findViewById(R.id.vote_image_captcha)).setImageResource(0);
+                ImageView imageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
+                imageView.setImageResource(0);
+                imageView.setBackgroundResource(R.drawable.background_border);
                 reloadPage();
                 break;
         }
@@ -143,7 +164,6 @@ public class VoteFragment extends Fragment {
             mContext = c;
         }
 
-        /** Show a toast from the web page */
         public void loadImage(String url) {
             ImageView imageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
             new DownloadImageTask(imageView).execute(url);
@@ -155,6 +175,10 @@ public class VoteFragment extends Fragment {
             imageView.setImageResource(R.drawable.ic_link_ban);
             imageView.setBackgroundResource(0);
             Toast.makeText(mContext, "Captcha-Bild konnte nicht geladen werden", Toast.LENGTH_LONG).show();
+        }
+
+        public void showToast(String text) {
+            Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -184,6 +208,7 @@ public class VoteFragment extends Fragment {
             //set image of your imageview
             bmImage.setImageBitmap(result);
             submitButtonLock = false;
+            mWebpageState = 2;
             Log.d("Test", "Task closed");
         }
     }
