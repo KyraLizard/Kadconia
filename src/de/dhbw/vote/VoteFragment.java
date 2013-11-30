@@ -21,6 +21,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebViewFragment;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -62,6 +63,19 @@ public class VoteFragment extends Fragment {
 
         nameField.setText("Vettel1");  //TODO: Hier Name aus Einstellungen einfügen
 
+        Button voteButton = (Button) mView.findViewById(R.id.vote_button_submit);
+        voteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (submitButtonLock)
+                    Toast.makeText(mContext, "Das Bild ist noch nicht geladen", Toast.LENGTH_LONG).show();
+                else
+                {
+                    mWebView.loadUrl("javascript:(function(){})()");
+                }
+            }
+        });
+
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -93,6 +107,7 @@ public class VoteFragment extends Fragment {
     }
 
     public void reloadPage() {
+        submitButtonLock = true;
         mWebView.loadUrl("http://minecraft-server.eu/?go=servervote&id=2421");
     }
 
@@ -128,7 +143,6 @@ public class VoteFragment extends Fragment {
             ImageView imageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
             new DownloadImageTask(imageView).execute(url);
             imageView.setBackgroundResource(0);
-            submitButtonLock = false;
         }
 
         public void error() {
@@ -164,6 +178,7 @@ public class VoteFragment extends Fragment {
         protected void onPostExecute(Bitmap result) {
             //set image of your imageview
             bmImage.setImageBitmap(result);
+            submitButtonLock = false;
             Log.d("Test", "Task closed");
         }
     }
