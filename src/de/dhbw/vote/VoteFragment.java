@@ -45,6 +45,9 @@ public class VoteFragment extends Fragment {
 
     private WebView mWebView;
 
+    private EditText mCaptchaField;
+    private EditText mNameField;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -58,10 +61,10 @@ public class VoteFragment extends Fragment {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new WebAppInterface(mContext), "WebApp");
 
-        EditText nameField = (EditText) mView.findViewById(R.id.vote_edittext_name);
-        EditText captchaField = (EditText) mView.findViewById(R.id.vote_edittext_captcha);
+        mCaptchaField = (EditText) mView.findViewById(R.id.vote_edittext_captcha);
+        mNameField = (EditText) mView.findViewById(R.id.vote_edittext_name);
 
-        nameField.setText("Vettel1");  //TODO: Hier Name aus Einstellungen einfügen
+        mNameField.setText("Vettel1");  //TODO: Hier Name aus Einstellungen einfügen
 
         Button voteButton = (Button) mView.findViewById(R.id.vote_button_submit);
         voteButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +74,9 @@ public class VoteFragment extends Fragment {
                     Toast.makeText(mContext, "Das Bild ist noch nicht geladen", Toast.LENGTH_LONG).show();
                 else
                 {
-                    mWebView.loadUrl("javascript:(function(){})()");
+                    mWebView.loadUrl("javascript:(function(){document.getElementById('recaptcha_response_field').value = " + mCaptchaField.getText() + ";\n" +
+                            "document.getElementsByName('mcname')[0].value = " + mNameField.getText() + "; \n" +
+                            "document.forms[1].submit();})()");
                 }
             }
         });
