@@ -11,12 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0"/>
-    <ImageView
-        android:id="@+id/vote_image_captcha"
+    <FrameLayout
+        android:id="@+id/progress_layout"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/background_border"/>
+        android:background="@drawable/background_border"
+        android:layout_marginBottom="10dp">
+        <ImageView
+            android:id="@+id/vote_image_captcha"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ProgressBar
+            android:id="@+id/vote_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            style="@android:style/Widget.ProgressBar.Horizontal"/>
+    </FrameLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +37,7 @@
         android:id="@+id/vote_edittext_captcha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:padding="10dp"
         android:background="@drawable/background_border"
         android:layout_marginLeft="15dp"
@@ -40,6 +52,7 @@
         android:id="@+id/vote_edittext_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:padding="10dp"
         android:background="@drawable/background_border"
         android:layout_marginLeft="15dp"

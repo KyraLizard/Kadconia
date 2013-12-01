@@ -1,15 +1,11 @@
 package de.dhbw.vote;
 
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Message;
-import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,23 +13,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebViewFragment;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import de.dhbw.navigation.R;
-import de.dhbw.settings.SettingsActivity;
 
 /**
  * Created by Mark on 28.11.13.
@@ -52,6 +43,8 @@ public class VoteFragment extends Fragment {
          */
 
     private WebView mWebView;
+    private ProgressBar mProgressBar;
+    private ImageView mImageView;
 
     private EditText mCaptchaField;
     private EditText mNameField;
@@ -65,6 +58,11 @@ public class VoteFragment extends Fragment {
 
         mView = inflater.inflate(R.layout.fragment_vote, container, false);
 
+        mProgressBar = (ProgressBar) mView.findViewById(R.id.vote_progress);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mImageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
+        mImageView.setVisibility(View.GONE);
+
         mWebView = (WebView) mView.findViewById(R.id.vote_webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new WebAppInterface(mContext), "WebApp");
@@ -75,56 +73,12 @@ public class VoteFragment extends Fragment {
         mNameField.setText("Vettel1");  //TODO: Hier Name aus Einstellungen einfügen
 
         Button voteButton = (Button) mView.findViewById(R.id.vote_button_submit);
-        voteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (submitButtonLock)
-                    Toast.makeText(mContext, "Das Bild ist noch nicht geladen", Toast.LENGTH_LONG).show();
-                else {
-                    Log.d("Test", "Submit-Button mit geladenem Bild gedrückt");
-                    String test = "javascript:(function(){document.getElementById('recaptcha_response_field').value = '" + mCaptchaField.getText() + "';" +
-                            "document.getElementsByName('mcname')[0].value = '" + mNameField.getText() + "';" +
-                            "document.forms[1].submit();})()";
-                    Log.d("TestCode", test);
-                    mWebView.loadUrl("javascript:(function(){document.getElementById('recaptcha_response_field').value = '" + mCaptchaField.getText() + "';" +
-                            "document.getElementsByName('mcname')[0].value = '" + mNameField.getText() + "';" +
-                            "document.forms[1].submit();})()");
-                    mWebpageState = 3;
-                }
-            }
-        });
+        voteButton.setOnClickListener(new VoteOnClickListener());
 
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                Log.d("TestOnPageFinished", url);
-
-               if (mWebpageState == 1) {
-                    view.loadUrl("javascript:(function(){var i=0;\n" +
-                            "var intervalID = setInterval(function() \n" +
-                            "{\n" +
-                            "if (document.getElementById('recaptcha_image') != undefined)\n" +
-                            "{\n" +
-                            "WebApp.loadImage(document.getElementById('recaptcha_image').firstChild.src);\n" +
-                            "clearInterval(intervalID);\n" +
-                            "}\n" +
-                            "else\n" +
-                            "{\n" +
-                            "i++;\n" +
-                            "if (i>3)\n" +
-                            "WebApp.error();\n" +
-                            "}\n" +
-                            "}, 1000);})()");
-                } else if (mWebpageState == 3) {
-                    mWebView.loadUrl("javascript:(function(){WebApp.showToast(document.getElementsByClassName('ui-state-error ui-corner-all')[0].childNodes[1].childNodes[3].textContent);})()");
-                    mWebpageState = 4;
-                }
-                super.onPageFinished(view, url);
-            }
-        });
+        mWebView.setWebViewClient(new CustomWebViewClient());
+        mWebView.setWebChromeClient(new CustomWebChromeClient());
 
         reloadPage();
-        Log.d("TestLoadUrl", "Load URL");
 
         return mView;
     }
@@ -132,6 +86,8 @@ public class VoteFragment extends Fragment {
     public void reloadPage() {
         submitButtonLock = true;
         mWebpageState = 1;
+        mProgressBar.setVisibility(View.VISIBLE);
+        mImageView.setVisibility(View.GONE);
         mWebView.loadUrl("http://minecraft-server.eu/?go=servervote&id=2421");
     }
 
@@ -141,9 +97,6 @@ public class VoteFragment extends Fragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                ImageView imageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
-                imageView.setImageResource(0);
-                imageView.setBackgroundResource(R.drawable.background_border);
                 reloadPage();
                 break;
         }
@@ -156,7 +109,63 @@ public class VoteFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public class WebAppInterface {
+    private class CustomWebChromeClient extends WebChromeClient {
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+
+            mProgressBar.setProgress(newProgress);
+            super.onProgressChanged(view, newProgress);
+        }
+    }
+
+    private class CustomWebViewClient extends WebViewClient {
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+
+            if (mWebpageState == 1) {
+                view.loadUrl("javascript:(function(){var i=0;\n" +
+                        "var intervalID = setInterval(function() \n" +
+                        "{\n" +
+                        "if (document.getElementById('recaptcha_image') != undefined)\n" +
+                        "{\n" +
+                        "WebApp.loadImage(document.getElementById('recaptcha_image').firstChild.src);\n" +
+                        "clearInterval(intervalID);\n" +
+                        "}\n" +
+                        "else\n" +
+                        "{\n" +
+                        "i++;\n" +
+                        "if (i>3)\n" +
+                        "WebApp.error();\n" +
+                        "}\n" +
+                        "}, 1000);})()");
+            } else if (mWebpageState == 3) {
+                mWebView.loadUrl("javascript:(function(){WebApp.showToast(document.getElementsByClassName('ui-state-error ui-corner-all')[0].childNodes[1].childNodes[3].textContent);})()");
+                mWebpageState = 4;
+            }
+            super.onPageFinished(view, url);
+        }
+    }
+
+    private class VoteOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            if (submitButtonLock)
+                Toast.makeText(mContext, "Das Bild ist noch nicht geladen", Toast.LENGTH_LONG).show();
+            else {
+                mImageView.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
+                mWebView.loadUrl("javascript:(function(){document.getElementById('recaptcha_response_field').value = '" + mCaptchaField.getText() + "';" +
+                        "document.getElementsByName('mcname')[0].value = '" + mNameField.getText() + "';" +
+                        "document.forms[1].submit();})()");
+                mWebpageState = 3;
+            }
+        }
+    }
+
+    private class WebAppInterface {
         Context mContext;
 
         /** Instantiate the interface and set the context */
@@ -165,19 +174,16 @@ public class VoteFragment extends Fragment {
         }
 
         public void loadImage(String url) {
-            ImageView imageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
-            new DownloadImageTask(imageView).execute(url);
-            imageView.setBackgroundResource(0);
+            new DownloadImageTask(mImageView).execute(url);
         }
 
         public void error() {
-            ImageView imageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
-            imageView.setImageResource(R.drawable.ic_link_ban);
-            imageView.setBackgroundResource(0);
+            mImageView.setImageResource(R.drawable.ic_link_ban);
             Toast.makeText(mContext, "Captcha-Bild konnte nicht geladen werden", Toast.LENGTH_LONG).show();
         }
 
         public void showToast(String text) {
+            Log.d("Test", "---" + text + "---");
             Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
         }
     }
@@ -209,7 +215,8 @@ public class VoteFragment extends Fragment {
             bmImage.setImageBitmap(result);
             submitButtonLock = false;
             mWebpageState = 2;
-            Log.d("Test", "Task closed");
+            mImageView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
         }
     }
 }

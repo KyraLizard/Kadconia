@@ -68,6 +68,17 @@ public class ServerStatusFragment extends ListFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    public List<String> setNameArray() {
+        //TODO: Implement Method
+        return null;
+    }
+
+    public List<Object> setObjectArray() {
+        //TODO: Implement Method
+        return null;
+    }
+
+
     public class ServerStatusAdapter extends ArrayAdapter<String>
     {
         private List<Object> mListObjects;
