@@ -7,14 +7,18 @@
     <string name="action_refresh">Aktualisieren</string>
 
     <string name="pref_language">Sprache</string>
+    <string name="pref_language_key">language</string>
     <string name="pref_language_summary">Sprache einstellen</string>
     <string name="pref_language_default">de-DE</string>
     <string name="pref_wifi_only">Nur Wifi</string>
+    <string name="pref_wifi_only_key">wifi_only</string>
     <string name="pref_wifi_only_summary">Aktualisierung nur über Wifi</string>
     <string name="pref_vote_name">Minecraft-Name</string>
+    <string name="pref_vote_name_key">vote_name</string>
     <string name="pref_vote_name_summary">Minecraft-Name zum Voten</string>
     <string name="pref_vote_name_default"></string>
     <string name="pref_konto_token">Konto-Token</string>
+    <string name="pref_konto_token_key">konto_token</string>
     <string name="pref_konto_token_summary">Konto-Token zum Anzeigen der Kontoauszüge</string>
     <string name="pref_konto_token_default"></string>
 

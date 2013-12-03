@@ -3,5 +3,7 @@
     android:id="@+id/test_textview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="Test" >
+    android:gravity="center"
+    android:textSize="25dp"
+    android:text="Coming Soon..." >
 </TextView>

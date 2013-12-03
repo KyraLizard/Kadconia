@@ -2,10 +2,12 @@ package de.dhbw.vote;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,7 +72,10 @@ public class VoteFragment extends Fragment {
         mCaptchaField = (EditText) mView.findViewById(R.id.vote_edittext_captcha);
         mNameField = (EditText) mView.findViewById(R.id.vote_edittext_name);
 
-        mNameField.setText("Vettel1");  //TODO: Hier Name aus Einstellungen einfügen
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String voteName = sharedPreferences.getString(getString(R.string.pref_vote_name_key),"");
+
+        mNameField.setText(voteName);  //TODO: Hier Name aus Einstellungen einfügen
 
         Button voteButton = (Button) mView.findViewById(R.id.vote_button_submit);
         voteButton.setOnClickListener(new VoteOnClickListener());

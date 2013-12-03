@@ -11,6 +11,8 @@ public class Server {
     private String ip;
     private int port;
 
+    private boolean online;
+
     public Server() {
     }
 
@@ -20,6 +22,7 @@ public class Server {
         setOwner(owner);
         setIp(ip);
         setPort(port);
+        setOnline(false);
     }
 
     public int getId() {
@@ -64,5 +67,13 @@ public class Server {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 }

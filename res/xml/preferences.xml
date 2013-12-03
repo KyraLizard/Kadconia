@@ -4,6 +4,7 @@
     <ListPreference
         android:id="@+id/pref_language"
         android:title="@string/pref_language"
+        android:key="@string/pref_language_key"
         android:summary="@string/pref_language_summary"
         android:defaultValue="@string/pref_language_default"
         android:entries="@array/language"
@@ -11,18 +12,21 @@
         />
     <CheckBoxPreference
         android:id="@+id/pref_wlan_only"
+        android:key="@string/pref_wifi_only_key"
         android:title="@string/pref_wifi_only"
         android:summary="@string/pref_wifi_only_summary"
         android:defaultValue="false"
         />
     <EditTextPreference
         android:id="@+id/pref_vote_name"
+        android:key="@string/pref_vote_name_key"
         android:title="@string/pref_vote_name"
         android:summary="@string/pref_vote_name_summary"
         android:defaultValue="@string/pref_vote_name_default"
         />
     <EditTextPreference
         android:id="@+id/pref_konto_token"
+        android:key="@string/pref_konto_token_key"
         android:title="@string/pref_konto_token"
         android:summary="@string/pref_konto_token_summary"
         android:defaultValue="@string/pref_konto_token_default"

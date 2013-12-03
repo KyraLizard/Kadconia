@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -38,48 +41,55 @@ public class ServerStatusFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mContext = getActivity();
+        setHasOptionsMenu(true);
 
-        SQLiteDatabase mDataBase = (new DataBaseHelper(mContext)).getReadableDatabase();
-        DataBaseServer mDataBaseServer = new DataBaseServer();
-
-        List<String> ownerList = mDataBaseServer.getOwners(mDataBase);
-        List<List<Server>> serverList = new ArrayList<List<Server>>();
-
-        for (String owner : ownerList)
-            serverList.add(mDataBaseServer.getAllServerByOwner(mDataBase, owner));
-
-        List<String> listNames = new ArrayList<String>();
-        List<Object> listObjects = new ArrayList<Object>();
-
-        for (int i=0; i < ownerList.size(); i++)
-        {
-            String ownerName = Character.toUpperCase(ownerList.get(i).charAt(0)) + ownerList.get(i).substring(1);
-            listNames.add(ownerName);
-            listObjects.add(ownerName);
-            for (Server server : serverList.get(i))
-            {
-                listNames.add(server.getName());
-                listObjects.add(server);
-            }
-        }
-
-        setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, listNames, listObjects));
+        setList();
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public List<String> setNameArray() {
-        //TODO: Implement Method
-        return null;
+    private void setList() {
+
+        SQLiteDatabase mDataBase = (new DataBaseHelper(mContext)).getReadableDatabase();
+        DataBaseServer mDataBaseServer = new DataBaseServer();
+
+        List<String> listNames = new ArrayList<String>();
+        List<Object> listObjects = new ArrayList<Object>();
+
+        for (String owner : mDataBaseServer.getOwners(mDataBase))
+        {
+            String ownerName = Character.toUpperCase(owner.charAt(0)) + owner.substring(1);
+            listNames.add(Character.toUpperCase(ownerName.charAt(0)) + ownerName.substring(1));
+            listObjects.add(ownerName);
+            for (Server server : mDataBaseServer.getAllServerByOwner(mDataBase, owner))
+            {
+                server.setOnline(checkOnline(server));
+                listNames.add(server.getName());
+                listObjects.add(server);
+            }
+        }
+        setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, listNames, listObjects));
     }
 
-    public List<Object> setObjectArray() {
-        //TODO: Implement Method
-        return null;
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.vote, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-    public class ServerStatusAdapter extends ArrayAdapter<String>
+        switch (item.getItemId())
+        {
+            case R.id.action_refresh:
+                setList();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private class ServerStatusAdapter extends ArrayAdapter<String>
     {
         private List<Object> mListObjects;
 
@@ -104,37 +114,18 @@ public class ServerStatusFragment extends ListFragment {
             else if (mListObjects.get(position) instanceof Server)
             {
                 Server server = (Server) mListObjects.get(position);
+                textView.setText(server.getName());
 
                 if (isOnline())
                 {
-                    try
-                    {
-                        boolean online = false;
-                        textView.setText(server.getName());
-                        for (int i=0; i<5; i++)
-                        {
-                            if (ServerPortOpenChecker.isServerPortOpen(server.getIp(), server.getPort()))
-                            {
-                                online = true;
-                                break;
-                            }
-                        }
-                        if (online)
-                            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_online, 0, 0, 0);
-                        else
-                            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_offline, 0, 0, 0);
-                    }
-                    catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
+                    if (server.isOnline())
+                        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_online, 0, 0, 0);
+                    else
+                        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_offline, 0, 0, 0);
                 }
                 else
                 {
                     textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_link_ban, 0, 0, 0);
-                    textView.setText(server.getName());
                     Toast.makeText(mContext, "Keine Internet-Verbindung", Toast.LENGTH_LONG).show();
                 }
             }
@@ -144,6 +135,23 @@ public class ServerStatusFragment extends ListFragment {
             return textView;
             //return super.getView(position, convertView, parent);
         }
+    }
+
+    public boolean checkOnline(Server server) {
+        boolean online = false;
+        try {
+            for (int i=0; i<5; i++) {
+                if (ServerPortOpenChecker.isServerPortOpen(server.getIp(), server.getPort())) {
+                    online = true;
+                    break;
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return online;
     }
 
     private boolean isOnline() {
