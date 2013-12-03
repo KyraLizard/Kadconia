@@ -146,7 +146,18 @@ public class VoteFragment extends Fragment {
                         "}\n" +
                         "}, 1000);})()");
             } else if (mWebpageState == 3) {
-                mWebView.loadUrl("javascript:(function(){WebApp.showToast(document.getElementsByClassName('ui-state-error ui-corner-all')[0].childNodes[1].childNodes[3].textContent);})()");
+                mWebView.loadUrl("javascript:(function(){(function()\n" +
+                        "{\n" +
+                        "if (document.getElementsByClassName('ui-state-error ui-corner-all')[0] == undefined)\n" +
+                        "{\n" +
+                        "if (document.getElementsByClassName('ui-state-highlight ui-corner-all')[0] == undefined)\n" +
+                        "WebApp.showToast('Unbekannter Fehler!');\n" +
+                        "else\n" +
+                        "WebApp.showToast(document.getElementsByClassName('ui-state-highlight ui-corner-all')[0].childNodes[1].childNodes[3].textContent)\n" +
+                        "}\n" +
+                        "else\n" +
+                        "WebApp.showToast(document.getElementsByClassName('ui-state-error ui-corner-all')[0].childNodes[1].childNodes[3].textContent);\n" +
+                        "})()})()");
                 mWebpageState = 4;
             }
             super.onPageFinished(view, url);
