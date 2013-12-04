@@ -15,10 +15,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d770ff36-2baa-408e-86a6-f4cbab154d4c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/ic_kadcon_logo.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ic_kadcon_logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/ic_kadcon_logo.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/ic_kadcon_logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/ic_kadcon_logo.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/ic_kadcon_logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xxhdpi/ic_kadcon_logo.png" afterPath="$PROJECT_DIR$/res/drawable-xxhdpi/ic_kadcon_logo.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/ic_info_rules.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ic_info_rules.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/ic_info_rules.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/ic_info_rules.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/ic_info_rules.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/ic_info_rules.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xxhdpi/ic_info_rules.png" afterPath="$PROJECT_DIR$/res/drawable-xxhdpi/ic_info_rules.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/ic_link_forum.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ic_link_forum.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/ic_link_forum.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/ic_link_forum.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/ic_link_forum.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/ic_link_forum.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xxhdpi/ic_link_forum.png" afterPath="$PROJECT_DIR$/res/drawable-xxhdpi/ic_link_forum.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/ic_link_shop.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ic_link_shop.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/ic_link_shop.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/ic_link_shop.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/ic_link_shop.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/ic_link_shop.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xxhdpi/ic_link_shop.png" afterPath="$PROJECT_DIR$/res/drawable-xxhdpi/ic_link_shop.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_info.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_info.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_info_item.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_info_item.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_link.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_link.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_link_item.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_link_item.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Kadconia.iws" />
@@ -88,46 +100,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="VoteFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/dhbw/vote/VoteFragment.java">
+      <file leaf-file-name="fragment_info.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/fragment_info.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="150" column="25" selection-start="5042" selection-end="5042" vertical-scroll-proportion="0.0" vertical-offset="1685" max-vertical-offset="2788">
-              <folding>
-                <element signature="class#CustomWebChromeClient#0;class#VoteFragment#0" expanded="false" />
-                <element signature="class#VoteOnClickListener#0;class#VoteFragment#0" expanded="false" />
-                <element signature="class#DownloadImageTask#0;class#VoteFragment#0" expanded="false" />
-              </folding>
+            <state line="10" column="30" selection-start="411" selection-end="411" vertical-scroll-proportion="-6.8" vertical-offset="0" max-vertical-offset="357">
+              <folding />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_vote.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/res/layout/fragment_vote.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fragment_link.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/fragment_link.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="43" selection-start="898" selection-end="898" vertical-scroll-proportion="0.51" vertical-offset="119" max-vertical-offset="1207">
+            <state line="13" column="35" selection-start="512" selection-end="512" vertical-scroll-proportion="-8.84" vertical-offset="0" max-vertical-offset="357">
               <folding />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="serverstatus.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/menu/serverstatus.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="36" selection-start="244" selection-end="244" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="255">
-              <folding />
-            </state>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Server.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/dhbw/database/Server.java">
+      <file leaf-file-name="fragment_info_item.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/fragment_info_item.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="27" selection-start="234" selection-end="234" vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="1445">
+            <state line="15" column="0" selection-start="536" selection-end="676" vertical-scroll-proportion="-10.2" vertical-offset="0" max-vertical-offset="442">
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fragment_link_item.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/fragment_link_item.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="35" selection-start="724" selection-end="724" vertical-scroll-proportion="0.612" vertical-offset="0" max-vertical-offset="500">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -152,11 +169,7 @@
         <option value="$PROJECT_DIR$/src/serverstatus/ServerOnlineChecker.java" />
         <option value="$PROJECT_DIR$/src/serverstatus/ServerPortOpenChecker.java" />
         <option value="$PROJECT_DIR$/src/de/dhbw/serverstatus/ServerPortOpenChecker.java" />
-        <option value="$PROJECT_DIR$/res/layout/fragment_link.xml" />
         <option value="$PROJECT_DIR$/src/de/dhbw/database/DataBaseLinks.java" />
-        <option value="$PROJECT_DIR$/res/layout/fragment_info.xml" />
-        <option value="$PROJECT_DIR$/res/layout/fragment_link_item.xml" />
-        <option value="$PROJECT_DIR$/res/layout/fragment_info_item.xml" />
         <option value="$PROJECT_DIR$/res/values/rules.txt" />
         <option value="$PROJECT_DIR$/src/de/dhbw/infos/Rulesfragment.java" />
         <option value="$PROJECT_DIR$/res/layout/fragment_rules.xml" />
@@ -187,6 +200,10 @@
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/res/xml/preferences.xml" />
         <option value="$PROJECT_DIR$/src/de/dhbw/vote/VoteFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_info.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_info_item.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_link.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_link_item.xml" />
       </list>
     </option>
   </component>
@@ -247,6 +264,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -371,10 +389,41 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kadconia" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kadconia" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kadconia" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kadconia" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -447,6 +496,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -472,19 +534,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -625,12 +674,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295063" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29642856" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2952381" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295063" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -787,38 +836,6 @@
         <state line="17" column="16" selection-start="744" selection-end="744" vertical-scroll-proportion="0.544" vertical-offset="0" max-vertical-offset="663" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_link.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="24" selection-start="132" selection-end="132" vertical-scroll-proportion="0.07157895" vertical-offset="0" max-vertical-offset="475" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_info.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="39" selection-end="39" vertical-scroll-proportion="0.035789475" vertical-offset="0" max-vertical-offset="475" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_info_item.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="39" selection-end="39" vertical-scroll-proportion="0.035789475" vertical-offset="0" max-vertical-offset="475" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_link_item.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="4" selection-start="771" selection-end="819" vertical-scroll-proportion="0.7157895" vertical-offset="34" max-vertical-offset="510" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/ServerIpFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="64" column="35" selection-start="2239" selection-end="2239" vertical-scroll-proportion="0.15870307" vertical-offset="638" max-vertical-offset="1224" />
@@ -855,13 +872,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_kontakt.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="25" selection-start="311" selection-end="311" vertical-scroll-proportion="0.24242425" vertical-offset="0" max-vertical-offset="561">
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/menu/navigation.xml">
@@ -875,25 +892,18 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/activity_navigation.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="58" selection-start="552" selection-end="552" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="901">
           <folding />
         </state>
       </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="51" selection-start="829" selection-end="829" vertical-scroll-proportion="0.4173387" vertical-offset="150" max-vertical-offset="663">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="39" selection-start="5151" selection-end="5151" vertical-scroll-proportion="4.627016" vertical-offset="0" max-vertical-offset="2516">
           <folding />
         </state>
       </provider>
@@ -913,13 +923,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_test.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="26" selection-start="280" selection-end="280" vertical-scroll-proportion="0.31288344" vertical-offset="0" max-vertical-offset="326">
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/TestFragment.java">
@@ -948,8 +958,8 @@
         <state line="50" column="27" selection-start="1307" selection-end="1307" vertical-scroll-proportion="0.6296296" vertical-offset="204" max-vertical-offset="1768">
           <folding>
             <element signature="method#setList#0;class#ServerStatusFragment#0" expanded="false" />
-            <element signature="e#1509#1517#0" expanded="true" />
-            <element signature="e#1569#1577#0" expanded="true" />
+            <element signature="e#1509#1517#0" expanded="false" />
+            <element signature="e#1569#1577#0" expanded="false" />
             <element signature="method#checkOnline#0;class#ServerStatusFragment#0" expanded="false" />
             <element signature="method#isOnline#0;class#ServerStatusFragment#0" expanded="false" />
           </folding>
@@ -965,42 +975,71 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/xml/preferences.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="49" selection-start="1167" selection-end="1167" vertical-scroll-proportion="0.6296296" vertical-offset="255" max-vertical-offset="663">
-          <folding>
-            <element signature="e#200#223#0" expanded="true" />
-            <element signature="e#296#327#0" expanded="true" />
-            <element signature="e#357#388#0" expanded="true" />
-            <element signature="e#630#654#0" expanded="true" />
-            <element signature="e#679#711#0" expanded="true" />
-            <element signature="e#896#920#0" expanded="true" />
-            <element signature="e#945#977#0" expanded="true" />
-            <element signature="e#1007#1039#0" expanded="true" />
-            <element signature="e#1191#1217#0" expanded="true" />
-            <element signature="e#1242#1276#0" expanded="true" />
-            <element signature="e#1306#1340#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="28" column="49" selection-start="1167" selection-end="1167" vertical-scroll-proportion="0.6296296" vertical-offset="255" max-vertical-offset="663" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/vote/VoteFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="150" column="25" selection-start="5042" selection-end="5042" vertical-scroll-proportion="0.0" vertical-offset="1685" max-vertical-offset="2788">
-          <folding>
-            <element signature="class#CustomWebChromeClient#0;class#VoteFragment#0" expanded="false" />
-            <element signature="class#VoteOnClickListener#0;class#VoteFragment#0" expanded="false" />
-            <element signature="class#DownloadImageTask#0;class#VoteFragment#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_vote.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="43" selection-start="898" selection-end="898" vertical-scroll-proportion="-14.28" vertical-offset="17" max-vertical-offset="1207">
+          <folding />
+        </state>
+      </provider>
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="43" selection-start="898" selection-end="898" vertical-scroll-proportion="0.51" vertical-offset="119" max-vertical-offset="1207">
+        <state line="46" column="13" selection-start="1604" selection-end="1604" vertical-scroll-proportion="0.0" vertical-offset="104" max-vertical-offset="2516">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_info.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="30" selection-start="411" selection-end="411" vertical-scroll-proportion="-6.8" vertical-offset="0" max-vertical-offset="357">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_link.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="35" selection-start="512" selection-end="512" vertical-scroll-proportion="-8.84" vertical-offset="0" max-vertical-offset="357">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_info_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="536" selection-end="676" vertical-scroll-proportion="-10.2" vertical-offset="0" max-vertical-offset="442">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_link_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="35" selection-start="724" selection-end="724" vertical-scroll-proportion="0.612" vertical-offset="0" max-vertical-offset="500">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>
