@@ -6,10 +6,9 @@
     android:gravity="center"
     android:numColumns="3"
     android:horizontalSpacing="10dp"
-    android:verticalSpacing="10dp"
+    android:verticalSpacing="15dp"
     android:paddingTop="15dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingBottom="10dp"
-    android:clipToPadding="false" >
+    android:paddingBottom="10dp" >
 </GridView>

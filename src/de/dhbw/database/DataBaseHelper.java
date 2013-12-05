@@ -19,6 +19,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mDatabaseTables.add(new DataBaseLinks());
         mDatabaseTables.add(new DataBaseInfos());
         mDatabaseTables.add(new DataBaseServer());
+        mDatabaseTables.add(new DataBaseKontoEintraege());
     }
 
     public void onCreate(SQLiteDatabase db) {
