@@ -99,13 +99,13 @@ public class NavigationActivity extends Activity {
             case 1:
                 fragment = new VoteFragment();
                 break;
-            case 3:
+            case 4:
                 fragment = new InfoFragment(mNavigationTitles[position]);
                 break;
-			case 4:
+			case 5:
 				fragment = new LinkFragment();
 				break;
-            case 5:
+            case 6:
                 Intent mIntent = new Intent(this, SettingsActivity.class);
                 startActivity(mIntent);
                 return;
