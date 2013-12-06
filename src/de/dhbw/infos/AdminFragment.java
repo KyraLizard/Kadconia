@@ -37,7 +37,9 @@ public class AdminFragment extends ListFragment {
         List<Rank> rankList = new ArrayList<Rank>();
         rankList.add(new Rank("Besitzer","owner.txt"));
         rankList.add(new Rank("Administratoren","admins.txt"));
+        rankList.add(new Rank("Super-Moderatoren", "smods.txt"));
         rankList.add(new Rank("Moderatoren","mods.txt"));
+        rankList.add(new Rank("Test-Moderatoren", "tmods.txt"));
 
         for (Rank rank : rankList)
         {
