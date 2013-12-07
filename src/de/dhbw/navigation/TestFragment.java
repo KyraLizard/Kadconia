@@ -1,7 +1,5 @@
 package de.dhbw.navigation;
 
-import de.dhbw.navigation.R;
-
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;

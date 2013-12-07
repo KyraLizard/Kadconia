@@ -3,6 +3,7 @@ package de.dhbw.navigation;
 import de.dhbw.infos.InfoFragment;
 import de.dhbw.links.LinkFragment;
 import de.dhbw.navigation.R;
+import de.dhbw.player.PlayerFragment;
 import de.dhbw.serverstatus.ServerStatusFragment;
 import de.dhbw.settings.SettingsActivity;
 import de.dhbw.vote.VoteFragment;
@@ -98,6 +99,9 @@ public class NavigationActivity extends Activity {
                 break;
             case 1:
                 fragment = new VoteFragment();
+                break;
+            case 3:
+                fragment = new PlayerFragment();
                 break;
             case 4:
                 fragment = new InfoFragment(mNavigationTitles[position]);
