@@ -47,6 +47,8 @@ public class PlayerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_player, null);
 
         mListView = (ListView) view.findViewById(R.id.player_list);
+        String[] test = {"test"};
+        mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, test));
 
         mWebView = (WebView) view.findViewById(R.id.player_webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
@@ -56,8 +58,17 @@ public class PlayerFragment extends Fragment {
             public void onPageFinished(WebView view, String url) {
 
                 Log.d("Test", "onPageFinished");
-                view.loadUrl("javascript:(function(){var playerList = Object.keys(DynMap.prototype.players);\n" +
-                        "WebApp.setList(JSON.stringify(playerList));})()");
+                view.loadUrl("javascript:(function(){\n" +
+                        "var intervalId = setInterval(function(){\n" +
+                        "var playerList = Object.keys(DynMap.prototype.players);\n" +
+                        "var string = JSON.stringify(playerList);\n" +
+                        "if (string != '[]')\n" +
+                        "{\n" +
+                        "clearInterval(intervalId);\n" +
+                        "WebApp.setList(JSON.stringify(playerList));\n" +
+                        "}\n" +
+                        "}, 1000);\n" +
+                        "})()");
                 super.onPageFinished(view, url);
             }
         });
@@ -85,6 +96,12 @@ public class PlayerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public void setListAdapter(List<String> list)
+    {
+        mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list));
+        Log.d("PlayerList", "Adapter geändert");
+    }
+
     private class PlayerWebInterface {
 
         private PlayerWebInterface() {
@@ -94,11 +111,16 @@ public class PlayerFragment extends Fragment {
         public void setList(String playerArray) {
 
             Log.d("Test", "setList");
-            Log.d("PlayerList", "---"+playerArray+"---");
+            if (playerArray.equals("[]"))
+                return;
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<String>>(){}.getType();
             List<String> playerList = gson.fromJson(playerArray, type);
-            mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_expandable_list_item_1, playerList));
+            Log.d("PlayerList", playerList.toString());
+            List<String> test = new ArrayList<String>();
+            test.add("Brot");
+            test.add("Pizza");
+            setListAdapter(test);
         }
     }
 }
