@@ -90,16 +90,20 @@ public class PlayerFragment extends Fragment {
         {
             case R.id.action_refresh:
                 Log.d("Test", "loadUrl");
+                //setListAdapter();
                 mWebView.loadUrl("http://map.kadcon.de");
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void setListAdapter(List<String> list)
+    public void setListAdapter()
     {
-        mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list));
-        Log.d("PlayerList", "Adapter geändert");
+        List<String> test = new ArrayList<String>();
+        test.add("Brot");
+        test.add("Pizza");
+        mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, test));
+        Log.d("Test", "Adapter geändert");
     }
 
     private class PlayerWebInterface {
@@ -111,7 +115,7 @@ public class PlayerFragment extends Fragment {
         public void setList(String playerArray) {
 
             Log.d("Test", "setList");
-            if (playerArray.equals("[]"))
+            /*if (playerArray.equals("[]"))
                 return;
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<String>>(){}.getType();
@@ -119,8 +123,8 @@ public class PlayerFragment extends Fragment {
             Log.d("PlayerList", playerList.toString());
             List<String> test = new ArrayList<String>();
             test.add("Brot");
-            test.add("Pizza");
-            setListAdapter(test);
+            test.add("Pizza");*/
+            setListAdapter();
         }
     }
 }
