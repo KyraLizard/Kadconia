@@ -123,7 +123,6 @@ public class VoteFragment extends Fragment {
             super.onProgressChanged(view, newProgress);
         }
     }
-
     private class CustomWebViewClient extends WebViewClient {
 
         @Override
@@ -163,7 +162,6 @@ public class VoteFragment extends Fragment {
             super.onPageFinished(view, url);
         }
     }
-
     private class VoteOnClickListener implements View.OnClickListener {
 
         @Override
@@ -180,7 +178,6 @@ public class VoteFragment extends Fragment {
             }
         }
     }
-
     private class WebAppInterface {
         Context mContext;
 
@@ -203,7 +200,6 @@ public class VoteFragment extends Fragment {
             Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
         }
     }
-
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
         private ImageView bmImage;

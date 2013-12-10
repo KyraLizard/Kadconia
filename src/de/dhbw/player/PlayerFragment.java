@@ -11,16 +11,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.dhbw.navigation.R;
@@ -29,15 +32,11 @@ import de.dhbw.navigation.R;
  * Created by Mark on 05.12.13.
  */
 public class PlayerFragment extends Fragment {
-    /*
-    Javascript-Code zum Ausgeben der Spielernamen (map.kadcon.de)
-    var playerList = Object.keys(DynMap.prototype.players);
-    console.log(JSON.stringify(playerList));
-     */
 
     private Context mContext;
     private ListView mListView;
     private WebView mWebView;
+    private ProgressBar mProgressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,32 +45,21 @@ public class PlayerFragment extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_player, null);
 
+        mProgressBar = (ProgressBar) view.findViewById(R.id.player_progress);
+        mProgressBar.setVisibility(View.GONE);
+
         mListView = (ListView) view.findViewById(R.id.player_list);
-        String[] test = {"test"};
-        mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, test));
+        List<String> defaultList = new ArrayList<String>();
+        defaultList.add("Diese Liste ist leer.");
+        defaultList.add("Bitte aktualisiere die Liste.");
+        mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, defaultList));
 
         mWebView = (WebView) view.findViewById(R.id.player_webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new PlayerWebInterface(), "WebApp");
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
+        mWebView.setWebViewClient(new CustomWebViewClient());
 
-                Log.d("Test", "onPageFinished");
-                view.loadUrl("javascript:(function(){\n" +
-                        "var intervalId = setInterval(function(){\n" +
-                        "var playerList = Object.keys(DynMap.prototype.players);\n" +
-                        "var string = JSON.stringify(playerList);\n" +
-                        "if (string != '[]')\n" +
-                        "{\n" +
-                        "clearInterval(intervalId);\n" +
-                        "WebApp.setList(JSON.stringify(playerList));\n" +
-                        "}\n" +
-                        "}, 1000);\n" +
-                        "})()");
-                super.onPageFinished(view, url);
-            }
-        });
+        mWebView.setWebChromeClient(new CustomWebChromeClient());
 
         return view;
     }
@@ -89,23 +77,38 @@ public class PlayerFragment extends Fragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                Log.d("Test", "loadUrl");
-                //setListAdapter();
+                mProgressBar.setVisibility(View.VISIBLE);
                 mWebView.loadUrl("http://map.kadcon.de");
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void setListAdapter()
-    {
-        List<String> test = new ArrayList<String>();
-        test.add("Brot");
-        test.add("Pizza");
-        mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, test));
-        Log.d("Test", "Adapter geändert");
+    private class CustomWebChromeClient extends WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            mProgressBar.setProgress((int)(0.75*newProgress));
+            super.onProgressChanged(view, newProgress);
+        }
     }
+    private class CustomWebViewClient extends WebViewClient {
+        @Override
+        public void onPageFinished(WebView view, String url) {
 
+            view.loadUrl("javascript:(function(){\n" +
+                    "var intervalId = setInterval(function(){\n" +
+                    "var playerList = Object.keys(DynMap.prototype.players);\n" +
+                    "var string = JSON.stringify(playerList);\n" +
+                    "if (string != '[]')\n" +
+                    "{\n" +
+                    "clearInterval(intervalId);\n" +
+                    "WebApp.setList(JSON.stringify(playerList));\n" +
+                    "}\n" +
+                    "}, 1000);\n" +
+                    "})()");
+            super.onPageFinished(view, url);
+        }
+    }
     private class PlayerWebInterface {
 
         private PlayerWebInterface() {
@@ -114,17 +117,18 @@ public class PlayerFragment extends Fragment {
         @JavascriptInterface
         public void setList(String playerArray) {
 
-            Log.d("Test", "setList");
-            /*if (playerArray.equals("[]"))
-                return;
+            mProgressBar.setProgress(87);
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<String>>(){}.getType();
-            List<String> playerList = gson.fromJson(playerArray, type);
-            Log.d("PlayerList", playerList.toString());
-            List<String> test = new ArrayList<String>();
-            test.add("Brot");
-            test.add("Pizza");*/
-            setListAdapter();
+            final List<String> playerList = gson.fromJson(playerArray, type);
+            Collections.sort(playerList);
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    mProgressBar.setProgress(100);
+                    mProgressBar.setVisibility(View.GONE);
+                    mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, playerList));
+                }
+            });
         }
     }
 }

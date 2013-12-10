@@ -6,10 +6,17 @@
     <WebView
         android:id="@+id/player_webview"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="0dp"
+        android:visibility="invisible"/>
+    <ProgressBar
+        android:id="@+id/player_progress"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="20dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
     <ListView
         android:id="@+id/player_list"
         android:layout_width="match_parent"
-        android:layout_marginTop="200dp"
         android:layout_height="match_parent"/>
 </FrameLayout>
