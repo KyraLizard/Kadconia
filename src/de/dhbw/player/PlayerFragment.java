@@ -2,8 +2,11 @@ package de.dhbw.player;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +20,8 @@ import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -77,11 +82,25 @@ public class PlayerFragment extends Fragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                mProgressBar.setVisibility(View.VISIBLE);
-                mWebView.loadUrl("http://map.kadcon.de");
+                if (!isOnline())
+                    Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
+                else
+                {
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    mWebView.loadUrl("http://map.kadcon.de");
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 
     private class CustomWebChromeClient extends WebChromeClient {
@@ -120,15 +139,43 @@ public class PlayerFragment extends Fragment {
             mProgressBar.setProgress(87);
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<String>>(){}.getType();
-            final List<String> playerList = gson.fromJson(playerArray, type);
+            final List<String> playerList = new ArrayList<String>();
+            for (String element : (List<String>) gson.fromJson(playerArray, type))
+                playerList.add(Character.toUpperCase(element.charAt(0)) + element.substring(1));
             Collections.sort(playerList);
+            playerList.add(0, "Anzahl Spieler: " + playerList.size());
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     mProgressBar.setProgress(100);
                     mProgressBar.setVisibility(View.GONE);
-                    mListView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, playerList));
+                    mListView.setAdapter(new CustomListAdapter(mContext, android.R.layout.simple_list_item_1, playerList));
                 }
             });
+        }
+    }
+    private class CustomListAdapter extends ArrayAdapter<String> {
+        private List<String> mObjectList;
+
+        private CustomListAdapter(Context context, int resource, List<String> objects) {
+            super(context, resource, objects);
+            mObjectList = objects;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            TextView textView = (TextView) view.findViewById(android.R.id.text1);
+            textView.setText(mObjectList.get(position));
+
+            if (mObjectList.get(position).contains("Anzahl Spieler"))
+            {
+                textView.setGravity(Gravity.CENTER);
+                textView.setBackgroundResource(R.drawable.background_border);
+            }
+
+            return view;
         }
     }
 }

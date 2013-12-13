@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -89,6 +91,12 @@ public class VoteFragment extends Fragment {
     }
 
     public void reloadPage() {
+
+        if (!isOnline())
+        {
+            Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
+            return;
+        }
         submitButtonLock = true;
         mWebpageState = 1;
         mProgressBar.setVisibility(View.VISIBLE);
@@ -114,6 +122,15 @@ public class VoteFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+
     private class CustomWebChromeClient extends WebChromeClient {
 
         @Override
@@ -129,21 +146,24 @@ public class VoteFragment extends Fragment {
         public void onPageFinished(WebView view, String url) {
 
             if (mWebpageState == 1) {
-                view.loadUrl("javascript:(function(){var i=0;\n" +
-                        "var intervalID = setInterval(function() \n" +
-                        "{\n" +
-                        "if (document.getElementById('recaptcha_image') != undefined)\n" +
-                        "{\n" +
-                        "WebApp.loadImage(document.getElementById('recaptcha_image').firstChild.src);\n" +
-                        "clearInterval(intervalID);\n" +
+                view.loadUrl("javascript:(function(){var i=0;    \n" +
+                        "var intervalID = setInterval(function()  \n" +
+                        "{ \n" +
+                        "if (document.getElementById('recaptcha_image') != undefined) \n" +
+                        "{ \n" +
+                        "WebApp.loadImage(document.getElementById('recaptcha_image').firstChild.src); \n" +
+                        "clearInterval(intervalID); \n" +
                         "}\n" +
-                        "else\n" +
-                        "{\n" +
-                        "i++;\n" +
+                        "else \n" +
+                        "{ \n" +
+                        "i++; \n" +
                         "if (i>3)\n" +
+                        "{\n" +
                         "WebApp.error();\n" +
+                        "clearInterval(intervalID); \n" +
                         "}\n" +
-                        "}, 1000);})()");
+                        "} \n" +
+                        "}, 1000);})());");
             } else if (mWebpageState == 3) {
                 mWebView.loadUrl("javascript:(function(){(function()\n" +
                         "{\n" +
@@ -167,7 +187,7 @@ public class VoteFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if (submitButtonLock)
-                Toast.makeText(mContext, "Das Bild ist noch nicht geladen", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Das Bild ist noch nicht geladen", Toast.LENGTH_SHORT).show();
             else {
                 mImageView.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.VISIBLE);
@@ -192,12 +212,12 @@ public class VoteFragment extends Fragment {
 
         public void error() {
             mImageView.setImageResource(R.drawable.ic_link_ban);
-            Toast.makeText(mContext, "Captcha-Bild konnte nicht geladen werden", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Captcha-Bild konnte nicht geladen werden", Toast.LENGTH_SHORT).show();
         }
 
         public void showToast(String text) {
             Log.d("Test", "---" + text + "---");
-            Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
         }
     }
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

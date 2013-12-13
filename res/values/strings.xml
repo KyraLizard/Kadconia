@@ -22,6 +22,8 @@
     <string name="pref_konto_token_summary">Konto-Token zum Anzeigen der Kontoauszüge</string>
     <string name="pref_konto_token_default"></string>
 
+    <string name="error_no_internet">Keine Internetverbindung</string>
+
     <string name="vote_text_captcha">Captcha:</string>
     <string name="vote_text_name">Name:</string>
     <string name="vote_button_submit">Bewerten</string>

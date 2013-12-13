@@ -56,6 +56,9 @@ public class ServerStatusFragment extends ListFragment {
         List<String> listNames = new ArrayList<String>();
         List<Object> listObjects = new ArrayList<Object>();
 
+        if (!isOnline())
+            Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
+
         for (String owner : mDataBaseServer.getOwners(mDataBase))
         {
             String ownerName = Character.toUpperCase(owner.charAt(0)) + owner.substring(1);
@@ -116,18 +119,10 @@ public class ServerStatusFragment extends ListFragment {
                 Server server = (Server) mListObjects.get(position);
                 textView.setText(server.getName());
 
-                if (isOnline())
-                {
-                    if (server.isOnline())
-                        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_online, 0, 0, 0);
-                    else
-                        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_offline, 0, 0, 0);
-                }
+                if (server.isOnline())
+                    textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_online, 0, 0, 0);
                 else
-                {
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_link_ban, 0, 0, 0);
-                    Toast.makeText(mContext, "Keine Internet-Verbindung", Toast.LENGTH_LONG).show();
-                }
+                    textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_offline, 0, 0, 0);
             }
             else
                 textView.setText("Fehler beim Erstellen der Liste!");
