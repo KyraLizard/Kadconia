@@ -11,12 +11,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.InputStream;
@@ -53,6 +57,10 @@ public class VoteFragment extends Fragment {
     private EditText mCaptchaField;
     private EditText mNameField;
 
+    private TextView mHintText;
+
+    // http://developer.android.com/training/keyboard-input/style.html
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -67,20 +75,53 @@ public class VoteFragment extends Fragment {
         mImageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
         mImageView.setVisibility(View.GONE);
 
+        Button voteButton = (Button) mView.findViewById(R.id.vote_button_submit);
+        voteButton.setOnClickListener(new VoteOnClickListener());
+
         mWebView = (WebView) mView.findViewById(R.id.vote_webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new WebAppInterface(mContext), "WebApp");
 
         mCaptchaField = (EditText) mView.findViewById(R.id.vote_edittext_captcha);
+        mCaptchaField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    mNameField.requestFocus();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
         mNameField = (EditText) mView.findViewById(R.id.vote_edittext_name);
+        mNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_GO)
+                {
+                    closeKeyboard();
+                    mView.findViewById(R.id.vote_button_submit).performClick();
+                    handled = true;
+                }
+                return handled;
+            }
+
+            private void closeKeyboard() {
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mNameField.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+            }
+        });
+
+        mHintText = (TextView) mView.findViewById(R.id.vote_text_hint);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         String voteName = sharedPreferences.getString(getString(R.string.pref_vote_name_key),"");
 
         mNameField.setText(voteName);  //TODO: Hier Name aus Einstellungen einfügen
-
-        Button voteButton = (Button) mView.findViewById(R.id.vote_button_submit);
-        voteButton.setOnClickListener(new VoteOnClickListener());
+        mHintText.setText(getString(R.string.vote_text_hint_default));
 
         mWebView.setWebViewClient(new CustomWebViewClient());
         mWebView.setWebChromeClient(new CustomWebChromeClient());
@@ -189,6 +230,14 @@ public class VoteFragment extends Fragment {
             if (submitButtonLock)
                 Toast.makeText(mContext, "Das Bild ist noch nicht geladen", Toast.LENGTH_SHORT).show();
             else {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+                String voteName = sharedPreferences.getString(getString(R.string.pref_vote_name_key),"");
+                if (voteName.isEmpty())
+                {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(getString(R.string.pref_vote_name_key), mNameField.getText().toString());
+                    editor.commit();
+                }
                 mImageView.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.VISIBLE);
                 mWebView.loadUrl("javascript:(function(){document.getElementById('recaptcha_response_field').value = '" + mCaptchaField.getText() + "';" +
@@ -212,13 +261,15 @@ public class VoteFragment extends Fragment {
 
         public void error() {
             mImageView.setImageResource(R.drawable.ic_link_ban);
-            Toast.makeText(mContext, "Captcha-Bild konnte nicht geladen werden", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mContext, "Captcha-Bild konnte nicht geladen werden", Toast.LENGTH_SHORT).show();
         }
 
         public void showToast(String text) {
-            Log.d("Test", "---" + text + "---");
-            Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
+            //Log.d("Test", "---" + text + "---");
+            //Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
+            mHintText.setText("Captcha-Bild konnte nicht geladen werden");
         }
+
     }
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 

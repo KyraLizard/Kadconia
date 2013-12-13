@@ -27,6 +27,7 @@
     <string name="vote_text_captcha">Captcha:</string>
     <string name="vote_text_name">Name:</string>
     <string name="vote_button_submit">Bewerten</string>
+    <string name="vote_text_hint_default">Tipp: Deinen Namen kannst du in den Einstellungen ändern!</string>
     
     <string name="hello_world">Hello world!</string>
     

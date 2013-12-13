@@ -42,8 +42,8 @@ public class DataBaseKontoEintraege implements DataBaseTable{
 	
 	public void initTable (SQLiteDatabase db) {
 
-        //Testeinträge
-        addKontoEintrag(db, new Kontoeintrag((int) (new Date("31.12.2013")).getTime(), "Vettel1", 20.0f, "TestUser", "trade", 2013.14f));
+        //Testeinträge, TODO: make entry without app crash
+        //addKontoEintrag(db, new Kontoeintrag((int) (new Date("31.12.2013")).getTime(), "Vettel1", 20.0f, "TestUser", "trade", 2013.14f));
 	}
 	
 	// link functions
