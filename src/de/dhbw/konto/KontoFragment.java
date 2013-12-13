@@ -4,12 +4,14 @@ import android.app.Fragment;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -52,6 +54,13 @@ public class KontoFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
+            /*LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.fragment_konto_element, null);
+
+            TextView textView = (TextView) view.findViewById(R.id.konto_element_text);
+            textView.setText(String.valueOf(mKontoeintragList.get(position).getBetrag()));
+
+            return view;*/
             return super.getView(position, convertView, parent);
         }
     }

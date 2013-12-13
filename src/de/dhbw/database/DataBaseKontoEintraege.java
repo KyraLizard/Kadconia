@@ -3,6 +3,7 @@ package de.dhbw.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -24,9 +25,9 @@ public class DataBaseKontoEintraege implements DataBaseTable{
         private static final String KEY_NEWSALDO = "newsaldo";
 
 	// create table query
-	    private static final String CREATE_TABLE_LINKS_QUERY = "CREATE TABLE " + TABLE_NAME + "("
-	            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_DATE + " INTEGER," + KEY_USERKONTO + "TEXT,"
-	            + KEY_BETRAG + " REAL," + KEY_PARTNERKONTO + " TEXT," + KEY_TYPE + "TEXT,"
+	    private static final String CREATE_TABLE_KONTO_QUERY = "CREATE TABLE " + TABLE_NAME + "("
+	            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_DATE + " INTEGER," + KEY_USERKONTO + " TEXT,"
+	            + KEY_BETRAG + " REAL," + KEY_PARTNERKONTO + " TEXT," + KEY_TYPE + " TEXT,"
                 + KEY_NEWSALDO + " REAL" + ");";
 
 	public String getTableName() {
@@ -38,7 +39,7 @@ public class DataBaseKontoEintraege implements DataBaseTable{
 	}
 	
 	public void createTable(SQLiteDatabase db) {
-		db.execSQL(CREATE_TABLE_LINKS_QUERY);
+		db.execSQL(CREATE_TABLE_KONTO_QUERY);
 	}
 	
 	public void initTable (SQLiteDatabase db) {
@@ -71,6 +72,7 @@ public class DataBaseKontoEintraege implements DataBaseTable{
         String query = "SELECT * FROM " + TABLE_NAME;
 
         Cursor cursor = db.rawQuery(query, null);
+        Log.d("Test", String.valueOf(cursor.getCount()));
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {

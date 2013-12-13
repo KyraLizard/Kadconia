@@ -92,8 +92,8 @@ public class ServerStatusFragment extends ListFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private class ServerStatusAdapter extends ArrayAdapter<String>
-    {
+    private class ServerStatusAdapter extends ArrayAdapter<String> {
+
         private List<Object> mListObjects;
 
         public ServerStatusAdapter(Context context, int resource, List<String> objects, List<Object> mListObjects) {
