@@ -3,7 +3,6 @@ package de.dhbw.navigation;
 import de.dhbw.infos.InfoFragment;
 import de.dhbw.konto.KontoFragment;
 import de.dhbw.links.LinkFragment;
-import de.dhbw.navigation.R;
 import de.dhbw.player.PlayerFragment;
 import de.dhbw.serverstatus.ServerStatusFragment;
 import de.dhbw.settings.SettingsActivity;
@@ -46,11 +45,13 @@ public class NavigationActivity extends Activity {
         	@Override
         	public void onDrawerOpened(View drawerView) {
         		super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
         	}
         	
         	@Override
         	public void onDrawerClosed(View drawerView) {
         		super.onDrawerClosed(drawerView);
+                invalidateOptionsMenu();
         	}
         };
         
@@ -68,7 +69,23 @@ public class NavigationActivity extends Activity {
         selectItem(0);
 	}
 
-	@Override
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        // If the nav drawer is open, hide all action items except settings
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+
+        for (int i=0; i<menu.size(); i++)
+            menu.getItem(i).setVisible(!drawerOpen);
+
+        MenuItem settingsMenuItem = menu.findItem(R.id.action_settings);
+        if (settingsMenuItem != null)
+            settingsMenuItem.setVisible(true);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.navigation, menu);
@@ -84,12 +101,6 @@ public class NavigationActivity extends Activity {
 
 	/** Swaps fragments in the main content view */
 	private void selectItem(int position) {
-	    
-		// Create a new fragment and specify the planet to show based on position
-	    /*Fragment fragment = new PlanetFragment();
-	    Bundle args = new Bundle();
-	    args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-	    fragment.setArguments(args);*/
 
 		Fragment fragment = null;
 		
@@ -153,7 +164,7 @@ public class NavigationActivity extends Activity {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {
-          return true;
+            return true;
         }
 
         switch (item.getItemId())
