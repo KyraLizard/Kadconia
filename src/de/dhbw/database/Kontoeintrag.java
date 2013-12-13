@@ -8,17 +8,17 @@ import java.util.Date;
 public class Kontoeintrag {
 
     private int id;
-    private int date;
+    private long date;
     private String userKontoName;
-    private float betrag;
+    private double betrag;
     private String partnerKontoName;
     private String type;
-    private float newSaldo;
+    private double newSaldo;
 
     public Kontoeintrag() {
     }
 
-    public Kontoeintrag(int id, int date, String userKontoName, float betrag, String partnerKontoName, String type, float newSaldo) {
+    public Kontoeintrag(int id, long date, String userKontoName, double betrag, String partnerKontoName, String type, double newSaldo) {
         this.id = id;
         this.date = date;
         this.userKontoName = userKontoName;
@@ -28,7 +28,7 @@ public class Kontoeintrag {
         this.newSaldo = newSaldo;
     }
 
-    public Kontoeintrag(int date, String userKontoName, float betrag, String partnerKontoName, String type, float newSaldo) {
+    public Kontoeintrag(long date, String userKontoName, double betrag, String partnerKontoName, String type, double newSaldo) {
         this.date = date;
         this.userKontoName = userKontoName;
         this.betrag = betrag;
@@ -45,11 +45,19 @@ public class Kontoeintrag {
         this.id = id;
     }
 
-    public int getDate() {
+    /**
+     * Returns date of transaction in milliseconds
+     * @return date of transaction in milliseconds
+     */
+    public long getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    /**
+     * Save date of transaction in milliseconds
+     * @param date date of transaction in milliseconds
+     */
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -61,11 +69,11 @@ public class Kontoeintrag {
         this.userKontoName = userKontoName;
     }
 
-    public float getBetrag() {
+    public double getBetrag() {
         return betrag;
     }
 
-    public void setBetrag(float betrag) {
+    public void setBetrag(double betrag) {
         this.betrag = betrag;
     }
 
@@ -85,11 +93,11 @@ public class Kontoeintrag {
         this.type = type;
     }
 
-    public float getNewSaldo() {
+    public double getNewSaldo() {
         return newSaldo;
     }
 
-    public void setNewSaldo(float newSaldo) {
+    public void setNewSaldo(double newSaldo) {
         this.newSaldo = newSaldo;
     }
 }

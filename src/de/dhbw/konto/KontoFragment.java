@@ -33,7 +33,6 @@ public class KontoFragment extends Fragment {
 
         WebView webView = (WebView) view.findViewById(R.id.konto_webview);
 
-
         ListView listView = (ListView) view.findViewById(R.id.konto_list);
         List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getAllKontoEintraege(new DataBaseHelper(mContext).getReadableDatabase());
         listView.setAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, kontoeintragList));
@@ -43,8 +42,17 @@ public class KontoFragment extends Fragment {
 
     private class CustomKontoAdapter extends ArrayAdapter<Kontoeintrag> {
 
+        private List<Kontoeintrag> mKontoeintragList;
+
         private CustomKontoAdapter(Context context, int resource, List<Kontoeintrag> objects) {
             super(context, resource, objects);
+            mKontoeintragList = objects;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            return super.getView(position, convertView, parent);
         }
     }
 }

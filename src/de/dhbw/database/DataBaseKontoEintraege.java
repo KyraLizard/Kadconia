@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,8 +43,11 @@ public class DataBaseKontoEintraege implements DataBaseTable{
 	
 	public void initTable (SQLiteDatabase db) {
 
-        //Testeinträge, TODO: make entry without app crash
-        //addKontoEintrag(db, new Kontoeintrag((int) (new Date("31.12.2013")).getTime(), "Vettel1", 20.0f, "TestUser", "trade", 2013.14f));
+        //Testeinträge
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 20.0, "TestUser", "trade", 2013.14));
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 21.0, "TestUser", "trade", 2013.14));
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 22.0, "TestUser", "trade", 2013.14));
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 23.0, "TestUser", "trade", 2013.14));
 	}
 	
 	// link functions

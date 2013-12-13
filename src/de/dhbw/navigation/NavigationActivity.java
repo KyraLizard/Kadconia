@@ -1,6 +1,7 @@
 package de.dhbw.navigation;
 
 import de.dhbw.infos.InfoFragment;
+import de.dhbw.konto.KontoFragment;
 import de.dhbw.links.LinkFragment;
 import de.dhbw.navigation.R;
 import de.dhbw.player.PlayerFragment;
@@ -99,6 +100,9 @@ public class NavigationActivity extends Activity {
                 break;
             case 1:
                 fragment = new VoteFragment();
+                break;
+            case 2:
+                fragment = new KontoFragment();
                 break;
             case 3:
                 fragment = new PlayerFragment();
