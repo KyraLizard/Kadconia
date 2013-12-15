@@ -25,7 +25,7 @@
     <string name="error_no_internet">Keine Internetverbindung</string>
 
     <string name="vote_text_captcha">Captcha:</string>
-    <string name="vote_text_name">Name:</string>
+    <string name="vote_text_name">Minecraft-Name:</string>
     <string name="vote_button_submit">Bewerten</string>
     <string name="vote_text_hint_default">Tipp: Deinen Namen kannst du in den Einstellungen ändern!</string>
     
@@ -42,7 +42,7 @@
         <item>Serverstatus</item>
     	<item>Vote</item>
     	<item>Konto</item>
-        <item>Spieler Online</item>
+        <item>Wer ist online?</item>
     	<item>Info</item>
     	<item>Links</item>
     	<item>Einstellungen</item>    

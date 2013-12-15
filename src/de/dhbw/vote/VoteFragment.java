@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -120,7 +121,7 @@ public class VoteFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         String voteName = sharedPreferences.getString(getString(R.string.pref_vote_name_key),"");
 
-        mNameField.setText(voteName);  //TODO: Hier Name aus Einstellungen einfügen
+        mNameField.setText(voteName);
         mHintText.setText(getString(R.string.vote_text_hint_default));
 
         mWebView.setWebViewClient(new CustomWebViewClient());
@@ -204,20 +205,20 @@ public class VoteFragment extends Fragment {
                         "clearInterval(intervalID); \n" +
                         "}\n" +
                         "} \n" +
-                        "}, 1000);})());");
+                        "}, 1000);})();");
             } else if (mWebpageState == 3) {
-                mWebView.loadUrl("javascript:(function(){(function()\n" +
+                mWebView.loadUrl("javascript:(function()\n" +
                         "{\n" +
                         "if (document.getElementsByClassName('ui-state-error ui-corner-all')[0] == undefined)\n" +
                         "{\n" +
                         "if (document.getElementsByClassName('ui-state-highlight ui-corner-all')[0] == undefined)\n" +
-                        "WebApp.showToast('Unbekannter Fehler!');\n" +
+                        "WebApp.showText('Unbekannter Fehler!');\n" +
                         "else\n" +
-                        "WebApp.showToast(document.getElementsByClassName('ui-state-highlight ui-corner-all')[0].childNodes[1].childNodes[3].textContent)\n" +
+                        "WebApp.showText(document.getElementsByClassName('ui-state-highlight ui-corner-all')[0].childNodes[1].childNodes[3].textContent)\n" +
                         "}\n" +
                         "else\n" +
-                        "WebApp.showToast(document.getElementsByClassName('ui-state-error ui-corner-all')[0].childNodes[1].childNodes[3].textContent);\n" +
-                        "})()})()");
+                        "WebApp.showText(document.getElementsByClassName('ui-state-error ui-corner-all')[0].childNodes[1].childNodes[3].textContent);\n" +
+                        "})()");
                 mWebpageState = 4;
             }
             super.onPageFinished(view, url);
@@ -255,19 +256,22 @@ public class VoteFragment extends Fragment {
             mContext = c;
         }
 
+        @JavascriptInterface
         public void loadImage(String url) {
             new DownloadImageTask(mImageView).execute(url);
         }
 
+        @JavascriptInterface
         public void error() {
             mImageView.setImageResource(R.drawable.ic_link_ban);
+            mHintText.setText("Captcha-Bild konnte nicht geladen werden");
             //Toast.makeText(mContext, "Captcha-Bild konnte nicht geladen werden", Toast.LENGTH_SHORT).show();
         }
 
-        public void showToast(String text) {
-            //Log.d("Test", "---" + text + "---");
+        @JavascriptInterface
+        public void showText(String text) {
             //Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
-            mHintText.setText("Captcha-Bild konnte nicht geladen werden");
+            mHintText.setText(text);
         }
 
     }
