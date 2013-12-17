@@ -74,6 +74,7 @@ public class VoteFragment extends Fragment {
         mProgressBar = (ProgressBar) mView.findViewById(R.id.vote_progress);
         mProgressBar.setVisibility(View.VISIBLE);
         mImageView = (ImageView) mView.findViewById(R.id.vote_image_captcha);
+        mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
         mImageView.setVisibility(View.GONE);
 
         Button voteButton = (Button) mView.findViewById(R.id.vote_button_submit);

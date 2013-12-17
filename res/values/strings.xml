@@ -21,6 +21,7 @@
     <string name="pref_konto_token_key">konto_token</string>
     <string name="pref_konto_token_summary">Konto-Token zum Anzeigen der Kontoauszüge</string>
     <string name="pref_konto_token_default"></string>
+    <string name="pref_player_list_key">player_list</string>
 
     <string name="error_no_internet">Keine Internetverbindung</string>
 

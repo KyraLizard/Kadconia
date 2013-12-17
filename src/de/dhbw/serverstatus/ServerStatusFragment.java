@@ -1,10 +1,12 @@
 package de.dhbw.serverstatus;
 
 import android.app.ListFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,12 +46,14 @@ public class ServerStatusFragment extends ListFragment {
         mContext = getActivity();
         setHasOptionsMenu(true);
 
-        setList();
+        //setList();
+        //setListAdapter(null);
+        (new RefreshListTask()).execute();
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private void setList() {
+    /*private void setList() {
 
         SQLiteDatabase mDataBase = (new DataBaseHelper(mContext)).getReadableDatabase();
         DataBaseServer mDataBaseServer = new DataBaseServer();
@@ -72,7 +77,7 @@ public class ServerStatusFragment extends ListFragment {
             }
         }
         setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, listNames, listObjects));
-    }
+    }*/
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -86,7 +91,8 @@ public class ServerStatusFragment extends ListFragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                setList();
+                setListShown(false);
+                (new RefreshListTask()).execute();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -136,7 +142,7 @@ public class ServerStatusFragment extends ListFragment {
         boolean online = false;
         try {
             for (int i=0; i<5; i++) {
-                if (ServerPortOpenChecker.isServerPortOpen(server.getIp(), server.getPort())) {
+                if (ServerPortOpenChecker.isServerPortOpen(server.getDomain(), server.getPort())) {
                     online = true;
                     break;
                 }
@@ -148,7 +154,6 @@ public class ServerStatusFragment extends ListFragment {
         }
         return online;
     }
-
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -158,4 +163,45 @@ public class ServerStatusFragment extends ListFragment {
         return false;
     }
 
+    private class RefreshListTask extends AsyncTask<Object,Object,Object> {
+
+        private List<String> listNames = new ArrayList<String>();
+        private List<Object> listObjects = new ArrayList<Object>();
+
+        private RefreshListTask() {
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+
+            SQLiteDatabase mDataBase = (new DataBaseHelper(mContext)).getReadableDatabase();
+            DataBaseServer mDataBaseServer = new DataBaseServer();
+
+            if (!isOnline())
+                Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
+
+            for (String owner : mDataBaseServer.getOwners(mDataBase))
+            {
+                String ownerName = Character.toUpperCase(owner.charAt(0)) + owner.substring(1);
+                listNames.add(Character.toUpperCase(ownerName.charAt(0)) + ownerName.substring(1));
+                listObjects.add(ownerName);
+                for (Server server : mDataBaseServer.getAllServerByOwner(mDataBase, owner))
+                {
+                    server.setOnline(checkOnline(server));
+                    listNames.add(server.getName());
+                    listObjects.add(server);
+                }
+            }
+            publishProgress();
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+
+            setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, listNames, listObjects));
+            setListShown(true);
+            super.onProgressUpdate(values);
+        }
+    }
 }

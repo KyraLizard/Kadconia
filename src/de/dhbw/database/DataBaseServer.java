@@ -19,12 +19,12 @@ public class DataBaseServer implements DataBaseTable{
         private static final String KEY_ID = "id";
         private static final String KEY_NAME = "name";
         private static final String KEY_OWNER = "owner";
-        private static final String KEY_IP = "ip";
+        private static final String KEY_DOMAIN = "domain";
         private static final String KEY_PORT = "port";
 
     // create table query
     private static final String CREATE_TABLE_SERVER_QUERY = "CREATE TABLE " + TABLE_NAME + "("
-            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_OWNER + " TEXT," + KEY_IP
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_OWNER + " TEXT," + KEY_DOMAIN
             + " TEXT," + KEY_PORT + " INTEGER" + ");";
 
     @Override
@@ -45,15 +45,15 @@ public class DataBaseServer implements DataBaseTable{
     @Override
     public void initTable(SQLiteDatabase db) {
 
-        addServer(db, new Server("Server 1", "kadcon", "94.23.160.180", 51332));
-        addServer(db, new Server("Server 2", "kadcon", "94.23.160.180", 41332));
-        addServer(db, new Server("Server 3", "kadcon", "94.23.160.180", 31332));
+        addServer(db, new Server("Server 1", "kadcon", "kadcon.de", 51332));
+        addServer(db, new Server("Server 2", "kadcon", "kadcon.de", 41332));
+        addServer(db, new Server("Server 3", "kadcon", "kadcon.de", 31332));
 
-        addServer(db, new Server("Website", "mojang", "107.20.160.105", 80));
-        addServer(db, new Server("Skinserver", "mojang", "54.243.83.21", 80));
-        addServer(db, new Server("Accountserver", "mojang", "174.129.244.131", 443));
-        addServer(db, new Server("Authentifikationsserver", "mojang", "23.23.247.204", 443));
-        addServer(db, new Server("Sessionserver", "mojang", "23.21.76.163", 443));
+        addServer(db, new Server("Website", "mojang", "minecraft.net", 80));
+        addServer(db, new Server("Skinserver", "mojang", "skins.minecraft.net", 80));
+        addServer(db, new Server("Accountserver", "mojang", "account.mojang.com", 443));
+        addServer(db, new Server("Authentifikationsserver", "mojang", "authserver.mojang.com", 443));
+        addServer(db, new Server("Sessionserver", "mojang", "sessionserver.mojang.com", 443));
     }
 
 
@@ -64,7 +64,7 @@ public class DataBaseServer implements DataBaseTable{
         ContentValues mContentValues = new ContentValues();
         mContentValues.put(KEY_NAME, mServer.getName());
         mContentValues.put(KEY_OWNER, mServer.getOwner());
-        mContentValues.put(KEY_IP, mServer.getIp());
+        mContentValues.put(KEY_DOMAIN, mServer.getDomain());
         mContentValues.put(KEY_PORT, mServer.getPort());
 
         db.insert(TABLE_NAME, null, mContentValues);
@@ -83,7 +83,7 @@ public class DataBaseServer implements DataBaseTable{
                 mServer.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
                 mServer.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
                 mServer.setOwner(cursor.getString(cursor.getColumnIndex(KEY_OWNER)));
-                mServer.setIp(cursor.getString(cursor.getColumnIndex(KEY_IP)));
+                mServer.setDomain(cursor.getString(cursor.getColumnIndex(KEY_DOMAIN)));
                 mServer.setPort(cursor.getInt(cursor.getColumnIndex(KEY_PORT)));
 
                 // Adding workout to list
@@ -106,7 +106,7 @@ public class DataBaseServer implements DataBaseTable{
                 mServer.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
                 mServer.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
                 mServer.setOwner(cursor.getString(cursor.getColumnIndex(KEY_OWNER)));
-                mServer.setIp(cursor.getString(cursor.getColumnIndex(KEY_IP)));
+                mServer.setDomain(cursor.getString(cursor.getColumnIndex(KEY_DOMAIN)));
                 mServer.setPort(cursor.getInt(cursor.getColumnIndex(KEY_PORT)));
 
                 // Adding workout to list

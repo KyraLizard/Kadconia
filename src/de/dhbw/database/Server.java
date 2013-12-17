@@ -8,7 +8,7 @@ public class Server {
     private int id;
     private String name;
     private String owner;
-    private String ip;
+    private String domain;
     private int port;
 
     private boolean online;
@@ -16,11 +16,11 @@ public class Server {
     public Server() {
     }
 
-    public Server(String name, String owner, String ip, int port) {
+    public Server(String name, String owner, String domain, int port) {
 
         setName(name);
         setOwner(owner);
-        setIp(ip);
+        setDomain(domain);
         setPort(port);
         setOnline(false);
     }
@@ -53,12 +53,12 @@ public class Server {
         this.name = name;
     }
 
-    public String getIp() {
-        return ip;
+    public String getDomain() {
+        return domain;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     public int getPort() {

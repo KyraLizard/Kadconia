@@ -47,7 +47,7 @@ public class ServerIpFragment extends ListFragment{
         for (Server server : serverList)
         {
             serverNameList.add(server.getFormattedOwner() + " " + server.getName());
-            serverNameList.add("IP: " + server.getIp() + ", Port: " + server.getPort());
+            serverNameList.add("IP: " + server.getDomain() + ", Port: " + server.getPort());
         }
 
         setListAdapter(new ServerIpAdapter(mContext, R.layout.fragment_serverip_element, serverNameList));
