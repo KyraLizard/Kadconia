@@ -38,15 +38,29 @@
     <string name="drawer_close">Menü schließen</string>
     
     <string name="link_list_element_icon">Link-Icon</string>
+
+    <string name="nav_serverstatus">Serverstatus</string>
+    <string name="nav_vote">Vote</string>
+    <string name="nav_konto">Konto</string>
+    <string name="nav_player_online">Wer ist online?</string>
+    <string name="nav_infos">Info</string>
+    <string name="nav_links">Links</string>
+    <string name="nav_settings">Einstellungen</string>
     
     <string-array name="nav_array">
-        <item>Serverstatus</item>
-    	<item>Vote</item>
-    	<item>Konto</item>
-        <item>Wer ist online?</item>
-    	<item>Info</item>
-    	<item>Links</item>
-    	<item>Einstellungen</item>    
+        <item>@string/nav_serverstatus</item>
+    	<item>@string/nav_vote</item>
+    	<item>@string/nav_konto</item>
+        <item>@string/nav_player_online</item>
+    	<item>@string/nav_infos</item>
+    	<item>@string/nav_links</item>
+    	<item>@string/nav_settings</item>
+    </string-array>
+
+    <string-array name="nav_elements_player_online">
+        <item>Server 1</item>
+        <item>Server 2</item>
+        <item>Server 3</item>
     </string-array>
 
     <string-array name="kontakt">
@@ -63,5 +77,9 @@
         <item>de-DE</item>
         <item>en-US</item>
     </string-array>
+
+    <color name="dark_grey">#555555</color>
+    <color name="nav_group">#111111</color>
+    <color name="nav_element">#202020</color>
     
 </resources>

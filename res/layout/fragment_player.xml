@@ -8,6 +8,23 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="invisible"/>
+    <LinearLayout
+        android:id="@+id/player_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/player_list_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/background_border"
+            android:padding="15dp"/>
+        <ListView
+            android:id="@+id/player_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
     <ProgressBar
         android:id="@+id/player_progress"
         android:layout_width="150dp"
@@ -15,8 +32,4 @@
         android:layout_gravity="center"
         android:padding="20dp"
         style="@android:style/Widget.ProgressBar.Horizontal"/>
-    <ListView
-        android:id="@+id/player_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </FrameLayout>

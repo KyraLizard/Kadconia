@@ -47,6 +47,7 @@ import de.dhbw.navigation.R;
 public class PlayerFragment extends Fragment {
 
     private Context mContext;
+    private TextView mListHeader;
     private ListView mListView;
     private WebView mWebView;
     private ProgressBar mProgressBar;
@@ -61,6 +62,8 @@ public class PlayerFragment extends Fragment {
         mProgressBar = (ProgressBar) view.findViewById(R.id.player_progress);
         mProgressBar.setVisibility(View.GONE);
 
+        mListHeader = (TextView) view.findViewById(R.id.player_list_header);
+
         mListView = (ListView) view.findViewById(R.id.player_list);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         List<String> playerList = new ArrayList<String>(sharedPreferences.getStringSet(getString(R.string.pref_player_list_key), new HashSet<String>()));
@@ -74,7 +77,14 @@ public class PlayerFragment extends Fragment {
         else
         {
             Collections.sort(playerList);
-            playerList.set(0, playerList.size() + " Spieler online" + "\n" + playerList.get(0));
+            for (String element : playerList)
+                if (element.contains("!"))
+                {
+                    mListHeader.setText("Anzahl Spieler: " + element.split("!")[1]
+                            + "\n(Stand: " + element.split("!")[0] + ")");
+                    playerList.remove(element);
+                    break;
+                }
             mListView.setAdapter(new CustomListAdapter(mContext, android.R.layout.simple_list_item_1, playerList));
         }
 
@@ -121,7 +131,6 @@ public class PlayerFragment extends Fragment {
         }
         return false;
     }
-
     private class CustomWebChromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
@@ -166,18 +175,26 @@ public class PlayerFragment extends Fragment {
                 playerList.add(Character.toUpperCase(element.charAt(0)) + element.substring(1));
 
             Collections.sort(playerList);
-            playerList.add(0, "(Stand: " + ((new SimpleDateFormat("dd.MM.yy HH:mm:ss")).format(new Date())) + ")");
+            playerList.add(0, ((new SimpleDateFormat("dd.MM.yyyy HH:mm:ss")).format(new Date())));
+            playerList.set(0, playerList.get(0) + "!" + (playerList.size()-1));
 
             Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
             editor.putStringSet(getString(R.string.pref_player_list_key), new HashSet<String>(playerList));
             editor.commit();
 
-            playerList.set(0, playerList.size() + " Spieler online" + "\n" + playerList.get(0));
-
             mWebView.loadUrl("");
 
+            //noinspection ConstantConditions
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
+                    for (String element : playerList)
+                        if (element.contains("!"))
+                        {
+                            mListHeader.setText("Anzahl Spieler: " + element.split("!")[1]
+                                                + "\n(Stand: " + element.split("!")[0] + ")");
+                            playerList.remove(element);
+                            break;
+                        }
                     mProgressBar.setProgress(100);
                     mProgressBar.setVisibility(View.GONE);
                     mListView.setAdapter(new CustomListAdapter(mContext, android.R.layout.simple_list_item_1, playerList));
@@ -200,13 +217,6 @@ public class PlayerFragment extends Fragment {
             View view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
             textView.setText(mObjectList.get(position));
-
-            if (mObjectList.get(position).contains("Spieler online"))
-            {
-                textView.setGravity(Gravity.CENTER);
-                textView.setBackgroundResource(R.drawable.background_border);
-                textView.setTextSize(15);
-            }
 
             return view;
         }

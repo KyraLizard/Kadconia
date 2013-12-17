@@ -20,13 +20,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 public class NavigationActivity extends Activity {
 
 	private String[] mNavigationTitles;
 	private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
+    private ExpandableListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
 	
 	@Override
@@ -37,7 +38,7 @@ public class NavigationActivity extends Activity {
 		
 		mNavigationTitles = getResources().getStringArray(R.array.nav_array);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.drawer_list);
+        mDrawerList = (ExpandableListView) findViewById(R.id.drawer_list);
         
         // Set listeners for action bar drawer
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
@@ -47,18 +48,19 @@ public class NavigationActivity extends Activity {
         		super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
         	}
-        	
+
         	@Override
         	public void onDrawerClosed(View drawerView) {
         		super.onDrawerClosed(drawerView);
                 invalidateOptionsMenu();
         	}
         };
-        
-        mDrawerLayout.setDrawerListener(mDrawerToggle);        
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
         
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_navigation_drawer_list_item, mNavigationTitles));
+        //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_navigation_drawer_list_item, mNavigationTitles));
+        mDrawerList.setAdapter(new CustomExpandableListAdapter(this));
         
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
