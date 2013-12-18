@@ -8,6 +8,7 @@ import de.dhbw.serverstatus.ServerStatusFragment;
 import de.dhbw.settings.SettingsActivity;
 import de.dhbw.vote.VoteFragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
@@ -15,16 +16,20 @@ import android.app.Fragment;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 public class NavigationActivity extends Activity {
 
+    private Context mContext;
 	private String[] mNavigationTitles;
 	private DrawerLayout mDrawerLayout;
     private ExpandableListView mDrawerList;
@@ -35,10 +40,15 @@ public class NavigationActivity extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_navigation);
+
+        ((ImageView)findViewById(android.R.id.home)).setPadding(7, 0, 11, 0);
+
+        mContext = this;
 		
 		mNavigationTitles = getResources().getStringArray(R.array.nav_array);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ExpandableListView) findViewById(R.id.drawer_list);
+        mDrawerList.setAdapter(new CustomExpandableListAdapter(this));
         
         // Set listeners for action bar drawer
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
@@ -60,15 +70,16 @@ public class NavigationActivity extends Activity {
         
         // Set the adapter for the list view
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_navigation_drawer_list_item, mNavigationTitles));
-        mDrawerList.setAdapter(new CustomExpandableListAdapter(this));
         
         // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnGroupClickListener(new CustomOnGroupClickListener());
+        mDrawerList.setOnChildClickListener(new CustomkOnChildClickListener());
 	
         getActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setHomeButtonEnabled(true);
-        
-        selectItem(0);
+
+        //mDrawerList.performItemClick(mDrawerList.getAdapter().getView(0, null, null),0,mDrawerList.getAdapter().getItemId(0));
+        mDrawerList.performItemClick(mDrawerList.getChildAt(0),0,mDrawerList.getAdapter().getItemId(0));
 	}
 
     @Override
@@ -93,60 +104,87 @@ public class NavigationActivity extends Activity {
 		getMenuInflater().inflate(R.menu.navigation, menu);
 		return true;
 	}
-	
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-	    @Override
-	    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	        selectItem(position);
-	    }
-	}
 
-	/** Swaps fragments in the main content view */
-	private void selectItem(int position) {
+    private class CustomOnGroupClickListener implements ExpandableListView.OnGroupClickListener {
 
-		Fragment fragment = null;
-		
-		switch (position)
-		{
-            case 0:
-                fragment = new ServerStatusFragment();
-                break;
-            case 1:
-                fragment = new VoteFragment();
-                break;
-            case 2:
-                fragment = new KontoFragment();
-                break;
-            case 3:
-                fragment = new PlayerFragment();
-                break;
-            case 4:
-                fragment = new InfoFragment(mNavigationTitles[position]);
-                break;
-			case 5:
-				fragment = new LinkFragment();
-				break;
-            case 6:
-                Intent mIntent = new Intent(this, SettingsActivity.class);
-                startActivity(mIntent);
-                return;
-			default:
-				fragment = new TestFragment();
-				break;
-		}
-		
-	    // Insert the fragment by replacing any existing fragment
-        getFragmentManager().beginTransaction()
-	                   .replace(R.id.content_frame, fragment)
-	                   .addToBackStack(null)
-	                   .commit();
+        @Override
+        public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
 
-	    // Highlight the selected item, update the title, and close the drawer
-	    //mDrawerList.setItemChecked(position, true);
-	    setTitle(mNavigationTitles[position]);
-	    mDrawerLayout.closeDrawer(mDrawerList);
-        mDrawerList.setItemChecked(position, false);
-	}
+            if ((expandableListView.getExpandableListAdapter()).getGroup(i).equals(getString(R.string.nav_player_online)))
+                return false;
+            else
+            {
+                Fragment fragment = null;
+
+                switch (i)
+                {
+                    case 0:
+                        fragment = new ServerStatusFragment();
+                        break;
+                    case 1:
+                        fragment = new VoteFragment();
+                        break;
+                    case 2:
+                        fragment = new KontoFragment();
+                        break;
+                    case 3:
+                        fragment = new PlayerFragment();
+                        break;
+                    case 4:
+                        fragment = new InfoFragment(mNavigationTitles[i]);
+                        break;
+                    case 5:
+                        fragment = new LinkFragment();
+                        break;
+                    case 6:
+                        Intent mIntent = new Intent(mContext, SettingsActivity.class);
+                        startActivity(mIntent);
+                        return true;
+                    default:
+                        fragment = new TestFragment();
+                        break;
+                }
+
+                // Insert the fragment by replacing any existing fragment
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                // Highlight the selected item, update the title, and close the drawer
+                //mDrawerList.setItemChecked(position, true);
+                setTitle(mNavigationTitles[i]);
+                mDrawerLayout.closeDrawer(mDrawerList);
+                mDrawerList.setItemChecked(i, false);
+                return true;
+            }
+        }
+    }
+
+    private class CustomkOnChildClickListener implements ExpandableListView.OnChildClickListener {
+        @Override
+        public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i2, long l) {
+
+            if ((expandableListView.getExpandableListAdapter()).getGroup(i).equals(getString(R.string.nav_player_online)))
+            {
+                Fragment fragment = new PlayerFragment();
+                // Insert the fragment by replacing any existing fragment
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                // Highlight the selected item, update the title, and close the drawer
+                //mDrawerList.setItemChecked(position, true);
+                setTitle(mNavigationTitles[i]);
+                mDrawerLayout.closeDrawer(mDrawerList);
+                mDrawerList.setItemChecked(i, false);
+                return true;
+            }
+            else
+                return false;
+        }
+    }
 	
 	 @Override
     protected void onPostCreate(Bundle savedInstanceState) {

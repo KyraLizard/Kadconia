@@ -49,9 +49,10 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@color/dark_grey"
+        android:divider="@color/nav_divider_group"
+        android:childDivider="@color/nav_divider_child"
         android:dividerHeight="0.5dp"
+        android:drawSelectorOnTop="true"
         android:groupIndicator="@android:color/transparent"
         android:background="@color/nav_group"/>
 </android.support.v4.widget.DrawerLayout>

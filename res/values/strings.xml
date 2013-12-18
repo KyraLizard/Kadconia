@@ -79,7 +79,11 @@
     </string-array>
 
     <color name="dark_grey">#555555</color>
-    <color name="nav_group">#111111</color>
-    <color name="nav_element">#202020</color>
+    <color name="nav_action_bar">#ff333333</color>
+    <color name="nav_group">#ff3a3a3c</color>
+    <color name="nav_element">#ff58585a</color>
+    <color name="nav_divider_group">#ff454547</color>
+    <color name="nav_divider_child">#ff626365</color>
+    <color name="nav_text">#dddddd</color>
     
 </resources>

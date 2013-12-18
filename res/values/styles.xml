@@ -17,4 +17,15 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <!-- Custom Theme -->
+
+    <style name="CustomTheme" parent="android:Theme.Holo">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <!-- ActionBar style -->
+    <style name="MyActionBar" parent="android:Widget.Holo.ActionBar">
+        <item name="android:background">@color/nav_action_bar</item>
+    </style>
+
 </resources>

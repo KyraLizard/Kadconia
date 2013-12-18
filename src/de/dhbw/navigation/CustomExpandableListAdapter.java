@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by Mark on 17.12.13.
  */
-public class CustomExpandableListAdapter implements ExpandableListAdapter {
+public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     private List<String> mListGroups = new ArrayList<String>();
@@ -30,17 +31,6 @@ public class CustomExpandableListAdapter implements ExpandableListAdapter {
         String[] playerOnlineElements = mContext.getResources().getStringArray(R.array.nav_elements_player_online);
         for (int i=0; i<playerOnlineElements.length; i++)
             mPlayerOnlineElements.add(playerOnlineElements[i]);
-    }
-
-
-    @Override
-    public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
     }
 
     @Override
@@ -81,7 +71,7 @@ public class CustomExpandableListAdapter implements ExpandableListAdapter {
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
@@ -118,7 +108,7 @@ public class CustomExpandableListAdapter implements ExpandableListAdapter {
             view = inflater.inflate(android.R.layout.simple_list_item_1, null);
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
             textView.setText(mPlayerOnlineElements.get(i2));
-            textView.setPadding(75,0,0,0);
+            textView.setPadding(75, 0, 0, 0);
             view.setBackgroundColor(mContext.getResources().getColor(R.color.nav_element));
             return view;
         }
@@ -129,37 +119,5 @@ public class CustomExpandableListAdapter implements ExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int i, int i2) {
         return true;
-        //return false;
-    }
-
-    @Override
-    public boolean areAllItemsEnabled() {
-        return true;
-        //return false;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public void onGroupExpanded(int i) {
-
-    }
-
-    @Override
-    public void onGroupCollapsed(int i) {
-
-    }
-
-    @Override
-    public long getCombinedChildId(long l, long l2) {
-        return 0;
-    }
-
-    @Override
-    public long getCombinedGroupId(long l) {
-        return 0;
     }
 }
