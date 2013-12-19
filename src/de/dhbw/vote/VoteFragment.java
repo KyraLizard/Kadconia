@@ -1,5 +1,6 @@
 package de.dhbw.vote;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -140,6 +141,8 @@ public class VoteFragment extends Fragment {
             Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
             return;
         }
+        mHintText.setText(getString(R.string.vote_text_hint_default));
+        mCaptchaField.setText("");
         submitButtonLock = true;
         mWebpageState = 1;
         mProgressBar.setVisibility(View.VISIBLE);
@@ -202,7 +205,7 @@ public class VoteFragment extends Fragment {
                         "i++; \n" +
                         "if (i>3)\n" +
                         "{\n" +
-                        "WebApp.error();\n" +
+                        "WebApp.showText('Captcha-Bild konnte nicht geladen werden');\n" +
                         "clearInterval(intervalID); \n" +
                         "}\n" +
                         "} \n" +
@@ -210,19 +213,25 @@ public class VoteFragment extends Fragment {
             } else if (mWebpageState == 3) {
                 mWebView.loadUrl("javascript:(function()\n" +
                         "{\n" +
-                        "if (document.getElementsByClassName('ui-state-error ui-corner-all')[0] == undefined)\n" +
+                        "if (document.getElementsByClassName('alert alert-error')[0] == undefined)\n" +
                         "{\n" +
-                        "if (document.getElementsByClassName('ui-state-highlight ui-corner-all')[0] == undefined)\n" +
+                        "if (document.getElementsByClassName('hero-unit')[0] == undefined)\n" +
                         "WebApp.showText('Unbekannter Fehler!');\n" +
                         "else\n" +
-                        "WebApp.showText(document.getElementsByClassName('ui-state-highlight ui-corner-all')[0].childNodes[1].childNodes[3].textContent)\n" +
+                        "WebApp.showText(document.getElementsByClassName('hero-unit')[0].childNodes[0].textContent.trim())\n" +
                         "}\n" +
                         "else\n" +
-                        "WebApp.showText(document.getElementsByClassName('ui-state-error ui-corner-all')[0].childNodes[1].childNodes[3].textContent);\n" +
+                        "WebApp.showText(document.getElementsByClassName('alert alert-error')[0].textContent);\n" +
                         "})()");
                 mWebpageState = 4;
             }
             super.onPageFinished(view, url);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            mHintText.setText("Fehler beim Laden der Homepage");
+            super.onReceivedError(view, errorCode, description, failingUrl);
         }
     }
     private class VoteOnClickListener implements View.OnClickListener {
@@ -243,7 +252,7 @@ public class VoteFragment extends Fragment {
                 mImageView.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.VISIBLE);
                 mWebView.loadUrl("javascript:(function(){document.getElementById('recaptcha_response_field').value = '" + mCaptchaField.getText() + "';" +
-                        "document.getElementsByName('mcname')[0].value = '" + mNameField.getText() + "';" +
+                        "document.getElementsByName('minecraftname')[0].value = '" + mNameField.getText() + "';" +
                         "document.forms[1].submit();})()");
                 mWebpageState = 3;
             }
@@ -263,16 +272,15 @@ public class VoteFragment extends Fragment {
         }
 
         @JavascriptInterface
-        public void error() {
-            mImageView.setImageResource(R.drawable.ic_link_ban);
-            mHintText.setText("Captcha-Bild konnte nicht geladen werden");
-            //Toast.makeText(mContext, "Captcha-Bild konnte nicht geladen werden", Toast.LENGTH_SHORT).show();
-        }
-
-        @JavascriptInterface
         public void showText(String text) {
             //Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
-            mHintText.setText(text);
+            final String toastText = text;
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mHintText.setText(toastText);
+                }
+            });
         }
 
     }

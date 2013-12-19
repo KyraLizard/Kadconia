@@ -21,7 +21,7 @@
     <string name="pref_konto_token_key">konto_token</string>
     <string name="pref_konto_token_summary">Konto-Token zum Anzeigen der Kontoauszüge</string>
     <string name="pref_konto_token_default"></string>
-    <string name="pref_player_list_key">player_list</string>
+    <string name="pref_player_list_key">player_list_1</string>
 
     <string name="error_no_internet">Keine Internetverbindung</string>
 
@@ -63,6 +63,12 @@
         <item>Server 3</item>
     </string-array>
 
+    <string-array name="player_server_url">
+        <item>http://map.kadcon.de</item>
+        <item>http://map2.kadcon.de</item>
+        <item>http://map3.kadcon.de</item>
+    </string-array>
+
     <string-array name="kontakt">
         <item>Mark Atzmüller</item>
         <item>mark.atzmueller@gmx.de</item>
@@ -84,6 +90,5 @@
     <color name="nav_element">#ff58585a</color>
     <color name="nav_divider_group">#ff454547</color>
     <color name="nav_divider_child">#ff626365</color>
-    <color name="nav_text">#dddddd</color>
     
 </resources>

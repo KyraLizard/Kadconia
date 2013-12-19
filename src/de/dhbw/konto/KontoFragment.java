@@ -39,7 +39,8 @@ public class KontoFragment extends Fragment {
         List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getAllKontoEintraege(new DataBaseHelper(mContext).getReadableDatabase());
         listView.setAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, kontoeintragList));
 
-        return inflater.inflate(R.layout.fragment_konto, container, false);
+        return view;
+        //return inflater.inflate(R.layout.fragment_konto, container, false);
     }
 
     private class CustomKontoAdapter extends ArrayAdapter<Kontoeintrag> {
@@ -54,14 +55,19 @@ public class KontoFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            /*LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.fragment_konto_element, null);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
 
-            TextView textView = (TextView) view.findViewById(R.id.konto_element_text);
-            textView.setText(String.valueOf(mKontoeintragList.get(position).getBetrag()));
+            TextView textView = (TextView) view.findViewById(android.R.id.text1);
+            textView.setText(String.valueOf(mKontoeintragList.get(position).getType() + ": " + mKontoeintragList.get(position).getBetrag()));
+            if (mKontoeintragList.get(position).getBetrag() >= 0)
+                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_konto_money,0,0,0);
+            else
+                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_konto_item,0,0,0);
+            textView.setCompoundDrawablePadding(10);
 
-            return view;*/
-            return super.getView(position, convertView, parent);
+            return view;
+            //return super.getView(position, convertView, parent);
         }
     }
 }

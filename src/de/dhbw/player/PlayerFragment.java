@@ -51,6 +51,12 @@ public class PlayerFragment extends Fragment {
     private ListView mListView;
     private WebView mWebView;
     private ProgressBar mProgressBar;
+    private int mServer;
+
+    public PlayerFragment(int server) {
+
+        mServer = server;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +72,7 @@ public class PlayerFragment extends Fragment {
 
         mListView = (ListView) view.findViewById(R.id.player_list);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        List<String> playerList = new ArrayList<String>(sharedPreferences.getStringSet(getString(R.string.pref_player_list_key), new HashSet<String>()));
+        List<String> playerList = new ArrayList<String>(sharedPreferences.getStringSet(getString(R.string.pref_player_list_key)+mServer, new HashSet<String>()));
         if (playerList.size() == 0)
         {
             List<String> defaultList = new ArrayList<String>();
@@ -116,7 +122,7 @@ public class PlayerFragment extends Fragment {
                 else
                 {
                     mProgressBar.setVisibility(View.VISIBLE);
-                    mWebView.loadUrl("http://map.kadcon.de");
+                    mWebView.loadUrl(getResources().getStringArray(R.array.player_server_url)[mServer]);
                 }
                 break;
         }
@@ -179,7 +185,7 @@ public class PlayerFragment extends Fragment {
             playerList.set(0, playerList.get(0) + "!" + (playerList.size()-1));
 
             Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
-            editor.putStringSet(getString(R.string.pref_player_list_key), new HashSet<String>(playerList));
+            editor.putStringSet(getString(R.string.pref_player_list_key)+mServer, new HashSet<String>(playerList));
             editor.commit();
 
             mWebView.loadUrl("");

@@ -27,5 +27,4 @@
     <style name="MyActionBar" parent="android:Widget.Holo.ActionBar">
         <item name="android:background">@color/nav_action_bar</item>
     </style>
-
 </resources>

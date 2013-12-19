@@ -73,7 +73,7 @@ public class NavigationActivity extends Activity {
         
         // Set the list's click listener
         mDrawerList.setOnGroupClickListener(new CustomOnGroupClickListener());
-        mDrawerList.setOnChildClickListener(new CustomkOnChildClickListener());
+        mDrawerList.setOnChildClickListener(new CustomOnChildClickListener());
 	
         getActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setHomeButtonEnabled(true);
@@ -127,9 +127,6 @@ public class NavigationActivity extends Activity {
                     case 2:
                         fragment = new KontoFragment();
                         break;
-                    case 3:
-                        fragment = new PlayerFragment();
-                        break;
                     case 4:
                         fragment = new InfoFragment(mNavigationTitles[i]);
                         break;
@@ -160,14 +157,14 @@ public class NavigationActivity extends Activity {
             }
         }
     }
-
-    private class CustomkOnChildClickListener implements ExpandableListView.OnChildClickListener {
+    private class CustomOnChildClickListener implements ExpandableListView.OnChildClickListener {
         @Override
         public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i2, long l) {
 
             if ((expandableListView.getExpandableListAdapter()).getGroup(i).equals(getString(R.string.nav_player_online)))
             {
-                Fragment fragment = new PlayerFragment();
+                Fragment fragment = new PlayerFragment(i2);
+
                 // Insert the fragment by replacing any existing fragment
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, fragment)
@@ -176,7 +173,7 @@ public class NavigationActivity extends Activity {
 
                 // Highlight the selected item, update the title, and close the drawer
                 //mDrawerList.setItemChecked(position, true);
-                setTitle(mNavigationTitles[i]);
+                setTitle(mContext.getResources().getStringArray(R.array.nav_elements_player_online)[i2]);
                 mDrawerLayout.closeDrawer(mDrawerList);
                 mDrawerList.setItemChecked(i, false);
                 return true;

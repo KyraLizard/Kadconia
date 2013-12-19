@@ -37,6 +37,18 @@ public class Kontoeintrag {
         this.newSaldo = newSaldo;
     }
 
+    public String toString() {
+        String string = "";
+        string += "Id: " + id + ", ";
+        string += "Date: " + date + ", ";
+        string += "UserKonto: " + userKontoName + ", ";
+        string += "Betrag: " + betrag + ", ";
+        string += "PartnerKonto: " + partnerKontoName + ", ";
+        string += "Typ: " + type + ", ";
+        string += "NewSaldo: " + newSaldo + ", ";
+        return string;
+    }
+
     public int getId() {
         return id;
     }

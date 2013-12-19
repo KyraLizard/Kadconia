@@ -46,9 +46,9 @@ public class DataBaseKontoEintraege implements DataBaseTable{
 
         //Testeinträge
         addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 20.0, "TestUser", "trade", 2013.14));
-        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 21.0, "TestUser", "trade", 2013.14));
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", -21.0, "TestUser", "trade", 2013.14));
         addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 22.0, "TestUser", "trade", 2013.14));
-        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 23.0, "TestUser", "trade", 2013.14));
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", -23.0, "TestUser", "trade", 2013.14));
 	}
 	
 	// link functions
@@ -72,7 +72,6 @@ public class DataBaseKontoEintraege implements DataBaseTable{
         String query = "SELECT * FROM " + TABLE_NAME;
 
         Cursor cursor = db.rawQuery(query, null);
-        Log.d("Test", String.valueOf(cursor.getCount()));
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
