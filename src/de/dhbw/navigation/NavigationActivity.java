@@ -125,7 +125,8 @@ public class NavigationActivity extends Activity {
                         fragment = new VoteFragment();
                         break;
                     case 2:
-                        fragment = new KontoFragment();
+                        //fragment = new KontoFragment();
+                        fragment = new TestFragment();
                         break;
                     case 4:
                         fragment = new InfoFragment(mNavigationTitles[i]);
