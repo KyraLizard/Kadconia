@@ -41,7 +41,7 @@ public class NavigationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_navigation);
 
-        ((ImageView)findViewById(android.R.id.home)).setPadding(7, 0, 11, 0);
+        //((ImageView)findViewById(android.R.id.home)).setPadding(7, 0, 11, 0);
 
         mContext = this;
 		
@@ -73,7 +73,7 @@ public class NavigationActivity extends Activity {
         
         // Set the list's click listener
         mDrawerList.setOnGroupClickListener(new CustomOnGroupClickListener());
-        mDrawerList.setOnChildClickListener(new CustomOnChildClickListener());
+        //mDrawerList.setOnChildClickListener(new CustomOnChildClickListener());
 	
         getActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setHomeButtonEnabled(true);
@@ -110,55 +110,51 @@ public class NavigationActivity extends Activity {
         @Override
         public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
 
-            if ((expandableListView.getExpandableListAdapter()).getGroup(i).equals(getString(R.string.nav_player_online)))
-                return false;
-            else
+            Fragment fragment = null;
+
+            switch (i)
             {
-                Fragment fragment = null;
-
-                switch (i)
-                {
-                    case 0:
-                        fragment = new ServerStatusFragment();
-                        break;
-                    case 1:
-                        fragment = new VoteFragment();
-                        break;
-                    case 2:
-                        //fragment = new KontoFragment();
-                        fragment = new TestFragment();
-                        break;
-                    case 4:
-                        fragment = new InfoFragment(mNavigationTitles[i]);
-                        break;
-                    case 5:
-                        fragment = new LinkFragment();
-                        break;
-                    case 6:
-                        Intent mIntent = new Intent(mContext, SettingsActivity.class);
-                        startActivity(mIntent);
-                        return true;
-                    default:
-                        fragment = new TestFragment();
-                        break;
-                }
-
-                // Insert the fragment by replacing any existing fragment
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .addToBackStack(null)
-                        .commit();
-
-                // Highlight the selected item, update the title, and close the drawer
-                //mDrawerList.setItemChecked(position, true);
-                setTitle(mNavigationTitles[i]);
-                mDrawerLayout.closeDrawer(mDrawerList);
-                mDrawerList.setItemChecked(i, false);
-                return true;
+                case 0:
+                    fragment = new ServerStatusFragment();
+                    break;
+                case 1:
+                    fragment = new VoteFragment();
+                    break;
+                case 2:
+                    fragment = new TestFragment();
+                    //fragment = new KontoFragment();
+                    break;
+                case 3:
+                    fragment = new InfoFragment(mNavigationTitles[i]);
+                    break;
+                case 4:
+                    fragment = new LinkFragment();
+                    break;
+                case 5:
+                    Intent mIntent = new Intent(mContext, SettingsActivity.class);
+                    startActivity(mIntent);
+                    return true;
+                default:
+                    fragment = new TestFragment();
+                    break;
             }
+
+            // Insert the fragment by replacing any existing fragment
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            // Highlight the selected item, update the title, and close the drawer
+            //mDrawerList.setItemChecked(position, true);
+            setTitle(mNavigationTitles[i]);
+            mDrawerLayout.closeDrawer(mDrawerList);
+            mDrawerList.setItemChecked(i, false);
+            return true;
         }
     }
-    private class CustomOnChildClickListener implements ExpandableListView.OnChildClickListener {
+
+    /*private class CustomOnChildClickListener implements ExpandableListView.OnChildClickListener {
         @Override
         public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i2, long l) {
 
@@ -182,7 +178,7 @@ public class NavigationActivity extends Activity {
             else
                 return false;
         }
-    }
+    }*/
 	
 	 @Override
     protected void onPostCreate(Bundle savedInstanceState) {
