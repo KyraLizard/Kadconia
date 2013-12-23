@@ -111,11 +111,6 @@ public class VoteFragment extends Fragment {
                 }
                 return handled;
             }
-
-            private void closeKeyboard() {
-                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mNameField.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-            }
         });
 
         mHintText = (TextView) mView.findViewById(R.id.vote_text_hint);
@@ -134,7 +129,12 @@ public class VoteFragment extends Fragment {
         return mView;
     }
 
-    public void reloadPage() {
+    private void closeKeyboard() {
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mNameField.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
+
+    private void reloadPage() {
 
         if (!isOnline())
         {
@@ -238,6 +238,8 @@ public class VoteFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
+
+            closeKeyboard();
             if (submitButtonLock)
                 Toast.makeText(mContext, "Das Bild ist noch nicht geladen", Toast.LENGTH_SHORT).show();
             else {
