@@ -39,10 +39,8 @@ public class ServerIpFragment extends ListFragment{
         mContext = getActivity();
 
         //View view = inflater.inflate(R.layout.fragment_serverstatus_element, null);
-        SQLiteDatabase mDataBase = (new DataBaseHelper(mContext)).getReadableDatabase();
-        DataBaseServer mDataBaseServer = new DataBaseServer();
 
-        List<Server> serverList = mDataBaseServer.getAllServer(mDataBase);
+        List<Server> serverList = (new DataBaseServer()).getAllServer(mContext);
         List<String> serverNameList = new ArrayList<String>();
         for (Server server : serverList)
         {

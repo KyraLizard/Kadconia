@@ -38,10 +38,7 @@ public class InfoFragment extends Fragment{
 		View view = inflater.inflate(R.layout.fragment_info, null);
         mContext = getActivity();
 
-        SQLiteDatabase mDataBase = (new DataBaseHelper(mContext)).getReadableDatabase();
-        DataBaseInfos mDataBaseInfos = new DataBaseInfos();
-
-		mInfoList = mDataBaseInfos.getAllInfos(mDataBase);
+		mInfoList = (new DataBaseInfos()).getAllInfos(mContext);
 
 		GridView mGridView = (GridView) view.findViewById(R.id.info_layout);
 		mGridView.setAdapter(new InfoAdapter(mInfoList));
