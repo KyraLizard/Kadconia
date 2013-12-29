@@ -23,12 +23,14 @@ public class DataBaseKontoEintraege implements DataBaseTable{
         private static final String KEY_PARTNERKONTO = "partnerkonto";
         private static final String KEY_TYPE = "type";
         private static final String KEY_NEWSALDO = "newsaldo";
+        private static final String KEY_SERVER = "server";
+        private static final String KEY_ITEM = "item";
 
 	// create table query
 	    private static final String CREATE_TABLE_KONTO_QUERY = "CREATE TABLE " + TABLE_NAME + "("
 	            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_DATE + " INTEGER," + KEY_USERKONTO + " TEXT,"
 	            + KEY_BETRAG + " REAL," + KEY_PARTNERKONTO + " TEXT," + KEY_TYPE + " TEXT,"
-                + KEY_NEWSALDO + " REAL" + ");";
+                + KEY_NEWSALDO + " REAL," + KEY_SERVER + " TEXT," + KEY_ITEM + " TEXT" +");";
 
 	public String getTableName() {
 		return TABLE_NAME;
@@ -45,15 +47,15 @@ public class DataBaseKontoEintraege implements DataBaseTable{
 	public void initTable (SQLiteDatabase db) {
 
         //Testeinträge
-        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 20.0, "TestUser", "trade", 2013.14));
-        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", -21.0, "TestUser", "trade", 2013.14));
-        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 22.0, "TestUser", "trade", 2013.14));
-        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", -23.0, "TestUser", "trade", 2013.14));
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 20.0, "TestUser", "trade", "", "Server 1", 2013.14));
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", -21.0, "TestUser", "trade", "", "Server 1", 2013.14));
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", 22.0, "TestUser", "trade", "", "Server 1", 2013.14));
+        addKontoEintrag(db, new Kontoeintrag(System.currentTimeMillis(), "Vettel1", -23.0, "TestUser", "trade", "", "Server 1", 2013.14));
 	}
 	
 	// link functions
-	
-	private void addKontoEintrag(SQLiteDatabase db, Kontoeintrag mKontoeintrag) {
+
+    public void addKontoEintrag(SQLiteDatabase db, Kontoeintrag mKontoeintrag) {
 		
 		ContentValues mContentValues = new ContentValues();
 		mContentValues.put(KEY_DATE, mKontoeintrag.getDate());
@@ -62,6 +64,8 @@ public class DataBaseKontoEintraege implements DataBaseTable{
         mContentValues.put(KEY_PARTNERKONTO, mKontoeintrag.getPartnerKontoName());
         mContentValues.put(KEY_TYPE, mKontoeintrag.getType());
         mContentValues.put(KEY_NEWSALDO, mKontoeintrag.getNewSaldo());
+        mContentValues.put(KEY_SERVER, mKontoeintrag.getServer());
+        mContentValues.put(KEY_ITEM, mKontoeintrag.getItem());
 		
 		db.insert(TABLE_NAME, null, mContentValues);
 	}
@@ -83,6 +87,8 @@ public class DataBaseKontoEintraege implements DataBaseTable{
                 mKontoeintrag.setPartnerKontoName(cursor.getString(cursor.getColumnIndex(KEY_PARTNERKONTO)));
                 mKontoeintrag.setType(cursor.getString(cursor.getColumnIndex(KEY_TYPE)));
                 mKontoeintrag.setNewSaldo(cursor.getFloat(cursor.getColumnIndex(KEY_NEWSALDO)));
+                mKontoeintrag.setServer(cursor.getString(cursor.getColumnIndex(KEY_SERVER)));
+                mKontoeintrag.setItem(cursor.getString(cursor.getColumnIndex(KEY_ITEM)));
 
                 // Adding workout to list
                 mKontoList.add(mKontoeintrag);

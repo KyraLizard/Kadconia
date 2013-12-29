@@ -48,7 +48,29 @@ public class ServerStatusFragment extends ListFragment {
 
         //setList();
         //setListAdapter(null);
-        (new RefreshListTask()).execute();
+        //(new RefreshListTask()).execute();
+        List<String> listNames = new ArrayList<String>();
+        List<Object> listObjects = new ArrayList<Object>();
+        SQLiteDatabase mDataBase = (new DataBaseHelper(mContext)).getReadableDatabase();
+        DataBaseServer mDataBaseServer = new DataBaseServer();
+
+        if (!isOnline())
+            Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
+
+        for (String owner : mDataBaseServer.getOwners(mDataBase))
+        {
+            String ownerName = Character.toUpperCase(owner.charAt(0)) + owner.substring(1);
+            listNames.add(Character.toUpperCase(ownerName.charAt(0)) + ownerName.substring(1));
+            listObjects.add(ownerName);
+            for (Server server : mDataBaseServer.getAllServerByOwner(mDataBase, owner))
+            {
+                server.setOnline(checkOnline(server));
+                listNames.add(server.getName());
+                listObjects.add(server);
+            }
+        }
+
+        setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, listNames, listObjects));
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }

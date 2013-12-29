@@ -13,12 +13,14 @@ public class Kontoeintrag {
     private double betrag;
     private String partnerKontoName;
     private String type;
+    private String item;
+    private String server;
     private double newSaldo;
 
     public Kontoeintrag() {
     }
 
-    public Kontoeintrag(int id, long date, String userKontoName, double betrag, String partnerKontoName, String type, double newSaldo) {
+    public Kontoeintrag(int id, long date, String userKontoName, double betrag, String partnerKontoName, String type, String item, String server, double newSaldo) {
         this.id = id;
         this.date = date;
         this.userKontoName = userKontoName;
@@ -26,15 +28,19 @@ public class Kontoeintrag {
         this.partnerKontoName = partnerKontoName;
         this.type = type;
         this.newSaldo = newSaldo;
+        this.server = server;
+        this.item = item;
     }
 
-    public Kontoeintrag(long date, String userKontoName, double betrag, String partnerKontoName, String type, double newSaldo) {
+    public Kontoeintrag(long date, String userKontoName, double betrag, String partnerKontoName, String type, String item, String server, double newSaldo) {
         this.date = date;
         this.userKontoName = userKontoName;
         this.betrag = betrag;
         this.partnerKontoName = partnerKontoName;
         this.type = type;
         this.newSaldo = newSaldo;
+        this.server = server;
+        this.item = item;
     }
 
     public String toString() {
@@ -45,7 +51,10 @@ public class Kontoeintrag {
         string += "Betrag: " + betrag + ", ";
         string += "PartnerKonto: " + partnerKontoName + ", ";
         string += "Typ: " + type + ", ";
-        string += "NewSaldo: " + newSaldo + ", ";
+        string += "Item: " + item + ", ";
+        string += "Server: " + server + ", ";
+        string += "NewSaldo: " + newSaldo;
+
         return string;
     }
 
@@ -111,5 +120,21 @@ public class Kontoeintrag {
 
     public void setNewSaldo(double newSaldo) {
         this.newSaldo = newSaldo;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
+    }
+
+    public String getItem() {
+        return item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
     }
 }
