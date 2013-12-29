@@ -1,6 +1,7 @@
 package de.dhbw.database;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -44,8 +45,18 @@ public class DataBaseLinks implements DataBaseTable{
         addLink(db, new Link("Youtube", "http://m.youtube.com/user/kadconDE", "ic_link_youtube"));
         addLink(db, new Link("Twitter\n(Kademlia)", "https://mobile.twitter.com/Kademlias", "ic_link_twitter"));
 	}
-	
-	// link functions
+
+    @Override
+    public SQLiteDatabase getReadableDatabase(Context context) {
+        return (new DataBaseHelper(context)).getReadableDatabase();
+    }
+
+    @Override
+    public SQLiteDatabase getWritableDatabase(Context context) {
+        return (new DataBaseHelper(context)).getWritableDatabase();
+    }
+
+    // link functions
 	
 	private void addLink(SQLiteDatabase db, Link mLink) {
 		
@@ -57,8 +68,16 @@ public class DataBaseLinks implements DataBaseTable{
 		db.insert(TABLE_NAME, null, mContentValues);
 	}
 
-    public List<Link> getAllLinks(SQLiteDatabase db)
+    private void addLink(Context context, Link mLink) {
+
+        SQLiteDatabase db = getWritableDatabase(context);
+        addLink(db, mLink);
+        db.close();
+    }
+
+    public List<Link> getAllLinks(Context context)
     {
+        SQLiteDatabase db = getReadableDatabase(context);
         List<Link> mLinkList = new ArrayList<Link>();
         String query = "SELECT * FROM " + TABLE_NAME;
 
@@ -76,6 +95,8 @@ public class DataBaseLinks implements DataBaseTable{
                 mLinkList.add(mLink);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return mLinkList;
     }
 		

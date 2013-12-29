@@ -188,11 +188,10 @@ public class PlayerFragment extends Fragment {
             editor.putStringSet(getString(R.string.pref_player_list_key)+mServer, new HashSet<String>(playerList));
             editor.commit();
 
-            mWebView.loadUrl("");
-
             //noinspection ConstantConditions
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
+                    mWebView.loadUrl("");
                     for (String element : playerList)
                         if (element.contains("!"))
                         {

@@ -1,6 +1,7 @@
 package de.dhbw.database;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -56,6 +57,16 @@ public class DataBaseServer implements DataBaseTable{
         addServer(db, new Server("Sessionserver", "mojang", "sessionserver.mojang.com", 443));
     }
 
+    @Override
+    public SQLiteDatabase getReadableDatabase(Context context) {
+        return (new DataBaseHelper(context)).getReadableDatabase();
+    }
+
+    @Override
+    public SQLiteDatabase getWritableDatabase(Context context) {
+        return (new DataBaseHelper(context)).getWritableDatabase();
+    }
+
 
     // server functions
 
@@ -70,8 +81,16 @@ public class DataBaseServer implements DataBaseTable{
         db.insert(TABLE_NAME, null, mContentValues);
     }
 
-    public List<Server> getAllServer(SQLiteDatabase db)
+    private void addServer(Context context, Server mServer) {
+
+        SQLiteDatabase db = getWritableDatabase(context);
+        addServer(db, mServer);
+        db.close();
+    }
+
+    public List<Server> getAllServer(Context context)
     {
+        SQLiteDatabase db = getReadableDatabase(context);
         List<Server> mServerList = new ArrayList<Server>();
         String query = "SELECT * FROM " + TABLE_NAME;
 
@@ -90,11 +109,14 @@ public class DataBaseServer implements DataBaseTable{
                 mServerList.add(mServer);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return mServerList;
     }
 
-    public List<Server> getAllServerByOwner(SQLiteDatabase db, String owner)
+    public List<Server> getAllServerByOwner(Context context, String owner)
     {
+        SQLiteDatabase db = getReadableDatabase(context);
         List<Server> mServerList = new ArrayList<Server>();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_OWNER + "='" + owner + "'";
 
@@ -113,11 +135,14 @@ public class DataBaseServer implements DataBaseTable{
                 mServerList.add(mServer);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return mServerList;
     }
 
-    public List<String> getOwners(SQLiteDatabase db)
+    public List<String> getOwners(Context context)
     {
+        SQLiteDatabase db = getReadableDatabase(context);
         List<String> mOwnerList = new ArrayList<String>();
         String query = "SELECT DISTINCT " + KEY_OWNER + " FROM " + TABLE_NAME;
 
@@ -128,7 +153,8 @@ public class DataBaseServer implements DataBaseTable{
                 mOwnerList.add(cursor.getString(cursor.getColumnIndex(KEY_OWNER)));
             } while (cursor.moveToNext());
         }
-
+        cursor.close();
+        db.close();
         return mOwnerList;
     }
 }

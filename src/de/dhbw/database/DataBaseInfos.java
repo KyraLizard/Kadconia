@@ -1,6 +1,7 @@
 package de.dhbw.database;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -40,20 +41,38 @@ public class DataBaseInfos implements DataBaseTable{
         addInfo(db, new Info("Liste\nMods/Admins", "ic_info_admins"));
         addInfo(db, new Info("Kontakt", "ic_info_kontakt"));
 	}
+
+    @Override
+    public SQLiteDatabase getReadableDatabase(Context context) {
+        return (new DataBaseHelper(context)).getReadableDatabase();
+    }
+
+    @Override
+    public SQLiteDatabase getWritableDatabase(Context context) {
+        return (new DataBaseHelper(context)).getWritableDatabase();
+    }
 	
-	// link functions
-	
-	private void addInfo(SQLiteDatabase db, Info mInfo) {
-		
-		ContentValues mContentValues = new ContentValues();
-		mContentValues.put(KEY_NAME, mInfo.getName());
-		mContentValues.put(KEY_IMAGE, mInfo.getImage());
-		
-		db.insert(TABLE_NAME, null, mContentValues);
+	// info functions
+
+    private void addInfo(SQLiteDatabase db, Info mInfo) {
+
+        ContentValues mContentValues = new ContentValues();
+        mContentValues.put(KEY_NAME, mInfo.getName());
+        mContentValues.put(KEY_IMAGE, mInfo.getImage());
+
+        db.insert(TABLE_NAME, null, mContentValues);
+    }
+
+	private void addInfo(Context context, Info mInfo) {
+
+        SQLiteDatabase db = getWritableDatabase(context);
+        addInfo(db, mInfo);
+        db.close();
 	}
 
-    public List<Info> getAllInfos(SQLiteDatabase db)
+    public List<Info> getAllInfos(Context context)
     {
+        SQLiteDatabase db = getReadableDatabase(context);
         List<Info> mInfoList = new ArrayList<Info>();
         String query = "SELECT * FROM " + TABLE_NAME;
 
@@ -70,6 +89,8 @@ public class DataBaseInfos implements DataBaseTable{
                 mInfoList.add(mInfo);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return mInfoList;
     }
 		

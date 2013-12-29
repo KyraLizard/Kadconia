@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,6 +73,9 @@ public class KontoFragment extends Fragment {
     private Context mContext;
     private WebView mWebView;
 
+    private int currentPage = 0;
+    private boolean isUpToDate = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -86,7 +90,7 @@ public class KontoFragment extends Fragment {
         mWebView.addJavascriptInterface(new WebAppInterface(), "WebApp");
 
         ListView listView = (ListView) view.findViewById(R.id.konto_list);
-        List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getAllKontoEintraege(new DataBaseHelper(mContext).getReadableDatabase());
+        List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getAllKontoEintraege(mContext);
         listView.setAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, kontoeintragList));
 
         return view;
@@ -116,11 +120,13 @@ public class KontoFragment extends Fragment {
 
         //TODO: Remove; Just for debugging
         //String token = PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_token_key), "error");
-        String token = "b38eac06f56188a4";
+        String token = "b38eac06f56188a4";  //b38eac06f56188a4
+        isUpToDate = false;
+        currentPage = 0;
         if (token.equals("error"))
             Toast.makeText(mContext, "Bitte gib dein Konto-Token in den Einstellungen ein.", Toast.LENGTH_LONG).show();
         else
-            mWebView.loadUrl("bank.kadcon.de/?token="+token);
+            mWebView.loadUrl("http://bank.kadcon.de/?token="+token);
     }
 
     @Override
@@ -143,20 +149,22 @@ public class KontoFragment extends Fragment {
 
     private class CustomWebViewClient extends WebViewClient {
 
-        private int currentPage = 0;
-        private boolean isUpToDate = false;
-
         @Override
         public void onPageFinished(WebView view, String url) {
 
             Log.d("Test", "OnPageFinished, URL: " + url);
             if (!url.contains("limit"))
-                view.loadUrl("http://bank.kadcon.de/index.php?limit=250");
+            {
+                if (url.contains("login"))
+                    Toast.makeText(mContext, "Token ungültig.", Toast.LENGTH_SHORT).show();
+                else
+                    view.loadUrl("http://bank.kadcon.de/index.php?limit=250");
+            }
             else
             {
                 view.loadUrl("javascript:(function(){if (document.getElementsByClassName('Box Title Error')[0] != undefined)" +
                         "{" +
-                        "WebApp.showToast('Error');" +
+                        "WebApp.error();" +
                         "}" +
                         "else" +
                         "{" +
@@ -175,39 +183,60 @@ public class KontoFragment extends Fragment {
                         "finalArray[i][7] = rawElements[i].children[8].innerText;" +
                         "finalArray[i][8] = rawElements[i].children[9].innerText;" +
                         "}" +
-                        "WebApp.addKontoeinträgeFromJSON(JSON.stringify(finalArray));" +
+                        "WebApp.addKontoeintraegeFromJSON(JSON.stringify(finalArray));" +
                         "}})()");
             }
             super.onPageFinished(view, url);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            Toast.makeText(mContext, "Fehler beim Laden der Website", Toast.LENGTH_SHORT).show();
+            super.onReceivedError(view, errorCode, description, failingUrl);
         }
     }
 
     private class WebAppInterface {
 
         @JavascriptInterface
-        public void showToast(String text) {
-            Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
+        public void error() {
+            Toast.makeText(mContext, "Daten sind aktuell.", Toast.LENGTH_SHORT).show();
         }
 
         @JavascriptInterface
-        public void addKontoeinträgeFromJSON(String kontoeinträgeArray) throws ParseException {
+        public void addKontoeintraegeFromJSON(String kontoeintraegeArray) throws ParseException {
 
-            Log.d("Test", "JSON");
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<ArrayList<String>>>(){}.getType();
-            ArrayList<ArrayList<String>> kontoeinträgeList = new ArrayList<ArrayList<String>>();
-            SQLiteDatabase db = (new DataBaseHelper(mContext)).getWritableDatabase();
             DataBaseKontoEintraege dbKonto = new DataBaseKontoEintraege();
-            for (ArrayList<String> kontoeintrag : (ArrayList<ArrayList<String>>) gson.fromJson(kontoeinträgeArray, type))
+            for (ArrayList<String> kontoeintrag : (ArrayList<ArrayList<String>>) gson.fromJson(kontoeintraegeArray, type))
             {
-                SimpleDateFormat dt = new SimpleDateFormat();
                 long date = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(kontoeintrag.get(0)).getTime();
-                long betrag = Long.parseLong(kontoeintrag.get(3));
+                double betrag = Double.parseDouble(kontoeintrag.get(3));
                 if (kontoeintrag.get(2).equals("negative"))
                     betrag *= -1;
-                double newSaldo = Double.parseDouble(kontoeintrag.get(7));
-                dbKonto.addKontoEintrag(db, new Kontoeintrag(date, kontoeintrag.get(1),
-                            betrag, kontoeintrag.get(3), kontoeintrag.get(4), kontoeintrag.get(5), kontoeintrag.get(6), newSaldo));
+                double newSaldo = Double.parseDouble(kontoeintrag.get(8));
+                Kontoeintrag newEintrag = new Kontoeintrag(date, kontoeintrag.get(1),
+                        betrag, kontoeintrag.get(4), kontoeintrag.get(5), kontoeintrag.get(6), kontoeintrag.get(7), newSaldo);
+                if (dbKonto.isKontoeintragInDatabase(mContext, newEintrag))
+                {
+                    isUpToDate = true;
+                    Toast.makeText(mContext, "Alle Daten ausgelesen", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                else
+                    dbKonto.addKontoEintrag(mContext, newEintrag);
+            }
+            if (!isUpToDate)
+            {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("Test", "Not UpToDate, Page " + currentPage);
+                        mWebView.loadUrl("http://bank.kadcon.de/index.php?limit=250&last_limit_start=" + currentPage*250 + "&next_page=true");
+                        currentPage++;
+                    }
+                });
             }
         }
     }
@@ -228,7 +257,8 @@ public class KontoFragment extends Fragment {
             View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
 
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
-            textView.setText(String.valueOf(mKontoeintragList.get(position).getType() + ": " + mKontoeintragList.get(position).getBetrag()));
+            DecimalFormat df = new DecimalFormat("#0.00");
+            textView.setText(String.valueOf(mKontoeintragList.get(position).getType() + ": " + df.format(mKontoeintragList.get(position).getBetrag())));
             if (mKontoeintragList.get(position).getBetrag() >= 0)
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_konto_money,0,0,0);
             else
