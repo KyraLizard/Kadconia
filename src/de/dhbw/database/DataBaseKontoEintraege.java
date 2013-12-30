@@ -118,8 +118,8 @@ public class DataBaseKontoEintraege implements DataBaseTable{
     {
         if (count < 1)
             throw new IllegalArgumentException("Ungültige Anzahl angeforderter Kontoeinträge!");
-        if (page < 1 || page > getKontoEintraegeCount(context))
-            throw new IllegalArgumentException("Ungültige Seite! (Angefordert: "+page+", Erlaubt: 1-"+getKontoEintraegeCount(context)+")");
+        if (page < 1 || page > getKontoEintraegeCount(context) / count + 1)
+            throw new IllegalArgumentException("Ungültige Seite! (Angefordert: "+page+", Erlaubt: 1-"+(getKontoEintraegeCount(context)/count+1)+")");
 
         SQLiteDatabase db = getReadableDatabase(context);
         List<Kontoeintrag> mKontoList = new ArrayList<Kontoeintrag>();

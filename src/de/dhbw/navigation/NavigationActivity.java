@@ -3,15 +3,17 @@ package de.dhbw.navigation;
 import de.dhbw.infos.InfoFragment;
 import de.dhbw.konto.KontoFragment;
 import de.dhbw.links.LinkFragment;
-import de.dhbw.player.PlayerFragment;
 import de.dhbw.serverstatus.ServerStatusFragment;
 import de.dhbw.settings.SettingsActivity;
 import de.dhbw.vote.VoteFragment;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -20,12 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.ListView;
 
 public class NavigationActivity extends Activity {
 
@@ -140,10 +137,11 @@ public class NavigationActivity extends Activity {
             }
 
             // Insert the fragment by replacing any existing fragment
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .addToBackStack(null)
-                    .commit();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            if (getFragmentManager().findFragmentById(R.id.content_frame) != null)  //Prevents empty activity window from being added to BackStack
+                ft.addToBackStack(getActionBar().getTitle().toString());
+            ft.commit();
 
             // Highlight the selected item, update the title, and close the drawer
             //mDrawerList.setItemChecked(position, true);
@@ -179,8 +177,17 @@ public class NavigationActivity extends Activity {
                 return false;
         }
     }*/
-	
-	 @Override
+
+    @Override
+    public void onBackPressed() {
+
+        int backStackCount = getFragmentManager().getBackStackEntryCount();
+        if (backStackCount >= 1)
+            getActionBar().setTitle(getFragmentManager().getBackStackEntryAt(backStackCount-1).getName());
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
