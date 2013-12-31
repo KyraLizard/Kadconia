@@ -1,5 +1,6 @@
 package de.dhbw.serverstatus;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,9 +38,7 @@ import de.dhbw.navigation.R;
 public class ServerStatusFragment extends ListFragment {
 
     private Context mContext;
-
-    public ServerStatusFragment() {
-    }
+    private ProgressBar mProgressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,32 +46,14 @@ public class ServerStatusFragment extends ListFragment {
         mContext = getActivity();
         setHasOptionsMenu(true);
 
-        //setList();
-        //setListAdapter(null);
-        //(new RefreshListTask()).execute();
-        List<String> listNames = new ArrayList<String>();
-        List<Object> listObjects = new ArrayList<Object>();
-        DataBaseServer mDataBaseServer = new DataBaseServer();
+        View view = inflater.inflate(R.layout.fragment_serverstatus, null);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.serverstatus_progress);
 
-        if (!isOnline())
-            Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
+        mProgressBar.setVisibility(View.VISIBLE);
+        (new RefreshListTask()).execute();
 
-        for (String owner : mDataBaseServer.getOwners(mContext))
-        {
-            String ownerName = Character.toUpperCase(owner.charAt(0)) + owner.substring(1);
-            listNames.add(Character.toUpperCase(ownerName.charAt(0)) + ownerName.substring(1));
-            listObjects.add(ownerName);
-            for (Server server : mDataBaseServer.getAllServerByOwner(mContext, owner))
-            {
-                server.setOnline(checkOnline(server));
-                listNames.add(server.getName());
-                listObjects.add(server);
-            }
-        }
-
-        setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, listNames, listObjects));
-
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
+        //return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -86,7 +68,7 @@ public class ServerStatusFragment extends ListFragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                setListShown(false);
+                mProgressBar.setVisibility(View.VISIBLE);
                 (new RefreshListTask()).execute();
                 break;
         }
@@ -170,6 +152,7 @@ public class ServerStatusFragment extends ListFragment {
         protected Object doInBackground(Object[] objects) {
 
             DataBaseServer mDataBaseServer = new DataBaseServer();
+            int serverCount = mDataBaseServer.getServerCount(mContext);
 
             if (!isOnline())
                 Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
@@ -184,6 +167,7 @@ public class ServerStatusFragment extends ListFragment {
                     server.setOnline(checkOnline(server));
                     listNames.add(server.getName());
                     listObjects.add(server);
+                    mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
                 }
             }
             publishProgress();
@@ -194,7 +178,8 @@ public class ServerStatusFragment extends ListFragment {
         protected void onProgressUpdate(Object[] values) {
 
             setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, listNames, listObjects));
-            setListShown(true);
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mProgressBar.setProgress(0);
             super.onProgressUpdate(values);
         }
     }

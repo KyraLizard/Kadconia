@@ -131,7 +131,7 @@ public class DataBaseKontoEintraege implements DataBaseTable{
             do {
                 Kontoeintrag mKontoeintrag = new Kontoeintrag();
                 mKontoeintrag.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
-                mKontoeintrag.setDate(cursor.getInt(cursor.getColumnIndex(KEY_DATE)));
+                mKontoeintrag.setDate(cursor.getLong(cursor.getColumnIndex(KEY_DATE)));
                 mKontoeintrag.setUserKontoName(cursor.getString(cursor.getColumnIndex(KEY_USERKONTO)));
                 mKontoeintrag.setBetrag(cursor.getFloat(cursor.getColumnIndex(KEY_BETRAG)));
                 mKontoeintrag.setPartnerKontoName(cursor.getString(cursor.getColumnIndex(KEY_PARTNERKONTO)));

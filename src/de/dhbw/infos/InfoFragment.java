@@ -1,5 +1,6 @@
 package de.dhbw.infos;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -49,7 +50,7 @@ public class InfoFragment extends Fragment{
 
     @Override
     public void onResume() {
-        getActivity().setTitle(mTitle);
+        //((Activity) mContext).getActionBar().setTitle(mTitle);
         super.onResume();
     }
 
@@ -127,18 +128,14 @@ public class InfoFragment extends Fragment{
                         break;
                 }
 
-                for (Info info : mInfoList)
-                {
-                    if (info.getId() == id)
-                    {
-                        getActivity().setTitle(info.getName());
-                    }
-                }
-
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.addToBackStack(((Activity) mContext).getActionBar().getTitle().toString());
                 fragmentTransaction.commit();
+
+                for (Info info : mInfoList)
+                    if (info.getId() == id)
+                        ((Activity) mContext).getActionBar().setTitle(info.getName());
             }
 
             private void switchToFragment (int id)

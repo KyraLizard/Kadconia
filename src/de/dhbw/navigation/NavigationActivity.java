@@ -7,18 +7,16 @@ import de.dhbw.serverstatus.ServerStatusFragment;
 import de.dhbw.settings.SettingsActivity;
 import de.dhbw.vote.VoteFragment;
 
-import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +36,7 @@ public class NavigationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_navigation);
 
-        //((ImageView)findViewById(android.R.id.home)).setPadding(7, 0, 11, 0);
+        findViewById(android.R.id.home).setPadding(7, 0, 11, 0);
 
         mContext = this;
 		
@@ -145,7 +143,7 @@ public class NavigationActivity extends Activity {
 
             // Highlight the selected item, update the title, and close the drawer
             //mDrawerList.setItemChecked(position, true);
-            setTitle(mNavigationTitles[i]);
+            getActionBar().setTitle(mNavigationTitles[i]);
             mDrawerLayout.closeDrawer(mDrawerList);
             mDrawerList.setItemChecked(i, false);
             return true;

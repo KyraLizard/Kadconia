@@ -157,4 +157,15 @@ public class DataBaseServer implements DataBaseTable{
         db.close();
         return mOwnerList;
     }
+
+    public int getServerCount(Context context)
+    {
+        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db = getReadableDatabase(context);
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count;
+    }
 }

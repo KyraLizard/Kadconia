@@ -5,9 +5,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dhbw.database.DataBaseHelper;
 import de.dhbw.database.DataBaseKontoEintraege;
 import de.dhbw.database.Kontoeintrag;
 import de.dhbw.navigation.R;
@@ -43,32 +40,6 @@ import de.dhbw.navigation.R;
  * Created by Mark on 05.12.13.
  */
 
-/* Javascript Code zum Auslesen
-
-    if (document.getElementsByClassName('Box Title Error')[0] != undefined)
-{
-	console.log("Error");
-}
-else
-{
-	var rawElements = document.getElementsByClassName('hover');
-	var finalArray = new Array(rawElements.length);
-	for (var i=0; i<rawElements.length; i++)
-	{
-		finalArray[i] = new Array(rawElements[i].children.length-1);
-		finalArray[i][0] = rawElements[i].children[0].innerText;
-		finalArray[i][1] = rawElements[i].children[1].innerText;
-		finalArray[i][2] = rawElements[i].children[2].className;
-		finalArray[i][3] = rawElements[i].children[3].innerText.replace(',','.');
-		finalArray[i][4] = rawElements[i].children[5].innerText;
-		finalArray[i][5] = rawElements[i].children[6].innerText;
-		finalArray[i][6] = rawElements[i].children[7].innerText;
-		finalArray[i][7] = rawElements[i].children[8].innerText;
-		finalArray[i][8] = rawElements[i].children[9].innerText;
-	}
-	console.log(JSON.stringify(finalArray));
-}
- */
 public class KontoFragment extends Fragment {
 
     public static final int LIST_ELEMENTS_PER_PAGE = 100;
@@ -248,6 +219,7 @@ public class KontoFragment extends Fragment {
         @JavascriptInterface
         public void error() {
             Toast.makeText(mContext, "Daten sind aktuell.", Toast.LENGTH_SHORT).show();
+            refreshList();
         }
 
         @JavascriptInterface
@@ -283,7 +255,7 @@ public class KontoFragment extends Fragment {
                     public void run() {
                         Log.d("Test", "Not UpToDate, Page " + loadedPage);
                         //TODO: Remove next if, just for debugging
-                        if (loadedPage > 4)
+                        if (loadedPage > 2)
                         {
                             loadedPage = 1;
                             Log.d("Test", "Debug Target");
@@ -313,7 +285,8 @@ public class KontoFragment extends Fragment {
 
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
             DecimalFormat df = new DecimalFormat("#0.00");
-            textView.setText(String.valueOf(mKontoeintragList.get(position).getType() + ": " + df.format(mKontoeintragList.get(position).getBetrag())));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
+            textView.setText(sdf.format(mKontoeintragList.get(position).getDate()) + "\n" + String.valueOf(mKontoeintragList.get(position).getType() + ": " + df.format(mKontoeintragList.get(position).getBetrag())));
             if (mKontoeintragList.get(position).getBetrag() >= 0)
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_konto_money,0,0,0);
             else
