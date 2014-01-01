@@ -123,7 +123,7 @@ public class DataBaseKontoEintraege implements DataBaseTable{
 
         SQLiteDatabase db = getReadableDatabase(context);
         List<Kontoeintrag> mKontoList = new ArrayList<Kontoeintrag>();
-        String query = "SELECT * FROM " + TABLE_NAME + " LIMIT " + count + " OFFSET " + (page-1)*count;
+        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + KEY_DATE + " DESC" + " LIMIT " + count + " OFFSET " + (page-1)*count;
 
         Cursor cursor = db.rawQuery(query, null);
         // looping through all rows and adding to list
@@ -153,7 +153,7 @@ public class DataBaseKontoEintraege implements DataBaseTable{
     {
         SQLiteDatabase db = getReadableDatabase(context);
         List<Kontoeintrag> mKontoList = new ArrayList<Kontoeintrag>();
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + KEY_DATE + " DESC";
 
         Cursor cursor = db.rawQuery(query, null);
         // looping through all rows and adding to list
