@@ -155,7 +155,14 @@ public class ServerStatusFragment extends ListFragment {
             int serverCount = mDataBaseServer.getServerCount(mContext);
 
             if (!isOnline())
-                Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
+            {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
             for (String owner : mDataBaseServer.getOwners(mContext))
             {
