@@ -1,18 +1,12 @@
 package de.dhbw.infos;
 
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,20 +15,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -48,6 +40,8 @@ public class AdminFragment extends ListFragment {
     private Context mContext;
     private static final String KEY_CATEGORY = "Category";
     private List<Rank> rankList = new ArrayList<Rank>();
+    private ProgressBar mProgressBar;
+    private boolean isRefreshLocked = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +50,8 @@ public class AdminFragment extends ListFragment {
 
         setHasOptionsMenu(true);
         mContext = getActivity();
+
+        mProgressBar = (ProgressBar) view.findViewById(R.id.info_admin_progress);
 
         rankList.add(new Rank("Besitzer","owner.txt"));
         rankList.add(new Rank("Administratoren","admins.txt"));
@@ -82,8 +78,11 @@ public class AdminFragment extends ListFragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                Log.e("Test", "Enter");
-                new NetworkTask().execute();
+                if (!isRefreshLocked)
+                {
+                    isRefreshLocked = true;
+                    new NetworkTask().execute();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -120,8 +119,13 @@ public class AdminFragment extends ListFragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.e("Test", "Pre");
-            //TODO: Ladebalken einblenden
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mProgressBar.setProgress(0);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                }
+            });
         }
 
         @Override
@@ -131,17 +135,16 @@ public class AdminFragment extends ListFragment {
                 @Override
                 public void run() {
                     updateList();
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    isRefreshLocked = false;
                 }
             });
-            //TODO: Ladebalken ausblenden
-            Log.e("Test", "Post");
             super.onPostExecute(o);
         }
 
         @Override
         protected Object doInBackground(Object... objects) {
 
-            Log.e("Test", "Background");
             String url = "https://dl.dropboxusercontent.com/u/62033432/Kadconia-Dateien/";
             try
             {
@@ -161,6 +164,7 @@ public class AdminFragment extends ListFragment {
                     SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
                     editor.putStringSet(rank.getFile().split("\\.")[0]+"List", new HashSet<String>(stringList));
                     editor.commit();
+                    mProgressBar.setProgress(mProgressBar.getProgress()+(100/rankList.size()));
                 }
             }
             catch (FileNotFoundException e) {
@@ -205,31 +209,5 @@ public class AdminFragment extends ListFragment {
             return view;
             //return super.getView(position, convertView, parent);
         }
-    }
-
-    public List<String> readFileToList(String path) {
-
-        List<String> stringList = new ArrayList<String>();
-        try
-        {
-            // Open the file that is the first command line parameter
-            InputStream fstream = getActivity().getAssets().open(path);
-            // Get the object of DataInputStream
-            DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strLine;
-            //Read File Line By Line
-            while ((strLine = br.readLine()) != null)
-                stringList.add(strLine);
-            //Close the input stream
-            in.close();
-        }
-        catch (Exception e)
-        {
-            //Catch exception if any
-            System.err.println("Error: " + e.getMessage());
-        }
-
-        return stringList;
     }
 }
