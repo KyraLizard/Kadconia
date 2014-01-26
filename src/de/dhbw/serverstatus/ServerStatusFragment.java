@@ -23,6 +23,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -169,16 +174,83 @@ public class ServerStatusFragment extends ListFragment {
                 String ownerName = Character.toUpperCase(owner.charAt(0)) + owner.substring(1);
                 listNames.add(Character.toUpperCase(ownerName.charAt(0)) + ownerName.substring(1));
                 listObjects.add(ownerName);
-                for (Server server : mDataBaseServer.getAllServerByOwner(mContext, owner))
+                if (owner.equals("mojang"))
                 {
-                    server.setOnline(checkOnline(server));
-                    listNames.add(server.getName());
-                    listObjects.add(server);
-                    mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
+                    try
+                    {
+                        URL url = new URL("http://status.mojang.com/check");
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                        String[] serverStatusArray = reader.readLine().split(",");
+                        String[] serverNameArray = {"minecraft.net","account.mojang.com","authserver.mojang.com","sessionserver.mojang.com","skins.minecraft.net"};
+
+                        for (String serverName : serverNameArray)
+                        {
+                            Server mojangServer = new Server(firstCharToUpperCase(serverName.replace(".mojang.com","").replace(".minecraft.net","")));
+                            mojangServer.setOnline(false);
+
+                            for (String serverStatus : serverStatusArray)
+                            {
+                                serverStatus = serverStatus.replace("[", "");
+                                serverStatus = serverStatus.replace("]", "");
+                                serverStatus = serverStatus.replace("{", "");
+                                serverStatus = serverStatus.replace("}", "");
+                                serverStatus = serverStatus.replace("\"", "");
+
+                                if (serverName.equals(serverStatus.split(":")[0]))
+                                    mojangServer.setOnline(serverStatus.split(":")[1].equals("green"));
+                            }
+
+                            listNames.add(mojangServer.getName());
+                            listObjects.add(mojangServer);
+                        }
+
+                        /*for (String serverStatus : serverStatusArray)
+                        {
+                            serverStatus = serverStatus.replace("[", "");
+                            serverStatus = serverStatus.replace("]", "");
+                            serverStatus = serverStatus.replace("{", "");
+                            serverStatus = serverStatus.replace("}", "");
+                            serverStatus = serverStatus.replace("\"", "");
+
+                            for (String serverName : serverNameArray)
+                            {
+                                if (serverName.equals(serverStatus.split(":")[0]))
+                                {
+                                    Server mojangServer = new Server(firstCharToUpperCase(serverName.replace(".mojang.com","").replace(".minecraft.net","")));
+                                    mojangServer.setOnline(serverStatus.split(":")[1].equals("green"));
+
+                                    listNames.add(mojangServer.getName());
+                                    listObjects.add(mojangServer);
+                                    break;
+                                }
+                            }
+                        }*/
+                        mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
+                    }
+                    catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    for (Server server : mDataBaseServer.getAllServerByOwner(mContext, owner))
+                    {
+                        server.setOnline(checkOnline(server));
+                        listNames.add(server.getName());
+                        listObjects.add(server);
+                        mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
+                    }
                 }
             }
             publishProgress();
             return null;
+        }
+
+        public String firstCharToUpperCase(String string) {
+            return Character.toUpperCase(string.charAt(0))+string.substring(1);
         }
 
         @Override

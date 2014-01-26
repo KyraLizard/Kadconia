@@ -129,17 +129,11 @@ public class AdminFragment extends ListFragment {
         }
 
         @Override
-        protected void onPostExecute(Object o) {
-
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateList();
-                    mProgressBar.setVisibility(View.INVISIBLE);
-                    isRefreshLocked = false;
-                }
-            });
-            super.onPostExecute(o);
+        protected void onProgressUpdate(Object... values) {
+            updateList();
+            mProgressBar.setVisibility(View.INVISIBLE);
+            isRefreshLocked = false;
+            super.onProgressUpdate(values);
         }
 
         @Override
@@ -166,6 +160,7 @@ public class AdminFragment extends ListFragment {
                     editor.commit();
                     mProgressBar.setProgress(mProgressBar.getProgress()+(100/rankList.size()));
                 }
+                publishProgress();
             }
             catch (FileNotFoundException e) {
                 e.printStackTrace();

@@ -25,6 +25,24 @@ public class Server {
         setOnline(false);
     }
 
+    public Server(String name, String owner) {
+
+        setName(name);
+        setOwner(owner);
+        setDomain("dummy.domain");
+        setPort(-1);
+        setOnline(false);
+    }
+
+    public Server(String name) {
+
+        setName(name);
+        setOwner("Dummy Owner");
+        setDomain("dummy.domain");
+        setPort(-1);
+        setOnline(false);
+    }
+
     public int getId() {
         return id;
     }

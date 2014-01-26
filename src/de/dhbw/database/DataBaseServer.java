@@ -50,11 +50,12 @@ public class DataBaseServer implements DataBaseTable{
         addServer(db, new Server("Server 2", "kadcon", "kadcon.de", 41332));
         addServer(db, new Server("Server 3", "kadcon", "kadcon.de", 31332));
 
-        addServer(db, new Server("Website", "mojang", "minecraft.net", 80));
+        /*addServer(db, new Server("Website", "mojang", "minecraft.net", 80));
         addServer(db, new Server("Skinserver", "mojang", "skins.minecraft.net", 80));
         addServer(db, new Server("Accountserver", "mojang", "account.mojang.com", 443));
         addServer(db, new Server("Authentifikationsserver", "mojang", "authserver.mojang.com", 443));
-        addServer(db, new Server("Sessionserver", "mojang", "sessionserver.mojang.com", 443));
+        addServer(db, new Server("Sessionserver", "mojang", "sessionserver.mojang.com", 443));*/
+        addServer(db, new Server("DummyServer", "mojang"));
     }
 
     @Override
