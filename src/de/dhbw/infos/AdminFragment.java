@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -144,6 +147,16 @@ public class AdminFragment extends ListFragment {
             {
                 for (Rank rank : rankList)
                 {
+                    if (!isOnline())
+                    {
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mContext, "Keine Internet-Verbindung!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        break;
+                    }
                     List<String> stringList = new ArrayList<String>();
                     InputStream inputStream = new URL(url+rank.getFile()).openStream();
                     DataInputStream dataInputStream = new DataInputStream(inputStream);
@@ -160,7 +173,6 @@ public class AdminFragment extends ListFragment {
                     editor.commit();
                     mProgressBar.setProgress(mProgressBar.getProgress()+(100/rankList.size()));
                 }
-                publishProgress();
             }
             catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -171,8 +183,21 @@ public class AdminFragment extends ListFragment {
             catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            finally
+            {
+                publishProgress();
+                return null;
+            }
         }
+    }
+
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 
     public class AdminListAdapter extends ArrayAdapter<String> {
