@@ -14,7 +14,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6adf02e1-34ba-4b6b-84db-f2d91b2e2d14" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java" afterPath="$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/dhbw/navigation/CustomExpandableListAdapter.java" afterPath="$PROJECT_DIR$/src/de/dhbw/navigation/CustomExpandableListAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/dhbw/navigation/ExampleAdapter.java" afterPath="$PROJECT_DIR$/src/de/dhbw/navigation/ExampleAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java" afterPath="$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Kadconia.iws" />
@@ -82,20 +85,75 @@
       <file leaf-file-name="ServerStatusFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/dhbw/serverstatus/ServerStatusFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="145" column="5" selection-start="4966" selection-end="4966" vertical-scroll-proportion="0.0" vertical-offset="1435" max-vertical-offset="3961">
+            <state line="145" column="5" selection-start="4966" selection-end="4966" vertical-scroll-proportion="0.0" vertical-offset="2465" max-vertical-offset="4607">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AdminFragment.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AdminFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="164" column="44" selection-start="5701" selection-end="5701" vertical-scroll-proportion="0.91806334" vertical-offset="1683" max-vertical-offset="3434">
+            <state line="209" column="9" selection-start="7335" selection-end="7335" vertical-scroll-proportion="0.0" vertical-offset="2130" max-vertical-offset="3485">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NavigationActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="77" column="8" selection-start="2695" selection-end="2695" vertical-scroll-proportion="0.6032316" vertical-offset="616" max-vertical-offset="3723">
               <folding>
-                <element signature="e#4937#5209#0" expanded="true" />
-                <element signature="e#5182#5183#0" expanded="true" />
+                <element signature="e#1735#1755#0" expanded="true" />
+                <element signature="e#1757#1778#0" expanded="true" />
+                <element signature="e#4072#4108#0" expanded="true" />
+                <element signature="e#6415#6451#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_navigation.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/activity_navigation.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="56" column="45" selection-start="2481" selection-end="2481" vertical-scroll-proportion="-15.84" vertical-offset="556" max-vertical-offset="1088">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExampleAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/ExampleAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="112" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2074">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CustomExpandableListAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/CustomExpandableListAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="121" column="5" selection-start="3942" selection-end="3942" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1989">
+              <folding>
+                <element signature="e#1414#1459#0" expanded="true" />
+                <element signature="e#1741#1786#0" expanded="true" />
+                <element signature="e#2577#2622#0" expanded="true" />
+                <element signature="e#3234#3279#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="60" column="27" selection-start="2610" selection-end="2610" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1666">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -148,12 +206,10 @@
         <option value="$PROJECT_DIR$/res/layout/fragment_konto_element.xml" />
         <option value="$PROJECT_DIR$/res/layout/fragment_player.xml" />
         <option value="$PROJECT_DIR$/res/drawable/group_indicator.xml" />
-        <option value="$PROJECT_DIR$/src/de/dhbw/navigation/ExampleAdapter.java" />
         <option value="$PROJECT_DIR$/res/values/themes.xml" />
         <option value="$PROJECT_DIR$/res/layout/fragment_info_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/fragment_vote.xml" />
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/src/de/dhbw/navigation/CustomExpandableListAdapter.java" />
         <option value="$PROJECT_DIR$/res/drawable/background_border.xml" />
         <option value="$PROJECT_DIR$/res/layout/activity_navigation.xml" />
         <option value="$PROJECT_DIR$/res/xml/preferences.xml" />
@@ -162,7 +218,6 @@
         <option value="$PROJECT_DIR$/assets/admins.txt" />
         <option value="$PROJECT_DIR$/assets/mods.txt" />
         <option value="$PROJECT_DIR$/assets/smods.txt" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/de/dhbw/vote/VoteFragment.java" />
         <option value="$PROJECT_DIR$/src/de/dhbw/database/Kontoeintrag.java" />
         <option value="$PROJECT_DIR$/src/de/dhbw/player/PlayerFragment.java" />
@@ -174,7 +229,6 @@
         <option value="$PROJECT_DIR$/res/layout/fragment_konto.xml" />
         <option value="$PROJECT_DIR$/src/de/dhbw/infos/InfoFragment.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/fragment_serverstatus_element.xml" />
         <option value="$PROJECT_DIR$/src/de/dhbw/database/DataBaseHelper.java" />
         <option value="$PROJECT_DIR$/src/de/dhbw/konto/KontoFragment.java" />
@@ -185,6 +239,10 @@
         <option value="$PROJECT_DIR$/src/de/dhbw/database/Server.java" />
         <option value="$PROJECT_DIR$/src/de/dhbw/serverstatus/ServerStatusFragment.java" />
         <option value="$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/de/dhbw/navigation/CustomExpandableListAdapter.java" />
+        <option value="$PROJECT_DIR$/src/de/dhbw/navigation/ExampleAdapter.java" />
+        <option value="$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java" />
       </list>
     </option>
   </component>
@@ -473,6 +531,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kadconia" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kadconia" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kadconia" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kadconia" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -699,9 +793,11 @@
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="FLOATING" visible="false" weight="0.32967034" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" x="1210" y="280" width="391" height="422" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29296875" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5290828" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -709,20 +805,19 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17013463" sideWeight="0.5016779" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32187858" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35287356" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3218391" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32988507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24963397" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.114774115" sideWeight="0.49832216" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32046783" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18864469" sideWeight="0.49832216" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31954023" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29296875" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38235295" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -744,30 +839,15 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_admin_element.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="211" column="5" selection-start="7423" selection-end="7423" vertical-scroll-proportion="0.0" vertical-offset="3094" max-vertical-offset="3196">
-          <folding>
-            <element signature="e#4937#5209#0" expanded="true" />
-            <element signature="e#5182#5183#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="38" column="64" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.0" vertical-offset="646" max-vertical-offset="3825">
-          <folding />
+          <folding>
+            <element signature="e#1735#1755#0" expanded="true" />
+            <element signature="e#1757#1778#0" expanded="true" />
+            <element signature="e#4072#4108#0" expanded="true" />
+            <element signature="e#6415#6451#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -852,11 +932,6 @@
         <state line="2" column="4" selection-start="72" selection-end="72" vertical-scroll-proportion="0.08994709" vertical-offset="0" max-vertical-offset="378" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="26" selection-start="3183" selection-end="3183" vertical-scroll-proportion="0.99469024" vertical-offset="815" max-vertical-offset="1683" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/settings/SettingsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="13" selection-start="136" selection-end="136" vertical-scroll-proportion="0.22118959" vertical-offset="0" max-vertical-offset="538" />
@@ -932,16 +1007,6 @@
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/InfoFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="135" column="43" selection-start="4259" selection-end="4259" vertical-scroll-proportion="1.8277154" vertical-offset="979" max-vertical-offset="2278" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_navigation.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="68" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.28880158" vertical-offset="397" max-vertical-offset="1088">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_serverip_element.xml">
@@ -1032,13 +1097,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="64" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.0" vertical-offset="1122" max-vertical-offset="3485">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_serverstatus.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -1092,10 +1150,55 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="44" selection-start="5701" selection-end="5701" vertical-scroll-proportion="0.91806334" vertical-offset="1683" max-vertical-offset="3434">
+        <state line="209" column="9" selection-start="7335" selection-end="7335" vertical-scroll-proportion="0.0" vertical-offset="2130" max-vertical-offset="3485">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/ExampleAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="112" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2074">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/CustomExpandableListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="5" selection-start="3942" selection-end="3942" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1989">
           <folding>
-            <element signature="e#4937#5209#0" expanded="true" />
-            <element signature="e#5182#5183#0" expanded="true" />
+            <element signature="e#1414#1459#0" expanded="true" />
+            <element signature="e#1741#1786#0" expanded="true" />
+            <element signature="e#2577#2622#0" expanded="true" />
+            <element signature="e#3234#3279#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_navigation.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="45" selection-start="2481" selection-end="2481" vertical-scroll-proportion="-15.84" vertical-offset="556" max-vertical-offset="1088">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="27" selection-start="2610" selection-end="2610" vertical-scroll-proportion="0.0" vertical-offset="815" max-vertical-offset="1666">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="8" selection-start="2695" selection-end="2695" vertical-scroll-proportion="0.6032316" vertical-offset="616" max-vertical-offset="3723">
+          <folding>
+            <element signature="e#1735#1755#0" expanded="true" />
+            <element signature="e#1757#1778#0" expanded="true" />
+            <element signature="e#4072#4108#0" expanded="true" />
+            <element signature="e#6415#6451#0" expanded="true" />
           </folding>
         </state>
       </provider>

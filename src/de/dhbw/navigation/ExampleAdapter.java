@@ -33,7 +33,7 @@ public class ExampleAdapter extends BaseExpandableListAdapter {
         String[] listGroups = mContext.getResources().getStringArray(R.array.nav_array);
         for (int i=0; i<listGroups.length; i++)
             mListGroups.add(listGroups[i]);
-        String[] playerOnlineElements = mContext.getResources().getStringArray(R.array.nav_elements_player_online);
+        String[] playerOnlineElements = mContext.getResources().getStringArray(R.array.nav_elements_serverstatus);
         for (int i=0; i<playerOnlineElements.length; i++)
             mPlayerOnlineElements.add(playerOnlineElements[i]);
     }

@@ -56,10 +56,9 @@
     	<item>@string/nav_settings</item>
     </string-array>
 
-    <string-array name="nav_elements_player_online">
-        <item>Server 1</item>
-        <item>Server 2</item>
-        <item>Server 3</item>
+    <string-array name="nav_elements_serverstatus">
+        <item>Kadcon</item>
+        <item>Mojang</item>
     </string-array>
 
     <string-array name="player_server_url">

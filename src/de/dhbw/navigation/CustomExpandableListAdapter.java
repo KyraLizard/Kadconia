@@ -21,16 +21,16 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     private List<String> mListGroups = new ArrayList<String>();
-    private List<String> mPlayerOnlineElements = new ArrayList<String>();
+    private List<String> mServerStatusElements = new ArrayList<String>();
 
     public CustomExpandableListAdapter(Context context) {
         mContext = context;
         String[] listGroups = mContext.getResources().getStringArray(R.array.nav_array);
         for (int i=0; i<listGroups.length; i++)
             mListGroups.add(listGroups[i]);
-        String[] playerOnlineElements = mContext.getResources().getStringArray(R.array.nav_elements_player_online);
-        for (int i=0; i<playerOnlineElements.length; i++)
-            mPlayerOnlineElements.add(playerOnlineElements[i]);
+        String[] serverStatusElements = mContext.getResources().getStringArray(R.array.nav_elements_serverstatus);
+        for (int i=0; i<serverStatusElements.length; i++)
+            mServerStatusElements.add(serverStatusElements[i]);
     }
 
     @Override
@@ -40,8 +40,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int i) {
-        if (mListGroups.get(i).equals(mContext.getString(R.string.nav_player_online)))
-            return mPlayerOnlineElements.size();
+        if (mListGroups.get(i).equals(mContext.getString(R.string.nav_serverstatus)))
+            return mServerStatusElements.size();
         else
             return 0;
     }
@@ -53,8 +53,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int i, int i2) {
-        if (mListGroups.get(i).equals(mContext.getString(R.string.nav_player_online)))
-            return mPlayerOnlineElements.get(i2);
+        if (mListGroups.get(i).equals(mContext.getString(R.string.nav_serverstatus)))
+            return mServerStatusElements.get(i2);
         else
             return null;
     }
@@ -83,7 +83,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         TextView textView = (TextView) view.findViewById(android.R.id.text1);
         textView.setText(mListGroups.get(i));
 
-        if (mListGroups.get(i).equals(mContext.getString(R.string.nav_player_online)))
+        if (mListGroups.get(i).equals(mContext.getString(R.string.nav_serverstatus)))
         {
             if (isExpanded)
                 textView.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_action_collapse,0);
@@ -102,12 +102,12 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int i, int i2, boolean b, View view, ViewGroup viewGroup) {
 
-        if (mListGroups.get(i).equals(mContext.getString(R.string.nav_player_online)))
+        if (mListGroups.get(i).equals(mContext.getString(R.string.nav_serverstatus)))
         {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(android.R.layout.simple_list_item_1, null);
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
-            textView.setText(mPlayerOnlineElements.get(i2));
+            textView.setText(mServerStatusElements.get(i2));
             textView.setPadding(75, 0, 0, 0);
             view.setBackgroundColor(mContext.getResources().getColor(R.color.nav_element));
             return view;
