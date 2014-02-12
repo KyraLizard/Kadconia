@@ -3,6 +3,8 @@ package de.dhbw.navigation;
 import de.dhbw.infos.InfoFragment;
 import de.dhbw.konto.KontoFragment;
 import de.dhbw.links.LinkFragment;
+import de.dhbw.serverstatus.KadconServerStatusFragment;
+import de.dhbw.serverstatus.MojangServerStatusFragment;
 import de.dhbw.serverstatus.ServerStatusFragment;
 import de.dhbw.settings.SettingsActivity;
 import de.dhbw.vote.VoteFragment;
@@ -171,7 +173,12 @@ public class NavigationActivity extends Activity {
 
             if ((expandableListView.getExpandableListAdapter()).getGroup(i).equals(getString(R.string.nav_serverstatus)))
             {
-                Fragment fragment = new ServerStatusFragment();
+                Fragment fragment = null;
+
+                if (expandableListView.getExpandableListAdapter().getChild(i,i2).equals(getString(R.string.serverstatus_owner_kadcon)))
+                    fragment = new KadconServerStatusFragment();
+                else if (expandableListView.getExpandableListAdapter().getChild(i,i2).equals(getString(R.string.serverstatus_owner_mojang)))
+                    fragment = new MojangServerStatusFragment();
 
                 // Insert the fragment by replacing any existing fragment
                 getFragmentManager().beginTransaction()

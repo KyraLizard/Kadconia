@@ -46,6 +46,9 @@
     <string name="nav_infos">Info</string>
     <string name="nav_links">Links</string>
     <string name="nav_settings">Einstellungen</string>
+
+    <string name="serverstatus_owner_kadcon">kadcon</string>
+    <string name="serverstatus_owner_mojang">mojang</string>
     
     <string-array name="nav_array">
         <item>@string/nav_serverstatus</item>
@@ -57,8 +60,8 @@
     </string-array>
 
     <string-array name="nav_elements_serverstatus">
-        <item>Kadcon</item>
-        <item>Mojang</item>
+        <item>@string/serverstatus_owner_kadcon</item>
+        <item>@string/serverstatus_owner_mojang</item>
     </string-array>
 
     <string-array name="player_server_url">
