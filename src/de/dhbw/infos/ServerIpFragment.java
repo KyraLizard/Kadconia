@@ -40,7 +40,7 @@ public class ServerIpFragment extends ListFragment{
 
         //View view = inflater.inflate(R.layout.fragment_serverstatus_element, null);
 
-        List<Server> serverList = (new DataBaseServer()).getAllServer(mContext);
+        List<Server> serverList = (new DataBaseServer(mContext)).getAllServer();
         List<String> serverNameList = new ArrayList<String>();
         for (Server server : serverList)
         {

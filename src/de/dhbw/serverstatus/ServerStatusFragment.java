@@ -2,15 +2,11 @@ package de.dhbw.serverstatus;
 
 import android.app.Activity;
 import android.app.ListFragment;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import de.dhbw.database.DataBaseHelper;
 import de.dhbw.database.DataBaseServer;
 import de.dhbw.database.Server;
 import de.dhbw.navigation.R;
@@ -44,6 +38,11 @@ public class ServerStatusFragment extends ListFragment {
 
     private Context mContext;
     private ProgressBar mProgressBar;
+    private String mOwner;
+
+    public ServerStatusFragment(String owner) {
+        this.mOwner = owner;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,7 +54,11 @@ public class ServerStatusFragment extends ListFragment {
         mProgressBar = (ProgressBar) view.findViewById(R.id.serverstatus_progress);
 
         mProgressBar.setVisibility(View.VISIBLE);
-        (new RefreshListTask()).execute();
+
+        if (mOwner.equals(getString(R.string.serverstatus_owner_kadcon)))
+            (new KadconRefreshListTask()).execute();
+        else if (mOwner.equals(getString(R.string.serverstatus_owner_mojang)))
+            (new MojangRefreshListTask()).execute();
 
         return view;
         //return super.onCreateView(inflater, container, savedInstanceState);
@@ -74,19 +77,22 @@ public class ServerStatusFragment extends ListFragment {
         {
             case R.id.action_refresh:
                 mProgressBar.setVisibility(View.VISIBLE);
-                (new RefreshListTask()).execute();
+                if (mOwner.equals(getString(R.string.serverstatus_owner_kadcon)))
+                    (new KadconRefreshListTask()).execute();
+                else if (mOwner.equals(getString(R.string.serverstatus_owner_mojang)))
+                    (new MojangRefreshListTask()).execute();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private class ServerStatusAdapter extends ArrayAdapter<String> {
+    private class ServerStatusAdapter extends ArrayAdapter<Server> {
 
-        private List<Object> mListObjects;
+        private List<Server> mServerList;
 
-        public ServerStatusAdapter(Context context, int resource, List<String> objects, List<Object> mListObjects) {
-            super(context, resource, objects);
-            this.mListObjects = mListObjects;
+        public ServerStatusAdapter(Context context, int resource, List<Server> serverList) {
+            super(context, resource, serverList);
+            this.mServerList = serverList;
         }
 
         @Override
@@ -96,31 +102,20 @@ public class ServerStatusFragment extends ListFragment {
             View view = inflater.inflate(R.layout.fragment_serverstatus_element, parent, false);
             TextView textView = (TextView) view.findViewById(R.id.server_element_text);
 
-            if (mListObjects.get(position) instanceof String)
-            {
-                textView.setText((String) mListObjects.get(position));
-                textView.setGravity(Gravity.CENTER);
-                textView.setBackgroundResource(R.drawable.background_border);
-            }
-            else if (mListObjects.get(position) instanceof Server)
-            {
-                Server server = (Server) mListObjects.get(position);
-                textView.setText(server.getName());
+            Server server = mServerList.get(position);
+            textView.setText(server.getName());
 
-                if (server.isOnline())
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_online, 0, 0, 0);
-                else
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_offline, 0, 0, 0);
-            }
+            if (server.isOnline())
+                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_online, 0, 0, 0);
             else
-                textView.setText("Fehler beim Erstellen der Liste!");
+                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_offline, 0, 0, 0);
 
             return textView;
             //return super.getView(position, convertView, parent);
         }
     }
 
-    public boolean checkOnline(Server server) {
+    private boolean checkOnline(Server server) {
         boolean online = false;
         try {
             for (int i=0; i<5; i++) {
@@ -144,19 +139,17 @@ public class ServerStatusFragment extends ListFragment {
         }
         return false;
     }
+    private class KadconRefreshListTask extends AsyncTask<Object,Object,Object> {
 
-    private class RefreshListTask extends AsyncTask<Object,Object,Object> {
+        private List<Server> mServerList = new ArrayList<Server>();
 
-        private List<String> listNames = new ArrayList<String>();
-        private List<Object> listObjects = new ArrayList<Object>();
-
-        private RefreshListTask() {
+        private KadconRefreshListTask() {
         }
 
         @Override
         protected Object doInBackground(Object[] objects) {
 
-            DataBaseServer mDataBaseServer = new DataBaseServer();
+            DataBaseServer mDataBaseServer = new DataBaseServer(mContext);
             int serverCount = mDataBaseServer.getServerCount(mContext);
 
             if (!isOnline())
@@ -168,95 +161,96 @@ public class ServerStatusFragment extends ListFragment {
                     }
                 });
             }
-
-            for (String owner : mDataBaseServer.getOwners(mContext))
+            else
             {
-                String ownerName = Character.toUpperCase(owner.charAt(0)) + owner.substring(1);
-                listNames.add(Character.toUpperCase(ownerName.charAt(0)) + ownerName.substring(1));
-                listObjects.add(ownerName);
-                if (owner.equals("mojang"))
+                for (Server server : mDataBaseServer.getAllServerByOwner(getString(R.string.serverstatus_owner_kadcon)))
                 {
-                    try
-                    {
-                        URL url = new URL("http://status.mojang.com/check");
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-                        String[] serverStatusArray = reader.readLine().split(",");
-                        String[] serverNameArray = {"minecraft.net","account.mojang.com","authserver.mojang.com","sessionserver.mojang.com","skins.minecraft.net"};
-
-                        for (String serverName : serverNameArray)
-                        {
-                            Server mojangServer = new Server(firstCharToUpperCase(serverName.replace(".mojang.com","").replace(".minecraft.net","")));
-                            mojangServer.setOnline(false);
-
-                            for (String serverStatus : serverStatusArray)
-                            {
-                                serverStatus = serverStatus.replace("[", "");
-                                serverStatus = serverStatus.replace("]", "");
-                                serverStatus = serverStatus.replace("{", "");
-                                serverStatus = serverStatus.replace("}", "");
-                                serverStatus = serverStatus.replace("\"", "");
-
-                                if (serverName.equals(serverStatus.split(":")[0]))
-                                    mojangServer.setOnline(serverStatus.split(":")[1].equals("green"));
-                            }
-
-                            listNames.add(mojangServer.getName());
-                            listObjects.add(mojangServer);
-                        }
-
-                        /*for (String serverStatus : serverStatusArray)
-                        {
-                            serverStatus = serverStatus.replace("[", "");
-                            serverStatus = serverStatus.replace("]", "");
-                            serverStatus = serverStatus.replace("{", "");
-                            serverStatus = serverStatus.replace("}", "");
-                            serverStatus = serverStatus.replace("\"", "");
-
-                            for (String serverName : serverNameArray)
-                            {
-                                if (serverName.equals(serverStatus.split(":")[0]))
-                                {
-                                    Server mojangServer = new Server(firstCharToUpperCase(serverName.replace(".mojang.com","").replace(".minecraft.net","")));
-                                    mojangServer.setOnline(serverStatus.split(":")[1].equals("green"));
-
-                                    listNames.add(mojangServer.getName());
-                                    listObjects.add(mojangServer);
-                                    break;
-                                }
-                            }
-                        }*/
-                        mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
-                    }
-                    catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else
-                {
-                    for (Server server : mDataBaseServer.getAllServerByOwner(mContext, owner))
-                    {
-                        server.setOnline(checkOnline(server));
-                        listNames.add(server.getName());
-                        listObjects.add(server);
-                        mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
-                    }
+                    server.setOnline(checkOnline(server));
+                    mServerList.add(server);
+                    mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
                 }
             }
             publishProgress();
             return null;
         }
 
-        public String firstCharToUpperCase(String string) {
-            return Character.toUpperCase(string.charAt(0))+string.substring(1);
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+
+            setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, mServerList));
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mProgressBar.setProgress(0);
+            super.onProgressUpdate(values);
+        }
+    }
+    private class MojangRefreshListTask extends AsyncTask<Object,Object,Object> {
+
+        private List<Server> mServerList = new ArrayList<Server>();
+        private DataBaseServer mDataBaseServer = new DataBaseServer(mContext);
+
+        private MojangRefreshListTask() {
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mServerList = mDataBaseServer.getAllServerByOwner(getString(R.string.serverstatus_owner_mojang));
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+
+            if (!isOnline())
+            {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else
+            {
+                try
+                {
+                    URL url = new URL("http://status.mojang.com/check");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                    String serverStatusString = reader.readLine();
+                    serverStatusString = serverStatusString.replace("[", "");
+                    serverStatusString = serverStatusString.replace("]", "");
+                    serverStatusString = serverStatusString.replace("{", "");
+                    serverStatusString = serverStatusString.replace("}", "");
+                    serverStatusString = serverStatusString.replace("\"", "");
+
+                    String[] serverStatusArray = serverStatusString.split(",");
+
+                    for (Server server : mServerList)
+                    {
+                        for (String serverStatus : serverStatusArray)
+                        {
+                            if (server.getDomain().equals(serverStatus.split(":")[0]) && serverStatus.split(":")[1].equals("green"))
+                                server.setOnline(true);
+                        }
+                    }
+
+                    int serverCount = mDataBaseServer.getServerCount(mContext);
+                    mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
+                }
+                catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            publishProgress();
+            return null;
         }
 
         @Override
         protected void onProgressUpdate(Object[] values) {
 
-            setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, listNames, listObjects));
+            setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, mServerList));
             mProgressBar.setVisibility(View.INVISIBLE);
             mProgressBar.setProgress(0);
             super.onProgressUpdate(values);

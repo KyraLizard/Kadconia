@@ -30,8 +30,6 @@
     <string name="vote_button_submit">Bewerten</string>
     <string name="vote_text_hint_default">Tipp: Deinen Namen kannst du in den Einstellungen ändern!</string>
     
-    <string name="hello_world">Hello world!</string>
-    
     <string name="title_activity_navigation">Kadconia</string>
 
     <string name="drawer_open">Menü öffnen</string>
@@ -47,8 +45,8 @@
     <string name="nav_links">Links</string>
     <string name="nav_settings">Einstellungen</string>
 
-    <string name="serverstatus_owner_kadcon">kadcon</string>
-    <string name="serverstatus_owner_mojang">mojang</string>
+    <string name="serverstatus_owner_kadcon">Kadcon</string>
+    <string name="serverstatus_owner_mojang">Mojang</string>
     
     <string-array name="nav_array">
         <item>@string/nav_serverstatus</item>

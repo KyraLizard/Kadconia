@@ -2,16 +2,21 @@ package de.dhbw.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.navigation.R;
+
 /**
  * Created by Mark on 21.11.13.
  */
 public class DataBaseServer implements DataBaseTable{
+
+    private Context mContext;
 
     // table name
         private static final String TABLE_NAME = "server";
@@ -27,6 +32,10 @@ public class DataBaseServer implements DataBaseTable{
     private static final String CREATE_TABLE_SERVER_QUERY = "CREATE TABLE " + TABLE_NAME + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_OWNER + " TEXT," + KEY_DOMAIN
             + " TEXT," + KEY_PORT + " INTEGER" + ");";
+
+    public DataBaseServer(Context context) {
+        this.mContext = context;
+    }
 
     @Override
     public String getTableName() {
@@ -46,16 +55,18 @@ public class DataBaseServer implements DataBaseTable{
     @Override
     public void initTable(SQLiteDatabase db) {
 
-        addServer(db, new Server("Server 1", "kadcon", "kadcon.de", 51332));
-        addServer(db, new Server("Server 2", "kadcon", "kadcon.de", 41332));
-        addServer(db, new Server("Server 3", "kadcon", "kadcon.de", 31332));
+        String ownerKadcon = mContext.getString(R.string.serverstatus_owner_kadcon);
+        String ownerMojang = mContext.getString(R.string.serverstatus_owner_mojang);
 
-        /*addServer(db, new Server("Website", "mojang", "minecraft.net", 80));
-        addServer(db, new Server("Skinserver", "mojang", "skins.minecraft.net", 80));
-        addServer(db, new Server("Accountserver", "mojang", "account.mojang.com", 443));
-        addServer(db, new Server("Authentifikationsserver", "mojang", "authserver.mojang.com", 443));
-        addServer(db, new Server("Sessionserver", "mojang", "sessionserver.mojang.com", 443));*/
-        addServer(db, new Server("DummyServer", "mojang"));
+        addServer(db, new Server("Server 1", ownerKadcon, "kadcon.de", 51332));
+        addServer(db, new Server("Server 2", ownerKadcon, "kadcon.de", 41332));
+        addServer(db, new Server("Server 3", ownerKadcon, "kadcon.de", 31332));
+
+        addServer(db, new Server("Website", ownerMojang, "minecraft.net", 80));
+        addServer(db, new Server("Skinserver", ownerMojang, "skins.minecraft.net", 80));
+        addServer(db, new Server("Accountserver", ownerMojang, "account.mojang.com", 80));
+        addServer(db, new Server("Authentifikationsserver", ownerMojang, "authserver.mojang.com", 80));
+        addServer(db, new Server("Sessionserver", ownerMojang, "sessionserver.mojang.com", 80));
     }
 
     @Override
@@ -89,9 +100,9 @@ public class DataBaseServer implements DataBaseTable{
         db.close();
     }
 
-    public List<Server> getAllServer(Context context)
+    public List<Server> getAllServer()
     {
-        SQLiteDatabase db = getReadableDatabase(context);
+        SQLiteDatabase db = getReadableDatabase(mContext);
         List<Server> mServerList = new ArrayList<Server>();
         String query = "SELECT * FROM " + TABLE_NAME;
 
@@ -115,9 +126,9 @@ public class DataBaseServer implements DataBaseTable{
         return mServerList;
     }
 
-    public List<Server> getAllServerByOwner(Context context, String owner)
+    public List<Server> getAllServerByOwner(String owner)
     {
-        SQLiteDatabase db = getReadableDatabase(context);
+        SQLiteDatabase db = getReadableDatabase(mContext);
         List<Server> mServerList = new ArrayList<Server>();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_OWNER + "='" + owner + "'";
 
@@ -141,9 +152,9 @@ public class DataBaseServer implements DataBaseTable{
         return mServerList;
     }
 
-    public List<String> getOwners(Context context)
+    public List<String> getOwners()
     {
-        SQLiteDatabase db = getReadableDatabase(context);
+        SQLiteDatabase db = getReadableDatabase(mContext);
         List<String> mOwnerList = new ArrayList<String>();
         String query = "SELECT DISTINCT " + KEY_OWNER + " FROM " + TABLE_NAME;
 

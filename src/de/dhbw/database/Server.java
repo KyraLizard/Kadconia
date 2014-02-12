@@ -14,6 +14,8 @@ public class Server {
     private boolean online;
 
     public Server() {
+
+        setOnline(false);
     }
 
     public Server(String name, String owner, String domain, int port) {

@@ -3,13 +3,10 @@ package de.dhbw.navigation;
 import de.dhbw.infos.InfoFragment;
 import de.dhbw.konto.KontoFragment;
 import de.dhbw.links.LinkFragment;
-import de.dhbw.serverstatus.KadconServerStatusFragment;
-import de.dhbw.serverstatus.MojangServerStatusFragment;
 import de.dhbw.serverstatus.ServerStatusFragment;
 import de.dhbw.settings.SettingsActivity;
 import de.dhbw.vote.VoteFragment;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -19,7 +16,6 @@ import android.app.Fragment;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -125,14 +121,13 @@ public class NavigationActivity extends Activity {
 
                 switch (i)
                 {
-                    case 0:
+                    /*case 0:
                         fragment = new ServerStatusFragment();
-                        break;
+                        break;*/
                     case 1:
                         fragment = new VoteFragment();
                         break;
                     case 2:
-                        //fragment = new TestFragment();
                         fragment = new KontoFragment();
                         break;
                     case 3:
@@ -146,7 +141,7 @@ public class NavigationActivity extends Activity {
                         startActivity(mIntent);
                         return true;
                     default:
-                        fragment = new TestFragment();
+                        fragment = new VoteFragment();
                         break;
                 }
 
@@ -168,29 +163,28 @@ public class NavigationActivity extends Activity {
     }
 
     private class CustomOnChildClickListener implements ExpandableListView.OnChildClickListener {
+
         @Override
         public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i2, long l) {
 
             if ((expandableListView.getExpandableListAdapter()).getGroup(i).equals(getString(R.string.nav_serverstatus)))
             {
-                Fragment fragment = null;
+                Fragment fragment = new ServerStatusFragment(expandableListView.getExpandableListAdapter().getChild(i,i2).toString());
 
-                if (expandableListView.getExpandableListAdapter().getChild(i,i2).equals(getString(R.string.serverstatus_owner_kadcon)))
-                    fragment = new KadconServerStatusFragment();
-                else if (expandableListView.getExpandableListAdapter().getChild(i,i2).equals(getString(R.string.serverstatus_owner_mojang)))
-                    fragment = new MojangServerStatusFragment();
+                String[] mChildNavigationTitles = mContext.getResources().getStringArray(R.array.nav_elements_serverstatus);
 
                 // Insert the fragment by replacing any existing fragment
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content_frame, fragment);
+                if (getFragmentManager().findFragmentById(R.id.content_frame) != null)  //Prevents empty activity window from being added to BackStack
+                    ft.addToBackStack(getActionBar().getTitle().toString());
+                ft.commit();
 
                 // Highlight the selected item, update the title, and close the drawer
                 //mDrawerList.setItemChecked(position, true);
-                setTitle(mContext.getResources().getStringArray(R.array.nav_elements_serverstatus)[i2]);
+                getActionBar().setTitle(mChildNavigationTitles[i2]);
                 mDrawerLayout.closeDrawer(mDrawerList);
-                mDrawerList.setItemChecked(i, false);
+                mDrawerList.setItemChecked(i2, false);
                 return true;
             }
             else
