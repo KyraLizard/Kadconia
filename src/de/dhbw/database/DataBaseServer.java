@@ -170,10 +170,21 @@ public class DataBaseServer implements DataBaseTable{
         return mOwnerList;
     }
 
-    public int getServerCount(Context context)
+    public int getServerCount()
     {
         String countQuery = "SELECT  * FROM " + TABLE_NAME;
-        SQLiteDatabase db = getReadableDatabase(context);
+        SQLiteDatabase db = getReadableDatabase(mContext);
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    public int getServerCountByOwner(String owner)
+    {
+        String countQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_OWNER + " = '" + owner + "'";
+        SQLiteDatabase db = getReadableDatabase(mContext);
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();
         cursor.close();

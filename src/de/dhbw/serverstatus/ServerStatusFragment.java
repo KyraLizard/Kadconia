@@ -103,7 +103,7 @@ public class ServerStatusFragment extends ListFragment {
             TextView textView = (TextView) view.findViewById(R.id.server_element_text);
 
             Server server = mServerList.get(position);
-            textView.setText(server.getName());
+            textView.setText(server.getName()+"\nTest"+"\nTest"+"\nTest"+"\nTest"+"\nTest"+"\nTest"+"\nTest"+"\nTest"+"\nTest"+"\nTest"+"\nTest");
 
             if (server.isOnline())
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_online, 0, 0, 0);
@@ -150,7 +150,7 @@ public class ServerStatusFragment extends ListFragment {
         protected Object doInBackground(Object[] objects) {
 
             DataBaseServer mDataBaseServer = new DataBaseServer(mContext);
-            int serverCount = mDataBaseServer.getServerCount(mContext);
+            int serverCount = mDataBaseServer.getServerCountByOwner(getString(R.string.serverstatus_owner_kadcon));
 
             if (!isOnline())
             {
@@ -233,7 +233,7 @@ public class ServerStatusFragment extends ListFragment {
                         }
                     }
 
-                    int serverCount = mDataBaseServer.getServerCount(mContext);
+                    int serverCount = mDataBaseServer.getServerCountByOwner(getString(R.string.serverstatus_owner_mojang));
                     mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
                 }
                 catch (MalformedURLException e) {
