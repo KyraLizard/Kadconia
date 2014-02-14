@@ -10,6 +10,7 @@ public class Server {
     private String owner;
     private String domain;
     private int port;
+    private String serverInformation;
 
     private boolean online;
 
@@ -57,10 +58,6 @@ public class Server {
         return owner;
     }
 
-    public String getFormattedOwner () {
-        return Character.toUpperCase(getOwner().charAt(0)) + getOwner().substring(1);
-    }
-
     public void setOwner(String owner) {
         this.owner = owner;
     }
@@ -95,5 +92,13 @@ public class Server {
 
     public void setOnline(boolean online) {
         this.online = online;
+    }
+
+    public String getServerInformation() {
+        return serverInformation;
+    }
+
+    public void setServerInformation(String serverInformation) {
+        this.serverInformation = serverInformation;
     }
 }

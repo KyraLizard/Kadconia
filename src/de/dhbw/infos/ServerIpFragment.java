@@ -44,7 +44,7 @@ public class ServerIpFragment extends ListFragment{
         List<String> serverNameList = new ArrayList<String>();
         for (Server server : serverList)
         {
-            serverNameList.add(server.getFormattedOwner() + " " + server.getName());
+            serverNameList.add(server.getOwner() + " " + server.getName());
             serverNameList.add("IP: " + server.getDomain() + ", Port: " + server.getPort());
         }
 
