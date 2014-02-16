@@ -3,6 +3,7 @@ package de.dhbw.infos;
 import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 import de.dhbw.database.DataBaseServer;
@@ -61,7 +63,7 @@ public class ServerInfoFragment extends Fragment {
 
         @Override
         public int getChildrenCount(int i) {
-            return 1;
+            return 3;
         }
 
         @Override
@@ -71,7 +73,7 @@ public class ServerInfoFragment extends Fragment {
 
         @Override
         public Object getChild(int i, int i2) {
-            return i2;
+            return null;
         }
 
         @Override
@@ -90,13 +92,21 @@ public class ServerInfoFragment extends Fragment {
         }
 
         @Override
-        public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
+        public View getGroupView(int i, boolean isExpanded, View view, ViewGroup viewGroup) {
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(android.R.layout.simple_expandable_list_item_1, null);
+            view = inflater.inflate(android.R.layout.simple_list_item_1, null);
 
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
             textView.setText(mServerList.get(i).getOwner() + " " + mServerList.get(i).getName());
+
+            if (isExpanded)
+                textView.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_action_collapse,0);
+            else
+                textView.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_action_expand,0);
+
+            textView.setCompoundDrawablePadding(10);
+
             return view;
         }
 
@@ -106,8 +116,46 @@ public class ServerInfoFragment extends Fragment {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(android.R.layout.simple_list_item_1, null);
 
-            TextView textView = (TextView) view.findViewById(android.R.id.text1);
-            textView.setText("Domain: " + mServerList.get(i).getDomain() + "\nPort: " + mServerList.get(i).getPort());
+            final TextView textView = (TextView) view.findViewById(android.R.id.text1);
+            switch (i2)
+            {
+                case 0:
+                    textView.setText("Domain: " + mServerList.get(i).getDomain());
+                    break;
+                case 1:
+                    textView.setText("IP: " + "Lädt...");
+                    (new AsyncTask<Integer,String,Object>() {
+
+                        private String mIpAdress;
+
+                        @Override
+                        protected Object doInBackground(Integer... i) {
+                            try {
+                                mIpAdress = java.net.InetAddress.getByName(mServerList.get(i[0]).getDomain()).getHostAddress();
+                            }
+                            catch (UnknownHostException e) {
+                                e.printStackTrace();
+                                mIpAdress = "Nicht verfügbar";
+                            }
+                            publishProgress(mIpAdress);
+                            return null;
+                        }
+
+                        @Override
+                        protected void onProgressUpdate(String... values) {
+                            textView.setText("IP: " + values[0]);
+                            super.onProgressUpdate(values);
+                        }
+                    }).execute(i);
+                    break;
+                case 2:
+                    textView.setText("Port: " + mServerList.get(i).getPort());
+                    break;
+            }
+
+            textView.setPadding(75, 0, 0, 0);
+            view.setBackgroundColor(mContext.getResources().getColor(R.color.nav_element));
+
             return view;
         }
 

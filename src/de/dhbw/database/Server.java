@@ -15,7 +15,6 @@ public class Server {
     private boolean online;
 
     public Server() {
-
         setOnline(false);
     }
 

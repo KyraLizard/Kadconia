@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -114,7 +115,7 @@ public class ServerStatusFragment extends ListFragment {
 
             if (mOwner.equals(getString(R.string.serverstatus_owner_kadcon)))
             {
-                textView.getLayoutParams().height = 165;
+                textView.getLayoutParams().height = 150;
                 if (server.getServerInformation() != null)
                     textView.setText(textView.getText() + "\n" + server.getServerInformation());
             }
@@ -150,22 +151,6 @@ public class ServerStatusFragment extends ListFragment {
             e.printStackTrace();
         }
         return null;
-    }
-    private boolean checkOnline(Server server) {
-        boolean online = false;
-        try {
-            for (int i=0; i<5; i++) {
-                if (ServerPortOpenChecker.isServerPortOpen(server.getDomain(), server.getPort())) {
-                    online = true;
-                    break;
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return online;
     }
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -205,13 +190,15 @@ public class ServerStatusFragment extends ListFragment {
                 {
                     for (Server server : mDataBaseServer.getAllServerByOwner(getString(R.string.serverstatus_owner_kadcon)))
                     {
-                        server.setOnline(checkOnline(server));
                         mServerList.add(server);
-                        mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
 
                         HashMap JSON = getServerInformation(server);
+                        if (JSON.get("status").equals(true))
+                            server.setOnline(true);
                         LinkedTreeMap players = (LinkedTreeMap) JSON.get("players");
                         server.setServerInformation( ((Double)players.get("online")).intValue() + "/" + ((Double)players.get("max")).intValue() + " Spieler\n" + JSON.get("motd"));
+
+                        mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
                     }
                 }
                 else if (mOwner.equals(getString(R.string.serverstatus_owner_mojang)))

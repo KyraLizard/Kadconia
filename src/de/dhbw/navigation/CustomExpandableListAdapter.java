@@ -78,8 +78,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int i, boolean isExpanded, View view, ViewGroup viewGroup) {
 
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         view = inflater.inflate(android.R.layout.simple_list_item_1, null);
+
         TextView textView = (TextView) view.findViewById(android.R.id.text1);
         textView.setText(mListGroups.get(i));
 
