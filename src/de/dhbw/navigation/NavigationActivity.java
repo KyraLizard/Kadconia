@@ -161,7 +161,6 @@ public class NavigationActivity extends Activity {
             }
         }
     }
-
     private class CustomOnChildClickListener implements ExpandableListView.OnChildClickListener {
 
         @Override

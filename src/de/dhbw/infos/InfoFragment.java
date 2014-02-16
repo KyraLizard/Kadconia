@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import de.dhbw.database.DataBaseHelper;
 import de.dhbw.database.DataBaseInfos;
 import de.dhbw.database.Info;
 import de.dhbw.navigation.R;
@@ -106,7 +104,6 @@ public class InfoFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                Log.d("Test", String.valueOf(id));
                 Fragment fragment;
 
                 switch (id)
@@ -115,7 +112,7 @@ public class InfoFragment extends Fragment{
                         fragment = new RulesFragment();
                         break;
                     case 2:
-                        fragment = new ServerIpFragment();
+                        fragment = new ServerInfoFragment();
                         break;
                     case 3:
                         fragment = new AdminFragment();
@@ -137,12 +134,6 @@ public class InfoFragment extends Fragment{
                     if (info.getId() == id)
                         ((Activity) mContext).getActionBar().setTitle(info.getName());
             }
-
-            private void switchToFragment (int id)
-            {
-
-            }
         }
-		
 	}
 }
