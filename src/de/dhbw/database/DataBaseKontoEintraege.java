@@ -32,6 +32,8 @@ public class DataBaseKontoEintraege implements DataBaseTable{
 	            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_DATE + " INTEGER," + KEY_USERKONTO + " TEXT,"
 	            + KEY_BETRAG + " REAL," + KEY_PARTNERKONTO + " TEXT," + KEY_TYPE + " TEXT,"
                 + KEY_NEWSALDO + " REAL," + KEY_SERVER + " TEXT," + KEY_ITEM + " TEXT" +");";
+    // delete all table rows query
+        private static final String DELETE_ALL_DATA_SERVER_QUERY = "DELETE FROM " + TABLE_NAME;
 
 	public String getTableName() {
 		return TABLE_NAME;
@@ -48,6 +50,16 @@ public class DataBaseKontoEintraege implements DataBaseTable{
 	public void initTable (SQLiteDatabase db) {
 
 	}
+
+    public void deleteAllData(Context context) {
+
+        SQLiteDatabase db = getWritableDatabase(context);
+        deleteAllData(db);
+    }
+
+    public void deleteAllData(SQLiteDatabase db) {
+        db.execSQL(DELETE_ALL_DATA_SERVER_QUERY);
+    }
 
     @Override
     public SQLiteDatabase getReadableDatabase(Context context) {

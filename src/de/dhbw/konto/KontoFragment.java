@@ -1,6 +1,7 @@
 package de.dhbw.konto;
 
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,11 +41,10 @@ import de.dhbw.navigation.R;
  * Created by Mark on 05.12.13.
  */
 
-public class KontoFragment extends Fragment {
+public class KontoFragment extends ListFragment {
 
     private Context mContext;
     private WebView mWebView;
-    private ListView mListView;
     private TextView mPageTextView;
     private ImageView mPagePrev;
     private ImageView mPageNext;
@@ -74,7 +75,6 @@ public class KontoFragment extends Fragment {
 
         mKontoProgressBar = (ProgressBar) view.findViewById(R.id.konto_progress);
 
-        mListView = (ListView) view.findViewById(R.id.konto_list);
         loadFirstData();
 
         mPagePrev.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +91,9 @@ public class KontoFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                Log.e("Test", String.valueOf(mCurrentPage));
+                Log.e("Test",String.valueOf((mCurrentPage/5)*250));
+                Log.e("Test",String.valueOf((new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext)/50));
                 if (mCurrentPage%5 == 1 && (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext) <= ((mCurrentPage/5)*250))
                 {
                     mWebView.loadUrl("http://bank.kadcon.de/index.php?limit=250&last_limit_start=" + (((mCurrentPage-1)/5)-1)*250 + "&next_page=true");
@@ -112,7 +115,7 @@ public class KontoFragment extends Fragment {
 
         mKontoProgressBar.setVisibility(View.INVISIBLE);
         List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, 50, mCurrentPage);
-        mListView.setAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, kontoeintragList));
+        setListAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, kontoeintragList));
 
         if (mCurrentPage == 1)
             mPagePrev.setImageResource(0);
@@ -123,6 +126,9 @@ public class KontoFragment extends Fragment {
     }
 
     private void loadFirstData() {
+
+        //Clear DB Values
+        (new DataBaseKontoEintraege()).deleteAllData(mContext);
 
         //TODO: Remove; Just for debugging
         //String token = PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_token_key), "error");
@@ -172,13 +178,7 @@ public class KontoFragment extends Fragment {
             }
             else
             {
-                view.loadUrl("javascript:(function(){if (document.getElementsByClassName('Box Title Error')[0] != undefined)" +
-                        "{" +
-                        "WebApp.error();" +
-                        "}" +
-                        "else" +
-                        "{" +
-                        "var rawElements = document.getElementsByClassName('hover');" +
+                view.loadUrl("javascript:(function(){var rawElements = document.getElementsByClassName('hover');" +
                         "var finalArray = new Array(rawElements.length);" +
                         "for (var i=0; i<rawElements.length; i++)" +
                         "{" +
@@ -194,7 +194,8 @@ public class KontoFragment extends Fragment {
                         "finalArray[i][8] = rawElements[i].children[9].innerText;" +
                         "}" +
                         "WebApp.addKontoeintraegeFromJSON(JSON.stringify(finalArray));" +
-                        "}})()");
+                        "})()");
+                refreshList();
             }
             super.onPageFinished(view, url);
         }
@@ -215,12 +216,6 @@ public class KontoFragment extends Fragment {
         }
     }
     private class WebAppInterface {
-
-        @JavascriptInterface
-        public void error() {
-            Toast.makeText(mContext, "Daten sind aktuell.", Toast.LENGTH_SHORT).show();
-            refreshList();
-        }
 
         @JavascriptInterface
         public void addKontoeintraegeFromJSON(String kontoeintraegeArray) throws ParseException {
