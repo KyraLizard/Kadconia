@@ -1,10 +1,7 @@
 package de.dhbw.konto;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,16 +41,15 @@ import de.dhbw.navigation.R;
 
 public class KontoFragment extends Fragment {
 
-    public static final int LIST_ELEMENTS_PER_PAGE = 100;
-
     private Context mContext;
     private WebView mWebView;
     private ListView mListView;
     private TextView mPageTextView;
     private ImageView mPagePrev;
     private ImageView mPageNext;
+    private ProgressBar mKontoProgressBar;
 
-    private int currentPage = 1;
+    private int mCurrentPage = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +61,7 @@ public class KontoFragment extends Fragment {
 
         mWebView = (WebView) view.findViewById(R.id.konto_webview);
         mWebView.setWebViewClient(new CustomWebViewClient());
+        mWebView.setWebChromeClient(new CustomWebChromeClient());
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new WebAppInterface(), "WebApp");
 
@@ -70,15 +69,16 @@ public class KontoFragment extends Fragment {
         mPagePrev = (ImageView) view.findViewById(R.id.konto_page_prev);
         mPageNext = (ImageView) view.findViewById(R.id.konto_page_next);
 
+        mKontoProgressBar = (ProgressBar) view.findViewById(R.id.konto_progress);
+
         mListView = (ListView) view.findViewById(R.id.konto_list);
-        refreshList();
+        loadFirstData();
 
         mPagePrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (currentPage >= 2)
-                {
-                    currentPage--;
+                if (mCurrentPage >= 2) {
+                    mCurrentPage--;
                     refreshList();
                 }
             }
@@ -87,9 +87,15 @@ public class KontoFragment extends Fragment {
         mPageNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (currentPage <= (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext) / LIST_ELEMENTS_PER_PAGE)
+
+                if (mCurrentPage%5 == 1 && (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext) <= ((mCurrentPage/5)*250))
                 {
-                    currentPage++;
+                    mWebView.loadUrl("http://bank.kadcon.de/index.php?limit=250&last_limit_start=" + (((mCurrentPage-1)/5)-1)*250 + "&next_page=true");
+                    mKontoProgressBar.setVisibility(View.VISIBLE);
+                }
+                else if (mCurrentPage <= (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext)/50)
+                {
+                    mCurrentPage++;
                     refreshList();
                 }
             }
@@ -100,42 +106,20 @@ public class KontoFragment extends Fragment {
     }
 
     private void refreshList() {
-        List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, LIST_ELEMENTS_PER_PAGE, currentPage);
+
+        mKontoProgressBar.setVisibility(View.INVISIBLE);
+        List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, 50, mCurrentPage);
         mListView.setAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, kontoeintragList));
 
-        if (currentPage == 1)
+        if (mCurrentPage == 1)
             mPagePrev.setImageResource(0);
         else
             mPagePrev.setImageResource(R.drawable.ic_action_previous_item);
 
-        if (currentPage == (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext) / LIST_ELEMENTS_PER_PAGE + 1)
-            mPageNext.setImageResource(0);
-        else
-            mPageNext.setImageResource(R.drawable.ic_action_next_item);
-
-        mPageTextView.setText("Seite " + currentPage + "/" + ((new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext) / LIST_ELEMENTS_PER_PAGE + 1));
+        mPageTextView.setText("Seite " + mCurrentPage);
     }
 
-    private void showWarning() {
-        new AlertDialog.Builder(mContext)
-                .setTitle("Aktualisieren")
-                .setMessage("Falls die Daten das erste Mal oder vor einiger Zeit sychronisiert wurden, kann dies zu hohen Datenmengen beim Download führen. Fortfahren?")
-                .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        refreshData();
-                    }
-                })
-                .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(mContext, "Aktualisierung abgebrochen.", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .show();
-    }
-
-    private void refreshData() {
+    private void loadFirstData() {
 
         //TODO: Remove; Just for debugging
         //String token = PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_token_key), "error");
@@ -143,7 +127,10 @@ public class KontoFragment extends Fragment {
         if (token.equals("error"))
             Toast.makeText(mContext, "Bitte gib dein Konto-Token in den Einstellungen ein.", Toast.LENGTH_LONG).show();
         else
+        {
             mWebView.loadUrl("http://bank.kadcon.de/?token="+token);
+            mKontoProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -152,7 +139,7 @@ public class KontoFragment extends Fragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                showWarning();
+                loadFirstData();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -173,7 +160,10 @@ public class KontoFragment extends Fragment {
             if (!url.contains("limit"))
             {
                 if (url.contains("login"))
+                {
+                    mKontoProgressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(mContext, "Token ungültig.", Toast.LENGTH_SHORT).show();
+                }
                 else
                     view.loadUrl("http://bank.kadcon.de/index.php?limit=250");
             }
@@ -212,9 +202,16 @@ public class KontoFragment extends Fragment {
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
     }
-    private class WebAppInterface {
+    private class CustomWebChromeClient extends WebChromeClient {
 
-        private int loadedPage = 1; //Seite, die gerade ausgelesen wird
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+
+            mKontoProgressBar.setProgress(newProgress);
+            super.onProgressChanged(view, newProgress);
+        }
+    }
+    private class WebAppInterface {
 
         @JavascriptInterface
         public void error() {
@@ -225,7 +222,6 @@ public class KontoFragment extends Fragment {
         @JavascriptInterface
         public void addKontoeintraegeFromJSON(String kontoeintraegeArray) throws ParseException {
 
-            boolean isUpToDate = false;
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<ArrayList<String>>>(){}.getType();
             DataBaseKontoEintraege dbKonto = new DataBaseKontoEintraege();
@@ -238,34 +234,9 @@ public class KontoFragment extends Fragment {
                 double newSaldo = Double.parseDouble(kontoeintrag.get(8));
                 Kontoeintrag newEintrag = new Kontoeintrag(date, kontoeintrag.get(1),
                         betrag, kontoeintrag.get(4), kontoeintrag.get(5), kontoeintrag.get(6), kontoeintrag.get(7), newSaldo);
-                if (dbKonto.isKontoeintragInDatabase(mContext, newEintrag))
-                {
-                    isUpToDate = true;
-                    loadedPage = 1;
-                    Toast.makeText(mContext, "Alle Daten ausgelesen", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                else
                     dbKonto.addKontoEintrag(mContext, newEintrag);
             }
-            if (!isUpToDate)
-            {
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d("Test", "Not UpToDate, Page " + loadedPage);
-                        //TODO: Remove next if, just for debugging
-                        if (loadedPage > 2)
-                        {
-                            loadedPage = 1;
-                            Log.d("Test", "Debug Target");
-                            return;
-                        }
-                        mWebView.loadUrl("http://bank.kadcon.de/index.php?limit=250&last_limit_start=" + (loadedPage-1)*250 + "&next_page=true");
-                        loadedPage++;
-                    }
-                });
-            }
+            refreshList();
         }
     }
     private class CustomKontoAdapter extends ArrayAdapter<Kontoeintrag> {
