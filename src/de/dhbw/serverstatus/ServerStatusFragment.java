@@ -48,8 +48,10 @@ public class ServerStatusFragment extends ListFragment {
     private ProgressBar mProgressBar;
     private String mOwner;
 
-    public ServerStatusFragment(String owner) {
+    public ServerStatusFragment() {
+    }
 
+    public ServerStatusFragment(String owner) {
         mOwner = owner;
     }
 

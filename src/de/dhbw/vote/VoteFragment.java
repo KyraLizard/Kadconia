@@ -63,6 +63,10 @@ public class VoteFragment extends Fragment {
 
     // http://developer.android.com/training/keyboard-input/style.html
 
+
+    public VoteFragment() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

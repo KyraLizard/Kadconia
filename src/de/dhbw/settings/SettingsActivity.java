@@ -7,6 +7,10 @@ import android.os.Bundle;
  * Created by Mark on 18.11.13.
  */
 public class SettingsActivity extends Activity {
+
+    public SettingsActivity() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

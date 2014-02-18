@@ -28,8 +28,11 @@ public class NavigationActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
     private ExpandableListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-	
-	@Override
+
+    public NavigationActivity() {
+    }
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);

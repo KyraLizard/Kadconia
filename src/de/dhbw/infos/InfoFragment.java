@@ -26,6 +26,9 @@ public class InfoFragment extends Fragment{
 	private List<Info> mInfoList;
     private Context mContext;
 
+    public InfoFragment() {
+    }
+
     public InfoFragment(String title) {
         mTitle = title;
     }

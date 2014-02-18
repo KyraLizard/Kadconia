@@ -51,6 +51,9 @@ public class KontoFragment extends Fragment {
 
     private int mCurrentPage = 1;
 
+    public KontoFragment() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
