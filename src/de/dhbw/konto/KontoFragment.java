@@ -1,5 +1,6 @@
 package de.dhbw.konto;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Context;
@@ -75,8 +76,6 @@ public class KontoFragment extends ListFragment {
 
         mKontoProgressBar = (ProgressBar) view.findViewById(R.id.konto_progress);
 
-        loadFirstData();
-
         mPagePrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,46 +90,35 @@ public class KontoFragment extends ListFragment {
             @Override
             public void onClick(View view) {
 
-                Log.e("Test", String.valueOf(mCurrentPage));
-                Log.e("Test",String.valueOf((mCurrentPage/5)*250));
-                Log.e("Test",String.valueOf((new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext)/50));
-                if (mCurrentPage%5 == 1 && (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext) <= ((mCurrentPage/5)*250))
-                {
-                    mWebView.loadUrl("http://bank.kadcon.de/index.php?limit=250&last_limit_start=" + (((mCurrentPage-1)/5)-1)*250 + "&next_page=true");
-                    mKontoProgressBar.setVisibility(View.VISIBLE);
-                }
-                else if (mCurrentPage <= (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext)/50)
-                {
-                    mCurrentPage++;
+                mCurrentPage++;
+                int anzEintraege = (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext);
+
+                //Wenn für die neue Seite nicht genug Einträge vorhanden sind...
+                if (mCurrentPage > anzEintraege / 50)
+                    if (anzEintraege%250 == 0)
+                        loadData(anzEintraege / 250);
+                    else
+                    {
+                        mCurrentPage--;
+                        Toast.makeText(mContext,"Keine Einträge mehr vorhanden",Toast.LENGTH_LONG).show();
+                    }
+
+                else
                     refreshList();
-                }
             }
         });
+
+        reloadData();
 
         return view;
         //return inflater.inflate(R.layout.fragment_konto, container, false);
     }
 
-    private void refreshList() {
+    private void reloadData() {
 
-        mKontoProgressBar.setVisibility(View.INVISIBLE);
-        List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, 50, mCurrentPage);
-        setListAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, kontoeintragList));
-
-        if (mCurrentPage == 1)
-            mPagePrev.setImageResource(0);
-        else
-            mPagePrev.setImageResource(R.drawable.ic_action_previous_item);
-
-        mPageTextView.setText("Seite " + mCurrentPage);
-    }
-
-    private void loadFirstData() {
-
-        //Clear DB Values
+        mCurrentPage = 1;
         (new DataBaseKontoEintraege()).deleteAllData(mContext);
 
-        //TODO: Remove; Just for debugging
         //String token = PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_token_key), "error");
         String token = "b38eac06f56188a4";  //b38eac06f56188a4
         if (token.equals("error"))
@@ -148,7 +136,7 @@ public class KontoFragment extends ListFragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                loadFirstData();
+                reloadData();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -158,6 +146,31 @@ public class KontoFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.konto, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void refreshList() {
+
+        ((Activity)mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mKontoProgressBar.setVisibility(View.INVISIBLE);
+                List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, 50, mCurrentPage);
+                setListAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, kontoeintragList));
+
+                if (mCurrentPage == 1)
+                    mPagePrev.setImageResource(0);
+                else
+                    mPagePrev.setImageResource(R.drawable.ic_action_previous_item);
+
+                mPageTextView.setText("Seite " + mCurrentPage);
+            }
+        });
+    }
+    private void loadData(int page) {
+        if (page == 0)
+            mWebView.loadUrl("http://bank.kadcon.de/index.php?limit=250");
+        else
+            mWebView.loadUrl("http://bank.kadcon.de/index.php?limit=250&last_limit_start=" + (page-1)*250 + "&next_page=true");
     }
 
     private class CustomWebViewClient extends WebViewClient {
@@ -174,7 +187,7 @@ public class KontoFragment extends ListFragment {
                     Toast.makeText(mContext, "Token ungültig.", Toast.LENGTH_SHORT).show();
                 }
                 else
-                    view.loadUrl("http://bank.kadcon.de/index.php?limit=250");
+                    loadData((new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext)/250);
             }
             else
             {
@@ -195,7 +208,6 @@ public class KontoFragment extends ListFragment {
                         "}" +
                         "WebApp.addKontoeintraegeFromJSON(JSON.stringify(finalArray));" +
                         "})()");
-                refreshList();
             }
             super.onPageFinished(view, url);
         }
@@ -254,12 +266,19 @@ public class KontoFragment extends ListFragment {
 
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
             DecimalFormat df = new DecimalFormat("#0.00");
-            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
-            textView.setText(sdf.format(mKontoeintragList.get(position).getDate()) + "\n" + String.valueOf(mKontoeintragList.get(position).getType() + ": " + df.format(mKontoeintragList.get(position).getBetrag())));
+            //SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
+            //sdf.format(mKontoeintragList.get(position).getDate());
             if (mKontoeintragList.get(position).getBetrag() >= 0)
+            {
+                textView.setText(String.valueOf(mKontoeintragList.get(position).getType() + ": +" + df.format(mKontoeintragList.get(position).getBetrag())));
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_konto_money,0,0,0);
+            }
             else
+            {
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_konto_item,0,0,0);
+                textView.setText(String.valueOf(mKontoeintragList.get(position).getType() + ": " + df.format(mKontoeintragList.get(position).getBetrag())));
+
+            }
             textView.setCompoundDrawablePadding(10);
 
             return view;
