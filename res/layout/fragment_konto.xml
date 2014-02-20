@@ -3,13 +3,6 @@
     android:id="@+id/konto_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <ProgressBar
-        android:id="@+id/konto_progress"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        style="@android:style/Widget.ProgressBar.Horizontal" />
     <RelativeLayout
         android:id="@+id/konto_layout"
         android:layout_width="match_parent"
@@ -55,4 +48,11 @@
                 android:background="@drawable/background_border" />
         </LinearLayout>
     </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/konto_progress"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        style="@android:style/Widget.ProgressBar.Horizontal" />
 </FrameLayout>

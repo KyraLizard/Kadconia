@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -108,7 +110,8 @@ public class KontoFragment extends ListFragment {
             }
         });
 
-        reloadData();
+        mCurrentPage = 1;
+        refreshList();
 
         return view;
         //return inflater.inflate(R.layout.fragment_konto, container, false);
