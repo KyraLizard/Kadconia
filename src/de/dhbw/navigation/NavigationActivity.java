@@ -151,7 +151,7 @@ public class NavigationActivity extends Activity {
                 // Insert the fragment by replacing any existing fragment
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, fragment);
-                if (getFragmentManager().findFragmentById(R.id.content_frame) != null)  //Prevents empty activity window from being added to BackStack
+                if (getFragmentManager().findFragmentById(R.id.content_frame) != null && getActionBar() != null)  //Prevents empty activity window from being added to BackStack
                     ft.addToBackStack(getActionBar().getTitle().toString());
                 ft.commit();
 

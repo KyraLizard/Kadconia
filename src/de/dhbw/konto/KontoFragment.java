@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,6 +55,8 @@ public class KontoFragment extends ListFragment {
     private ProgressBar mKontoProgressBar;
 
     private int mCurrentPage = 1;
+    private int mReloadStatus = 0;  //0=kein Reload, 1=Login-Seite wird geladen, 2=Daten-Seite wird geladen
+    private boolean areButtonsLocked = false;
 
     public KontoFragment() {
     }
@@ -77,10 +80,15 @@ public class KontoFragment extends ListFragment {
         mPageNext = (ImageView) view.findViewById(R.id.konto_page_next);
 
         mKontoProgressBar = (ProgressBar) view.findViewById(R.id.konto_progress);
+        mKontoProgressBar.setProgress(0);
 
         mPagePrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (areButtonsLocked)
+                    return;
+
                 if (mCurrentPage >= 2) {
                     mCurrentPage--;
                     refreshList();
@@ -92,19 +100,26 @@ public class KontoFragment extends ListFragment {
             @Override
             public void onClick(View view) {
 
+                if (areButtonsLocked)
+                    return;
+
                 mCurrentPage++;
                 int anzEintraege = (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext);
 
                 //Wenn für die neue Seite nicht genug Einträge vorhanden sind...
                 if (mCurrentPage > anzEintraege / 50)
+                {
                     if (anzEintraege%250 == 0)
+                    {
+                        mKontoProgressBar.setVisibility(View.VISIBLE);
                         loadData(anzEintraege / 250);
+                    }
                     else
                     {
                         mCurrentPage--;
                         Toast.makeText(mContext,"Keine Einträge mehr vorhanden",Toast.LENGTH_LONG).show();
                     }
-
+                }
                 else
                     refreshList();
             }
@@ -119,11 +134,12 @@ public class KontoFragment extends ListFragment {
 
     private void reloadData() {
 
+        mReloadStatus = 1;
         mCurrentPage = 1;
         (new DataBaseKontoEintraege()).deleteAllData(mContext);
 
-        //String token = PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_token_key), "error");
-        String token = "b38eac06f56188a4";  //b38eac06f56188a4
+        String token = PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_token_key), "error");
+        //String token = "b38eac06f56188a4";
         if (token.equals("error"))
             Toast.makeText(mContext, "Bitte gib dein Konto-Token in den Einstellungen ein.", Toast.LENGTH_LONG).show();
         else
@@ -166,10 +182,14 @@ public class KontoFragment extends ListFragment {
                     mPagePrev.setImageResource(R.drawable.ic_action_previous_item);
 
                 mPageTextView.setText("Seite " + mCurrentPage);
+                areButtonsLocked = false;
             }
         });
     }
     private void loadData(int page) {
+
+        areButtonsLocked = true;
+        mKontoProgressBar.setProgress(0);
         if (page == 0)
             mWebView.loadUrl("http://bank.kadcon.de/index.php?limit=250");
         else
@@ -188,9 +208,13 @@ public class KontoFragment extends ListFragment {
                 {
                     mKontoProgressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(mContext, "Token ungültig.", Toast.LENGTH_SHORT).show();
+                    areButtonsLocked = false;
                 }
                 else
+                {
+                    mReloadStatus = 2;
                     loadData((new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext)/250);
+                }
             }
             else
             {
@@ -218,6 +242,7 @@ public class KontoFragment extends ListFragment {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             Toast.makeText(mContext, "Fehler beim Laden der Website", Toast.LENGTH_SHORT).show();
+            areButtonsLocked = false;
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
     }
@@ -226,7 +251,18 @@ public class KontoFragment extends ListFragment {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
 
-            mKontoProgressBar.setProgress(newProgress);
+            switch (mReloadStatus)
+            {
+                case 0:
+                    mKontoProgressBar.setProgress((int)0.7*newProgress);
+                    break;
+                case 1:
+                    mKontoProgressBar.setProgress((int)0.35*newProgress);
+                    break;
+                case 2:
+                    mKontoProgressBar.setProgress((int)(35+0.35*newProgress));
+                    break;
+            }
             super.onProgressChanged(view, newProgress);
         }
     }
@@ -238,6 +274,7 @@ public class KontoFragment extends ListFragment {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<ArrayList<String>>>(){}.getType();
             DataBaseKontoEintraege dbKonto = new DataBaseKontoEintraege();
+            int counter = 1;
             for (ArrayList<String> kontoeintrag : (ArrayList<ArrayList<String>>) gson.fromJson(kontoeintraegeArray, type))
             {
                 long date = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(kontoeintrag.get(0)).getTime();
@@ -248,7 +285,11 @@ public class KontoFragment extends ListFragment {
                 Kontoeintrag newEintrag = new Kontoeintrag(date, kontoeintrag.get(1),
                         betrag, kontoeintrag.get(4), kontoeintrag.get(5), kontoeintrag.get(6), kontoeintrag.get(7), newSaldo);
                     dbKonto.addKontoEintrag(mContext, newEintrag);
+                mKontoProgressBar.setProgress(70+30*counter/250);
+                counter++;
             }
+            if (mReloadStatus == 2)
+                mReloadStatus = 0;
             refreshList();
         }
     }
@@ -280,7 +321,6 @@ public class KontoFragment extends ListFragment {
             {
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_konto_item,0,0,0);
                 textView.setText(String.valueOf(mKontoeintragList.get(position).getType() + ": " + df.format(mKontoeintragList.get(position).getBetrag())));
-
             }
             textView.setCompoundDrawablePadding(10);
 

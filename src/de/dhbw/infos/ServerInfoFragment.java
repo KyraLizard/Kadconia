@@ -153,7 +153,7 @@ public class ServerInfoFragment extends Fragment {
                     break;
             }
 
-            textView.setPadding(75, 0, 0, 0);
+            //textView.setPadding(75, 0, 0, 0);
             view.setBackgroundColor(mContext.getResources().getColor(R.color.nav_element));
 
             return view;
