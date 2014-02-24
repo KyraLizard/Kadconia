@@ -22,6 +22,8 @@
     <string name="pref_konto_token_summary">Konto-Token zum Anzeigen der Kontoauszüge</string>
     <string name="pref_konto_token_default"></string>
     <string name="pref_player_list_key">player_list_1</string>
+    <string name="pref_konto_page">CurrentPage</string>
+    <string name="pref_konto_date">KontoDate</string>
 
     <string name="error_no_internet">Keine Internetverbindung</string>
 
@@ -29,6 +31,9 @@
     <string name="vote_text_name">Minecraft-Name:</string>
     <string name="vote_button_submit">Bewerten</string>
     <string name="vote_text_hint_default">Tipp: Deinen Namen kannst du in den Einstellungen ändern!</string>
+
+    <string name="bundle_key_kontoeintrag">Kontoeintrag</string>
+    <string name="bundle_key_serverstatus_owner">Owner</string>
     
     <string name="title_activity_navigation">Kadconia</string>
 

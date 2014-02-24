@@ -2,10 +2,14 @@ package de.dhbw.konto;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -31,14 +35,21 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.dhbw.database.DataBaseKontoEintraege;
+import de.dhbw.database.Info;
 import de.dhbw.database.Kontoeintrag;
+import de.dhbw.infos.AdminFragment;
+import de.dhbw.infos.KontaktFragment;
+import de.dhbw.infos.RulesFragment;
+import de.dhbw.infos.ServerInfoFragment;
 import de.dhbw.navigation.R;
 
 /**
@@ -47,16 +58,20 @@ import de.dhbw.navigation.R;
 
 public class KontoFragment extends ListFragment {
 
+    // b38eac06f56188a4
+
     private Context mContext;
     private WebView mWebView;
     private TextView mPageTextView;
     private ImageView mPagePrev;
     private ImageView mPageNext;
     private ProgressBar mKontoProgressBar;
+    private TextView mDateTextView;
 
-    private int mCurrentPage = 1;
+    private int mCurrentPage;
     private int mReloadStatus = 0;  //0=kein Reload, 1=Login-Seite wird geladen, 2=Daten-Seite wird geladen
     private boolean areButtonsLocked = false;
+    private List<Kontoeintrag> mKontoeintragList;
 
     public KontoFragment() {
     }
@@ -66,8 +81,7 @@ public class KontoFragment extends ListFragment {
 
         setHasOptionsMenu(true);
 
-        mContext = getActivity();
-        View view = inflater.inflate(R.layout.fragment_konto, null);
+        mContext = getActivity();View view = inflater.inflate(R.layout.fragment_konto, null);
 
         mWebView = (WebView) view.findViewById(R.id.konto_webview);
         mWebView.setWebViewClient(new CustomWebViewClient());
@@ -78,6 +92,12 @@ public class KontoFragment extends ListFragment {
         mPageTextView = (TextView) view.findViewById(R.id.konto_page_text);
         mPagePrev = (ImageView) view.findViewById(R.id.konto_page_prev);
         mPageNext = (ImageView) view.findViewById(R.id.konto_page_next);
+
+        mDateTextView = (TextView) view.findViewById(R.id.konto_date);
+        if (PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_date),"error") != "error")
+            mDateTextView.setText(PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_date),"error"));
+        else
+            mDateTextView.setText("Noch nicht aktualisiert...");
 
         mKontoProgressBar = (ProgressBar) view.findViewById(R.id.konto_progress);
         mKontoProgressBar.setProgress(0);
@@ -90,6 +110,9 @@ public class KontoFragment extends ListFragment {
                     return;
 
                 if (mCurrentPage >= 2) {
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+                    editor.putInt(getString(R.string.pref_konto_page),mCurrentPage-1);
+                    editor.commit();
                     mCurrentPage--;
                     refreshList();
                 }
@@ -102,7 +125,15 @@ public class KontoFragment extends ListFragment {
 
                 if (areButtonsLocked)
                     return;
+                if (PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_token_key), "error").equals("error"))
+                {
+                    Toast.makeText(mContext, "Bitte gib dein Konto-Token in den Einstellungen ein.", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+                editor.putInt(getString(R.string.pref_konto_page),mCurrentPage+1);
+                editor.commit();
                 mCurrentPage++;
                 int anzEintraege = (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext);
 
@@ -110,12 +141,11 @@ public class KontoFragment extends ListFragment {
                 if (mCurrentPage > anzEintraege / 50)
                 {
                     if (anzEintraege%250 == 0)
-                    {
-                        mKontoProgressBar.setVisibility(View.VISIBLE);
                         loadData(anzEintraege / 250);
-                    }
                     else
                     {
+                        editor.putInt(getString(R.string.pref_konto_page),mCurrentPage-1);
+                        editor.commit();
                         mCurrentPage--;
                         Toast.makeText(mContext,"Keine Einträge mehr vorhanden",Toast.LENGTH_LONG).show();
                     }
@@ -125,28 +155,38 @@ public class KontoFragment extends ListFragment {
             }
         });
 
-        mCurrentPage = 1;
+        if (PreferenceManager.getDefaultSharedPreferences(mContext).getInt(getString(R.string.pref_konto_page), 0) != 0)
+            mCurrentPage = PreferenceManager.getDefaultSharedPreferences(mContext).getInt(getString(R.string.pref_konto_page), 0);
+        else
+        {
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+            editor.putInt(getString(R.string.pref_konto_page),1);
+            editor.commit();
+            mCurrentPage = 1;
+        }
+
         refreshList();
 
         return view;
         //return inflater.inflate(R.layout.fragment_konto, container, false);
     }
 
-    private void reloadData() {
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
 
-        mReloadStatus = 1;
-        mCurrentPage = 1;
-        (new DataBaseKontoEintraege()).deleteAllData(mContext);
+        Fragment fragment = new KontoeintragFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.bundle_key_kontoeintrag), (new Gson()).toJson(mKontoeintragList.get(position)));
+        fragment.setArguments(bundle);
 
-        String token = PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_token_key), "error");
-        //String token = "b38eac06f56188a4";
-        if (token.equals("error"))
-            Toast.makeText(mContext, "Bitte gib dein Konto-Token in den Einstellungen ein.", Toast.LENGTH_LONG).show();
-        else
-        {
-            mWebView.loadUrl("http://bank.kadcon.de/?token="+token);
-            mKontoProgressBar.setVisibility(View.VISIBLE);
-        }
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.addToBackStack(((Activity) mContext).getActionBar().getTitle().toString());
+        fragmentTransaction.commit();
+
+        ((Activity) mContext).getActionBar().setTitle("Kontoeintrag #" + (new DecimalFormat("#000")).format(mKontoeintragList.get(position).getId()));
+
+        super.onListItemClick(l, v, position, id);
     }
 
     @Override
@@ -167,14 +207,50 @@ public class KontoFragment extends ListFragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    private void reloadData() {
+
+        mReloadStatus = 1;
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+        editor.putInt(getString(R.string.pref_konto_page),1);
+        editor.commit();
+        mCurrentPage = 1;
+
+        if (!isOnline())
+        {
+            Toast.makeText(mContext, getString(R.string.error_no_internet), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        (new DataBaseKontoEintraege()).deleteAllData(mContext);
+
+        String token = PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_token_key), "error");
+        if (token.equals("error"))
+            Toast.makeText(mContext, "Bitte gib dein Konto-Token in den Einstellungen ein.", Toast.LENGTH_LONG).show();
+        else
+        {
+            mWebView.loadUrl("http://bank.kadcon.de/?token="+token);
+            mKontoProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
     private void refreshList() {
 
         ((Activity)mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mKontoProgressBar.setVisibility(View.INVISIBLE);
-                List<Kontoeintrag> kontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, 50, mCurrentPage);
-                setListAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, kontoeintragList));
+                if (PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_date), "error") != "error")
+                    mDateTextView.setText(PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_date), "error"));
+                mKontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, 50, mCurrentPage);
+                setListAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, mKontoeintragList));
 
                 if (mCurrentPage == 1)
                     mPagePrev.setImageResource(0);
@@ -188,6 +264,7 @@ public class KontoFragment extends ListFragment {
     }
     private void loadData(int page) {
 
+        mKontoProgressBar.setVisibility(View.VISIBLE);
         areButtonsLocked = true;
         mKontoProgressBar.setProgress(0);
         if (page == 0)
@@ -201,7 +278,6 @@ public class KontoFragment extends ListFragment {
         @Override
         public void onPageFinished(WebView view, String url) {
 
-            Log.d("Test", "OnPageFinished, URL: " + url);
             if (!url.contains("limit"))
             {
                 if (url.contains("login"))
@@ -289,7 +365,13 @@ public class KontoFragment extends ListFragment {
                 counter++;
             }
             if (mReloadStatus == 2)
+            {
                 mReloadStatus = 0;
+                String dateString = "Zuletzt aktualisiert am " + (new SimpleDateFormat("dd.MM.yyyy, HH:mm:ss")).format(new Date()) + " Uhr";
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+                editor.putString(getString(R.string.pref_konto_date), dateString);
+                editor.commit();
+            }
             refreshList();
         }
     }

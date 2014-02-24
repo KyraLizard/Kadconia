@@ -21,12 +21,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import de.dhbw.database.DataBaseServer;
+import de.dhbw.database.Kontoeintrag;
 import de.dhbw.database.Server;
 import de.dhbw.navigation.R;
 
@@ -51,19 +54,20 @@ public class ServerStatusFragment extends ListFragment {
     public ServerStatusFragment() {
     }
 
-    public ServerStatusFragment(String owner) {
-        mOwner = owner;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mContext = getActivity();
         setHasOptionsMenu(true);
 
-        View view = inflater.inflate(R.layout.fragment_serverstatus, null);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.serverstatus_progress);
+        if (getArguments().getString(getString(R.string.bundle_key_serverstatus_owner)) != null)
+            mOwner = getArguments().getString(getString(R.string.bundle_key_serverstatus_owner));
+        else
+            mOwner = savedInstanceState.getString(getString(R.string.bundle_key_serverstatus_owner));
 
+        View view = inflater.inflate(R.layout.fragment_serverstatus, null);
+
+        mProgressBar = (ProgressBar) view.findViewById(R.id.serverstatus_progress);
         mProgressBar.setVisibility(View.VISIBLE);
 
         (new RefreshListTask(mOwner)).execute();
@@ -71,6 +75,13 @@ public class ServerStatusFragment extends ListFragment {
         return view;
         //return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(getString(R.string.bundle_key_serverstatus_owner),mOwner);
+    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

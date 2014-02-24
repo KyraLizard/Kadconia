@@ -15,6 +15,9 @@ import de.dhbw.navigation.R;
  */
 public class RulesFragment extends Fragment {
 
+    public RulesFragment() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

@@ -151,7 +151,7 @@ public class NavigationActivity extends Activity {
                 // Insert the fragment by replacing any existing fragment
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, fragment);
-                if (getFragmentManager().findFragmentById(R.id.content_frame) != null && getActionBar() != null)  //Prevents empty activity window from being added to BackStack
+                if (getFragmentManager().findFragmentById(R.id.content_frame) != null && getActionBar().getTitle() != null)  //Prevents empty activity window from being added to BackStack
                     ft.addToBackStack(getActionBar().getTitle().toString());
                 ft.commit();
 
@@ -171,7 +171,10 @@ public class NavigationActivity extends Activity {
 
             if ((expandableListView.getExpandableListAdapter()).getGroup(i).equals(getString(R.string.nav_serverstatus)))
             {
-                Fragment fragment = new ServerStatusFragment(expandableListView.getExpandableListAdapter().getChild(i,i2).toString());
+                Fragment fragment = new ServerStatusFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(getString(R.string.bundle_key_serverstatus_owner), expandableListView.getExpandableListAdapter().getChild(i,i2).toString());
+                fragment.setArguments(bundle);
 
                 String[] mChildNavigationTitles = mContext.getResources().getStringArray(R.array.nav_elements_serverstatus);
 

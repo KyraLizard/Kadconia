@@ -1,6 +1,5 @@
 package de.dhbw.links;
 
-import de.dhbw.database.DataBaseHelper;
 import de.dhbw.database.DataBaseLinks;
 import de.dhbw.database.Link;
 import de.dhbw.navigation.R;
@@ -8,7 +7,6 @@ import de.dhbw.navigation.R;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,8 +23,11 @@ public class LinkFragment extends Fragment{
 	
 	private List<Link> mLinkList;
     private Context mContext;
-	
-	@Override
+
+    public LinkFragment() {
+    }
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		

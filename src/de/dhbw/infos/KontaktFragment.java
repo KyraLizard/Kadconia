@@ -13,6 +13,10 @@ import de.dhbw.navigation.R;
  * Created by Mark on 28.11.13.
  */
 public class KontaktFragment extends Fragment {
+
+    public KontaktFragment() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
