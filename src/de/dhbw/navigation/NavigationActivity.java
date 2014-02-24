@@ -4,13 +4,12 @@ import de.dhbw.infos.InfoFragment;
 import de.dhbw.konto.KontoFragment;
 import de.dhbw.links.LinkFragment;
 import de.dhbw.serverstatus.ServerStatusFragment;
-import de.dhbw.settings.SettingsActivity;
+import de.dhbw.settings.SettingsFragment;
 import de.dhbw.vote.VoteFragment;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.content.res.Configuration;
@@ -73,10 +72,11 @@ public class NavigationActivity extends Activity {
         mDrawerList.setOnChildClickListener(new CustomOnChildClickListener());
 	
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        //getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
-        //mDrawerList.performItemClick(mDrawerList.getAdapter().getView(0, null, null),0,mDrawerList.getAdapter().getItemId(0));
-        mDrawerList.performItemClick(mDrawerList.getChildAt(1),1,mDrawerList.getAdapter().getItemId(1));
+        mDrawerList.performItemClick(null,0,0); //Click to open Serverstatus Group
+        mDrawerList.performItemClick(null,1,0); //Click to choose Kadcon
+        collapseAllGroups();
 	}
 
     private void collapseAllGroups() {
@@ -140,9 +140,8 @@ public class NavigationActivity extends Activity {
                         fragment = new LinkFragment();
                         break;
                     case 5:
-                        Intent mIntent = new Intent(mContext, SettingsActivity.class);
-                        startActivity(mIntent);
-                        return true;
+                        fragment = new SettingsFragment();
+                        break;
                     default:
                         fragment = new VoteFragment();
                         break;
@@ -227,12 +226,6 @@ public class NavigationActivity extends Activity {
             return true;
         }
 
-        switch (item.getItemId())
-        {
-            case R.id.action_settings:
-                Intent mIntent = new Intent(this, SettingsActivity.class);
-                startActivity(mIntent);
-        }
         // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);

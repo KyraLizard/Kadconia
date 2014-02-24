@@ -152,7 +152,7 @@ public class AdminFragment extends ListFragment {
                         ((Activity) mContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(mContext, "Keine Internet-Verbindung!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, getString(R.string.error_no_internet), Toast.LENGTH_LONG).show();
                             }
                         });
                         break;
