@@ -25,14 +25,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: de.dhbw.navigation" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6adf02e1-34ba-4b6b-84db-f2d91b2e2d14" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\marka_000\Android Studio Projects\Kadconia\src\de\dhbw\settings\SettingsActivity.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java" afterPath="$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java" afterPath="$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/dhbw/serverstatus/ServerStatusFragment.java" afterPath="$PROJECT_DIR$/src/de/dhbw/serverstatus/ServerStatusFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="6adf02e1-34ba-4b6b-84db-f2d91b2e2d14" name="Default" comment="" />
     <ignored path="Kadconia.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -98,17 +91,8 @@
       <file leaf-file-name="KontoFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/dhbw/konto/KontoFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="182" column="34" selection-start="6962" selection-end="6963" vertical-scroll-proportion="0.0" vertical-offset="2091" max-vertical-offset="2856">
-              <folding>
-                <element signature="method#reloadData#0;class#KontoFragment#0" expanded="false" />
-                <element signature="method#isOnline#0;class#KontoFragment#0" expanded="false" />
-                <element signature="method#refreshList#0;class#KontoFragment#0" expanded="false" />
-                <element signature="method#loadData#0;class#KontoFragment#0" expanded="false" />
-                <element signature="class#CustomWebViewClient#0;class#KontoFragment#0" expanded="false" />
-                <element signature="class#CustomWebChromeClient#0;class#KontoFragment#0" expanded="false" />
-                <element signature="class#WebAppInterface#0;class#KontoFragment#0" expanded="false" />
-                <element signature="class#CustomKontoAdapter#0;class#KontoFragment#0" expanded="false" />
-              </folding>
+            <state line="182" column="34" selection-start="6962" selection-end="6963" vertical-scroll-proportion="0.0" vertical-offset="3094" max-vertical-offset="7106">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -116,16 +100,8 @@
       <file leaf-file-name="NavigationActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="50" selection-start="2511" selection-end="2511" vertical-scroll-proportion="0.0" vertical-offset="636" max-vertical-offset="2363">
-              <folding>
-                <element signature="e#1692#1712#0" expanded="true" />
-                <element signature="e#1714#1735#0" expanded="true" />
-                <element signature="class#CustomOnGroupClickListener#0;class#NavigationActivity#0" expanded="false" />
-                <element signature="e#3978#4014#0" expanded="true" />
-                <element signature="class#CustomOnChildClickListener#0;class#NavigationActivity#0" expanded="false" />
-                <element signature="e#6223#6259#0" expanded="true" />
-                <element signature="e#6419#6468#0" expanded="true" />
-              </folding>
+            <state line="74" column="50" selection-start="2511" selection-end="2511" vertical-scroll-proportion="0.0" vertical-offset="1258" max-vertical-offset="4063">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -133,25 +109,12 @@
       <file leaf-file-name="ServerStatusFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/dhbw/serverstatus/ServerStatusFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="186" column="86" selection-start="6450" selection-end="6450" vertical-scroll-proportion="0.8003876" vertical-offset="1593" max-vertical-offset="3417">
+            <state line="226" column="78" selection-start="8459" selection-end="8459" vertical-scroll-proportion="0.2635659" vertical-offset="2550" max-vertical-offset="3417">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1708#1757#0" expanded="true" />
-                <element signature="e#1814#1863#0" expanded="true" />
-                <element signature="e#1929#1978#0" expanded="true" />
-                <element signature="e#2440#2489#0" expanded="true" />
                 <element signature="class#ServerStatusAdapter#0;class#ServerStatusFragment#0" expanded="false" />
-                <element signature="e#4112#4157#0" expanded="true" />
-                <element signature="e#4436#4481#0" expanded="true" />
                 <element signature="method#getServerInformation#0;class#ServerStatusFragment#0" expanded="false" />
-                <element signature="e#5130#5138#0" expanded="true" />
                 <element signature="method#isOnline#0;class#ServerStatusFragment#0" expanded="false" />
-                <element signature="e#6131#6139#0" expanded="true" />
-                <element signature="e#6405#6431#0" expanded="true" />
-                <element signature="e#6886#6931#0" expanded="true" />
-                <element signature="e#7021#7066#0" expanded="true" />
-                <element signature="e#7724#7769#0" expanded="true" />
-                <element signature="e#8619#8664#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -160,7 +123,7 @@
       <file leaf-file-name="AdminFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="154" column="93" selection-start="5133" selection-end="5133" vertical-scroll-proportion="0.0" vertical-offset="1849" max-vertical-offset="3383">
+            <state line="154" column="93" selection-start="5133" selection-end="5133" vertical-scroll-proportion="0.0" vertical-offset="2618" max-vertical-offset="4046">
               <folding />
             </state>
           </provider>
@@ -284,70 +247,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Kadconia" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Kadconia">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Kadconia">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="src">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="de/dhbw">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Kadconia">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="src">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="de/dhbw">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="links">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -440,6 +339,70 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kadconia" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Kadconia">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Kadconia">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="src">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="de/dhbw">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Kadconia">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="src">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="de/dhbw">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="links">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -501,19 +464,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -539,6 +489,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -663,21 +626,18 @@
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="FLOATING" visible="false" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1214" y="117" width="391" height="422" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912844" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32683486" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40686274" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32798165" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17013463" sideWeight="0.5016779" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31651375" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37844038" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37844038" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24963397" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -685,26 +645,29 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1923077" sideWeight="0.49832216" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3130734" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="FLOATING" visible="false" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1214" y="117" width="391" height="422" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29296875" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32683486" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31651375" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38235295" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="FLOATING" visible="true" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1210" y="280" width="391" height="422" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35632184" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17013463" sideWeight="0.5016779" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17013463" sideWeight="0.5016779" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18803419" sideWeight="0.49832216" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31954023" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31954023" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -717,8 +680,8 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3218391" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33563218" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24963397" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38235295" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -739,6 +702,13 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="154" column="93" selection-start="5133" selection-end="5133" vertical-scroll-proportion="0.0" vertical-offset="2618" max-vertical-offset="4046">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/res/menu/navigation.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="51" selection-start="304" selection-end="304" vertical-scroll-proportion="0.3148148" vertical-offset="0" max-vertical-offset="378" />
@@ -992,9 +962,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/InfoFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="0" selection-start="4114" selection-end="4114" vertical-scroll-proportion="1.0329458" vertical-offset="1439" max-vertical-offset="2210">
-          <folding />
-        </state>
+        <state line="134" column="0" selection-start="4114" selection-end="4114" vertical-scroll-proportion="1.0329458" vertical-offset="1439" max-vertical-offset="2210" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/vote/VoteFragment.java">
@@ -1014,14 +982,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/konto/KontoeintragFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="5" selection-start="2354" selection-end="2354" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="884">
-          <folding>
-            <element signature="e#1000#1043#0" expanded="true" />
-            <element signature="e#1129#1172#0" expanded="true" />
-            <element signature="e#1274#1317#0" expanded="true" />
-            <element signature="e#2267#2310#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="60" column="5" selection-start="2354" selection-end="2354" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="884" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_konto.xml">
@@ -1049,24 +1010,13 @@
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/konto/KontoFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="182" column="34" selection-start="6962" selection-end="6963" vertical-scroll-proportion="0.0" vertical-offset="2091" max-vertical-offset="2856">
-          <folding>
-            <element signature="method#reloadData#0;class#KontoFragment#0" expanded="false" />
-            <element signature="method#isOnline#0;class#KontoFragment#0" expanded="false" />
-            <element signature="method#refreshList#0;class#KontoFragment#0" expanded="false" />
-            <element signature="method#loadData#0;class#KontoFragment#0" expanded="false" />
-            <element signature="class#CustomWebViewClient#0;class#KontoFragment#0" expanded="false" />
-            <element signature="class#CustomWebChromeClient#0;class#KontoFragment#0" expanded="false" />
-            <element signature="class#WebAppInterface#0;class#KontoFragment#0" expanded="false" />
-            <element signature="class#CustomKontoAdapter#0;class#KontoFragment#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/ServerInfoFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="57" selection-start="3855" selection-end="3855" vertical-scroll-proportion="3.372093" vertical-offset="79" max-vertical-offset="2635">
-          <folding />
-        </state>
+        <state line="125" column="57" selection-start="3855" selection-end="3855" vertical-scroll-proportion="3.372093" vertical-offset="79" max-vertical-offset="2635" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/infos/AdminFragment.java">
@@ -1086,39 +1036,18 @@
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/navigation/NavigationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="74" column="50" selection-start="2511" selection-end="2511" vertical-scroll-proportion="0.0" vertical-offset="636" max-vertical-offset="2363">
-          <folding>
-            <element signature="e#1692#1712#0" expanded="true" />
-            <element signature="e#1714#1735#0" expanded="true" />
-            <element signature="class#CustomOnGroupClickListener#0;class#NavigationActivity#0" expanded="false" />
-            <element signature="e#3978#4014#0" expanded="true" />
-            <element signature="class#CustomOnChildClickListener#0;class#NavigationActivity#0" expanded="false" />
-            <element signature="e#6223#6259#0" expanded="true" />
-            <element signature="e#6419#6468#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/dhbw/serverstatus/ServerStatusFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="186" column="86" selection-start="6450" selection-end="6450" vertical-scroll-proportion="0.8003876" vertical-offset="1593" max-vertical-offset="3417">
+        <state line="226" column="78" selection-start="8459" selection-end="8459" vertical-scroll-proportion="0.2635659" vertical-offset="2550" max-vertical-offset="3417">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1708#1757#0" expanded="true" />
-            <element signature="e#1814#1863#0" expanded="true" />
-            <element signature="e#1929#1978#0" expanded="true" />
-            <element signature="e#2440#2489#0" expanded="true" />
             <element signature="class#ServerStatusAdapter#0;class#ServerStatusFragment#0" expanded="false" />
-            <element signature="e#4112#4157#0" expanded="true" />
-            <element signature="e#4436#4481#0" expanded="true" />
             <element signature="method#getServerInformation#0;class#ServerStatusFragment#0" expanded="false" />
-            <element signature="e#5130#5138#0" expanded="true" />
             <element signature="method#isOnline#0;class#ServerStatusFragment#0" expanded="false" />
-            <element signature="e#6131#6139#0" expanded="true" />
-            <element signature="e#6405#6431#0" expanded="true" />
-            <element signature="e#6886#6931#0" expanded="true" />
-            <element signature="e#7021#7066#0" expanded="true" />
-            <element signature="e#7724#7769#0" expanded="true" />
-            <element signature="e#8619#8664#0" expanded="true" />
           </folding>
         </state>
       </provider>
