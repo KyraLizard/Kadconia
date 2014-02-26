@@ -129,7 +129,7 @@ public class KontoFragment extends ListFragment {
                 //Wenn für die neue Seite nicht genug Einträge vorhanden sind...
                 if (mCurrentPage == 1 && anzEintraege == 0)
                 {
-                    loadData(0);
+                    reloadData();
                 }
                 else if (mCurrentPage+1 > anzEintraege / 50)
                 {
