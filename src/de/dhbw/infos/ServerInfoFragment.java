@@ -27,9 +27,6 @@ public class ServerInfoFragment extends Fragment {
 
     private Context mContext;
 
-    private List<Server> mServerList;
-    private ExpandableListView mExpandableListView;
-
     public ServerInfoFragment() {
     }
 
@@ -39,17 +36,17 @@ public class ServerInfoFragment extends Fragment {
         mContext = getActivity();
 
         View view = inflater.inflate(R.layout.fragment_info_serverinfo, null);
-        mExpandableListView = (ExpandableListView) view.findViewById(R.id.serverinfo_expandablelist);
+        ExpandableListView mExpandableListView = (ExpandableListView) view.findViewById(R.id.serverinfo_expandablelist);
 
-        mServerList = (new DataBaseServer(mContext)).getAllServer();
+        List<Server> mServerList = (new DataBaseServer(mContext)).getAllServer();
         mExpandableListView.setAdapter(new ServerInfoAdapter(mServerList));
 
         return mExpandableListView;
         //return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public class ServerInfoAdapter extends BaseExpandableListAdapter
-    {
+    public class ServerInfoAdapter extends BaseExpandableListAdapter {
+
         private List<Server> mServerList;
 
         public ServerInfoAdapter(List<Server> serverList) {

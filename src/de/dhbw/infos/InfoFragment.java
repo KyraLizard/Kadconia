@@ -22,15 +22,9 @@ import de.dhbw.navigation.R;
 
 public class InfoFragment extends Fragment{
 
-    private String mTitle;
-	private List<Info> mInfoList;
     private Context mContext;
 
     public InfoFragment() {
-    }
-
-    public InfoFragment(String title) {
-        mTitle = title;
     }
 
     @Override
@@ -40,7 +34,7 @@ public class InfoFragment extends Fragment{
 		View view = inflater.inflate(R.layout.fragment_info, null);
         mContext = getActivity();
 
-		mInfoList = (new DataBaseInfos()).getAllInfos(mContext);
+		List<Info> mInfoList = (new DataBaseInfos()).getAllInfos(mContext);
 
 		GridView mGridView = (GridView) view.findViewById(R.id.info_layout);
 		mGridView.setAdapter(new InfoAdapter(mInfoList));
@@ -49,14 +43,8 @@ public class InfoFragment extends Fragment{
 		//return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
-    @Override
-    public void onResume() {
-        //((Activity) mContext).getActionBar().setTitle(mTitle);
-        super.onResume();
-    }
+    public class InfoAdapter extends BaseAdapter {
 
-    public class InfoAdapter extends BaseAdapter
-	{
 		private List<Info> mInfoList;
 		
 		public InfoAdapter(List<Info> mInfoList) {

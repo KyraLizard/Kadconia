@@ -20,8 +20,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class LinkFragment extends Fragment{
-	
-	private List<Link> mLinkList;
+
     private Context mContext;
 
     public LinkFragment() {
@@ -34,7 +33,7 @@ public class LinkFragment extends Fragment{
 		View view = inflater.inflate(R.layout.fragment_link, null);
         mContext = getActivity();
 
-		mLinkList = (new DataBaseLinks()).getAllLinks(mContext);
+		List<Link> mLinkList = (new DataBaseLinks()).getAllLinks(mContext);
 
 		GridView mGridView = (GridView) view.findViewById(R.id.link_layout);
 		mGridView.setAdapter(new LinkAdapter(mLinkList));

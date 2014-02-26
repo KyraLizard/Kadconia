@@ -114,7 +114,7 @@ public class AdminFragment extends ListFragment {
             */
         }
 
-        setListAdapter(new AdminListAdapter(mContext,R.layout.fragment_admin_element,listElements));
+        setListAdapter(new AdminListAdapter(mContext, listElements));
     }
 
     private class NetworkTask extends AsyncTask<Object,Object,Object>{
@@ -194,18 +194,18 @@ public class AdminFragment extends ListFragment {
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+        if (netInfo != null && netInfo.isConnectedOrConnecting())
             return true;
-        }
-        return false;
+        else
+            return false;
     }
 
     public class AdminListAdapter extends ArrayAdapter<String> {
 
         private List<String> mListItems;
 
-        public AdminListAdapter(Context context, int resource, List<String> objects) {
-            super(context, resource, objects);
+        public AdminListAdapter(Context context, List<String> objects) {
+            super(context, R.layout.fragment_admin_element, objects);
             mListItems = objects;
         }
 
