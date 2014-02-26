@@ -1,17 +1,14 @@
 package de.dhbw.navigation;
 
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.graphics.Color;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,11 +23,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public CustomExpandableListAdapter(Context context) {
         mContext = context;
         String[] listGroups = mContext.getResources().getStringArray(R.array.nav_array);
-        for (int i=0; i<listGroups.length; i++)
-            mListGroups.add(listGroups[i]);
+        Collections.addAll(mListGroups, listGroups);
         String[] serverStatusElements = mContext.getResources().getStringArray(R.array.nav_elements_serverstatus);
-        for (int i=0; i<serverStatusElements.length; i++)
-            mServerStatusElements.add(serverStatusElements[i]);
+        Collections.addAll(mServerStatusElements, serverStatusElements);
     }
 
     @Override

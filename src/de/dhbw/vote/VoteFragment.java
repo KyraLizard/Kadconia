@@ -1,7 +1,9 @@
 package de.dhbw.vote;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Fragment;
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -62,7 +65,6 @@ public class VoteFragment extends Fragment {
     private TextView mHintText;
 
     // http://developer.android.com/training/keyboard-input/style.html
-
 
     public VoteFragment() {
     }
@@ -274,7 +276,7 @@ public class VoteFragment extends Fragment {
 
         @JavascriptInterface
         public void loadImage(String url) {
-            new DownloadImageTask(mImageView).execute(url);
+            new DownloadImageTask().execute(url);
         }
 
         @JavascriptInterface
@@ -292,12 +294,6 @@ public class VoteFragment extends Fragment {
     }
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
-        private ImageView bmImage;
-
-        public DownloadImageTask(ImageView imageView) {
-            this.bmImage = imageView;
-        }
-
         protected Bitmap doInBackground(String... urls) {
 
             Bitmap mIcon11 = null;
@@ -314,9 +310,9 @@ public class VoteFragment extends Fragment {
 
         protected void onPostExecute(Bitmap result) {
             //set image of your imageview
-            bmImage.setImageBitmap(result);
             submitButtonLock = false;
             mWebpageState = 2;
+            mImageView.setImageBitmap(result);
             mImageView.setVisibility(View.VISIBLE);
             mProgressBar.setVisibility(View.GONE);
         }

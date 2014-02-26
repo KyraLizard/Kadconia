@@ -6,8 +6,6 @@ import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -25,7 +23,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,7 +32,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,12 +40,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.dhbw.database.DataBaseKontoEintraege;
-import de.dhbw.database.Info;
 import de.dhbw.database.Kontoeintrag;
-import de.dhbw.infos.AdminFragment;
-import de.dhbw.infos.KontaktFragment;
-import de.dhbw.infos.RulesFragment;
-import de.dhbw.infos.ServerInfoFragment;
 import de.dhbw.navigation.R;
 
 /**
@@ -99,7 +90,7 @@ public class KontoFragment extends ListFragment {
         //Lade Datum der letzten Aktualisierung aus SharedPreferences (Default = "Noch nicht aktualisiert")
         mDateTextView.setText(PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_date), "Noch nicht aktualisiert..."));
 
-        //Lade Seitenzahl aus SharedPreferences in Variable (Default = 1)
+        //Lade Seitenzahl aus SharedPreferences in Variable (Default = 0)
         mCurrentPage = PreferenceManager.getDefaultSharedPreferences(mContext).getInt(getString(R.string.pref_konto_page),-1);
         if (mCurrentPage < 0)
         {
@@ -133,27 +124,34 @@ public class KontoFragment extends ListFragment {
                 if (areButtonsLocked)
                     return;
 
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
-                editor.putInt(getString(R.string.pref_konto_page),mCurrentPage+1);
-                editor.commit();
-                mCurrentPage++;
                 int anzEintraege = (new DataBaseKontoEintraege()).getKontoEintraegeCount(mContext);
 
                 //Wenn für die neue Seite nicht genug Einträge vorhanden sind...
-                if (mCurrentPage > anzEintraege / 50)
+                if (mCurrentPage == 1 && anzEintraege == 0)
+                {
+                    loadData(0);
+                }
+                else if (mCurrentPage+1 > anzEintraege / 50)
                 {
                     if (anzEintraege%250 == 0)
-                        loadData(anzEintraege / 250);
-                    else
                     {
-                        editor.putInt(getString(R.string.pref_konto_page),mCurrentPage-1);
+                        loadData(anzEintraege / 250);
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+                        editor.putInt(getString(R.string.pref_konto_page),mCurrentPage+1);
                         editor.commit();
-                        mCurrentPage--;
-                        Toast.makeText(mContext,"Keine Einträge mehr vorhanden",Toast.LENGTH_LONG).show();
+                        mCurrentPage++;
                     }
+                    else
+                        Toast.makeText(mContext,"Keine Einträge mehr vorhanden",Toast.LENGTH_LONG).show();
                 }
                 else
+                {
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+                    editor.putInt(getString(R.string.pref_konto_page),mCurrentPage+1);
+                    editor.commit();
+                    mCurrentPage++;
                     refreshList();
+                }
             }
         });
 
@@ -235,14 +233,27 @@ public class KontoFragment extends ListFragment {
         mKontoProgressBar.setVisibility(View.INVISIBLE);
         mDateTextView.setText(PreferenceManager.getDefaultSharedPreferences(mContext).getString(getString(R.string.pref_konto_date), "Noch nicht aktualisiert..."));
 
-        if (mCurrentPage == 1)
+        if (mCurrentPage <= 1)
             mPagePrev.setImageResource(0);
         else
             mPagePrev.setImageResource(R.drawable.ic_action_previous_item);
 
         mPageTextView.setText("Seite " + mCurrentPage);
 
-        mKontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, 50, mCurrentPage);
+        try
+        {
+            mKontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, 50, mCurrentPage);
+        }
+        catch (IllegalArgumentException e)
+        {
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+            editor.putInt(getString(R.string.pref_konto_page),1);
+            editor.commit();
+            mCurrentPage = 1;
+            mKontoeintragList = (new DataBaseKontoEintraege()).getKontoEintraege(mContext, 50, mCurrentPage);
+            Toast.makeText(mContext, "Leider ist etwas schiefgelaufen. Die Seite wird neu geladen.", Toast.LENGTH_LONG).show();
+        }
+
         setListAdapter(new CustomKontoAdapter(mContext, R.layout.fragment_konto_element, mKontoeintragList));
         areButtonsLocked = false;
     }
@@ -403,7 +414,7 @@ public class KontoFragment extends ListFragment {
             else
             {
                 textView.setText(String.valueOf(mKontoeintragList.get(position).getType() + ": " + df.format(mKontoeintragList.get(position).getBetrag())));
-                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_konto_item,0,0,0);
+                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_konto_item, 0, 0, 0);
             }
             textView.setCompoundDrawablePadding(10);
 

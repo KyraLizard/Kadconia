@@ -28,9 +28,6 @@ public class NavigationActivity extends Activity {
     private ExpandableListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    public NavigationActivity() {
-    }
-
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -120,7 +117,7 @@ public class NavigationActivity extends Activity {
                 return false;
             else
             {
-                Fragment fragment = null;
+                Fragment fragment;
 
                 switch (i)
                 {
@@ -134,7 +131,7 @@ public class NavigationActivity extends Activity {
                         fragment = new KontoFragment();
                         break;
                     case 3:
-                        fragment = new InfoFragment(mNavigationTitles[i]);
+                        fragment = new InfoFragment();
                         break;
                     case 4:
                         fragment = new LinkFragment();

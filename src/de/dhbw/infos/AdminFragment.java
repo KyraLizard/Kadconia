@@ -1,6 +1,5 @@
 package de.dhbw.infos;
 
-import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -62,7 +60,20 @@ public class AdminFragment extends ListFragment {
         rankList.add(new Rank("Moderatoren","mods.txt"));
         rankList.add(new Rank("Test-Moderatoren", "tmods.txt"));
 
-        updateList();
+        boolean isRankEmpty = true;
+        for (Rank rank : rankList)
+        {
+            if (PreferenceManager.getDefaultSharedPreferences(mContext).getStringSet(rank.getFile().split("\\.")[0] + "List", new HashSet<String>()).size() != 0)
+            {
+                isRankEmpty = false;
+                break;
+            }
+        }
+
+        if (isRankEmpty)
+            (new NetworkTask()).execute();
+        else
+            refreshList();
 
         return view;
         //return super.onCreateView(inflater, container, savedInstanceState);
@@ -91,7 +102,7 @@ public class AdminFragment extends ListFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateList() {
+    public void refreshList() {
 
         List<String> listElements = new ArrayList<String>();
 
@@ -109,12 +120,17 @@ public class AdminFragment extends ListFragment {
             }
             else
                 listElements.add("Liste leer!");
-            /*for (String name : readFileToList(rank.getFile()))
-                listElements.add(name);
-            */
         }
 
         setListAdapter(new AdminListAdapter(mContext, listElements));
+    }
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting())
+            return true;
+        else
+            return false;
     }
 
     private class NetworkTask extends AsyncTask<Object,Object,Object>{
@@ -122,21 +138,25 @@ public class AdminFragment extends ListFragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressBar.setProgress(0);
-                    mProgressBar.setVisibility(View.VISIBLE);
-                }
-            });
+
+            if (!isOnline())
+            {
+                isRefreshLocked = false;
+                cancel(true);
+            }
+            else
+            {
+                mProgressBar.setProgress(0);
+                mProgressBar.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
-        protected void onProgressUpdate(Object... values) {
-            updateList();
+        protected void onPostExecute(Object o) {
+            refreshList();
             mProgressBar.setVisibility(View.INVISIBLE);
             isRefreshLocked = false;
-            super.onProgressUpdate(values);
+            super.onPostExecute(o);
         }
 
         @Override
@@ -147,16 +167,6 @@ public class AdminFragment extends ListFragment {
             {
                 for (Rank rank : rankList)
                 {
-                    if (!isOnline())
-                    {
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(mContext, getString(R.string.error_no_internet), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        break;
-                    }
                     List<String> stringList = new ArrayList<String>();
                     InputStream inputStream = new URL(url+rank.getFile()).openStream();
                     DataInputStream dataInputStream = new DataInputStream(inputStream);
@@ -183,24 +193,10 @@ public class AdminFragment extends ListFragment {
             catch (IOException e) {
                 e.printStackTrace();
             }
-            finally
-            {
-                publishProgress();
-                return null;
-            }
+            return null;
         }
     }
-
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting())
-            return true;
-        else
-            return false;
-    }
-
-    public class AdminListAdapter extends ArrayAdapter<String> {
+    private class AdminListAdapter extends ArrayAdapter<String> {
 
         private List<String> mListItems;
 

@@ -22,8 +22,8 @@ public class KontaktFragment extends Fragment {
 
         String[] kontaktArray = getResources().getStringArray(R.array.kontakt);
         String kontaktText = "";
-        for (int i=0; i<kontaktArray.length; i++)
-            kontaktText += kontaktArray[i] + "\n\n";
+        for (String aKontaktArray : kontaktArray)
+            kontaktText += aKontaktArray + "\n\n";
 
         View view = inflater.inflate(R.layout.fragment_kontakt, container, false);
         TextView textView = (TextView) view.findViewById(R.id.kontakt_text);
