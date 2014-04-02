@@ -119,7 +119,7 @@ public class AdminFragment extends ListFragment {
                     listElements.add(memberName);
             }
             else
-                listElements.add("Liste leer!");
+                listElements.add(getString(R.string.list_empty));
         }
 
         setListAdapter(new AdminListAdapter(mContext, listElements));

@@ -139,6 +139,11 @@ public class NavigationActivity extends Activity {
                     case 5:
                         fragment = new SettingsFragment();
                         break;
+                    case 6:
+                        fragment = null;
+                        finish();
+                        System.exit(0);
+                        break;
                     default:
                         fragment = new VoteFragment();
                         break;

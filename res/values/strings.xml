@@ -42,6 +42,8 @@
     
     <string name="link_list_element_icon">Link-Icon</string>
 
+    <string name="list_empty">Kein Eintrag!</string>
+
     <string name="nav_serverstatus">Serverstatus</string>
     <string name="nav_vote">Vote</string>
     <string name="nav_konto">Konto</string>
@@ -49,6 +51,7 @@
     <string name="nav_infos">Info</string>
     <string name="nav_links">Links</string>
     <string name="nav_settings">Einstellungen</string>
+    <string name="nav_exit">Beenden</string>
 
     <string name="serverstatus_owner_kadcon">Kadcon</string>
     <string name="serverstatus_owner_mojang">Mojang</string>
@@ -60,6 +63,7 @@
     	<item>@string/nav_infos</item>
     	<item>@string/nav_links</item>
     	<item>@string/nav_settings</item>
+        <item>@string/nav_exit</item>
     </string-array>
 
     <string-array name="nav_elements_serverstatus">
@@ -76,16 +80,6 @@
     <string-array name="kontakt">
         <item>Mark Atzmüller</item>
         <item>kadconia@gmx.de</item>
-    </string-array>
-
-    <string-array name="language">
-        <item>German (Germany)</item>
-        <item>English (US)</item>
-    </string-array>
-
-    <string-array name="language_alias">
-        <item>de-DE</item>
-        <item>en-US</item>
     </string-array>
 
     <color name="dark_grey">#555555</color>
