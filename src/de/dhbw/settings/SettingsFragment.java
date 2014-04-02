@@ -20,9 +20,7 @@ import android.view.ViewGroup;
 
 import java.util.Calendar;
 
-import de.dhbw.navigation.NavigationActivity;
 import de.dhbw.navigation.R;
-import de.dhbw.vote.VoteFragment;
 
 /**
  * Created by Mark on 18.11.13.
@@ -58,11 +56,11 @@ public class SettingsFragment extends PreferenceFragment {
                     else
                     {
                         Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(System.currentTimeMillis());
+                        if (calendar.get(Calendar.HOUR_OF_DAY) >= 17)
+                            calendar.add(Calendar.DATE, 1);
                         calendar.set(Calendar.HOUR_OF_DAY, 17);
-                        ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),(1000*60*60*24), pendingIntent);
+                        ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
                     }
-
                     return true;
                 }
             });

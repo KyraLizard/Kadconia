@@ -198,6 +198,8 @@ public class ServerStatusFragment extends ListFragment {
                     mServerList.add(server);
 
                     HashMap JSON = getServerInformation(server);
+                    if (JSON.isEmpty())
+                        this.cancel(true);
                     if (JSON.get("status").equals(true))
                         server.setOnline(true);
                     LinkedTreeMap players = (LinkedTreeMap) JSON.get("players");

@@ -26,7 +26,7 @@ public class VoteNotification extends BroadcastReceiver {
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_kadcon_logo_alternate)
                         .setContentTitle(context.getString(R.string.notification_title_vote))
-                        .setContentText(context.getString(R.string.notification_text_vote) + (new SimpleDateFormat("HH:mm:ss")).format(new Date()));
+                        .setContentText(context.getString(R.string.notification_text_vote));
         Intent resultIntent = new Intent(context, NavigationActivity.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
