@@ -31,4 +31,11 @@
         android:summary="@string/pref_konto_token_summary"
         android:defaultValue="@string/pref_konto_token_default"
         />
+    <CheckBoxPreference
+        android:id="@+id/pref_vote_notification"
+        android:key="@string/pref_vote_notification_key"
+        android:title="@string/pref_vote_notification"
+        android:summary="@string/pref_vote_notification_summary"
+        android:defaultValue="@string/pref_vote_notification_default"
+        />
 </PreferenceScreen>
