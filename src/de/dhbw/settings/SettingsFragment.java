@@ -59,6 +59,8 @@ public class SettingsFragment extends PreferenceFragment {
                         if (calendar.get(Calendar.HOUR_OF_DAY) >= 17)
                             calendar.add(Calendar.DATE, 1);
                         calendar.set(Calendar.HOUR_OF_DAY, 17);
+                        calendar.set(Calendar.MINUTE, 0);
+                        calendar.set(Calendar.SECOND, 0);
                         ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
                     }
                     return true;
