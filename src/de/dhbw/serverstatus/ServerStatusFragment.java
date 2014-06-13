@@ -25,6 +25,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -129,30 +130,20 @@ public class ServerStatusFragment extends ListFragment {
             //return super.getView(position, convertView, parent);
         }
     }
-    private static HashMap getServerInformation(Server server) {
+    private static StatusResponse getServerInformation(Server server) {
+
         try
         {
-            String mServer = server.getDomain() + ":" + server.getPort();
-            InputStream inputStream = new URL("http://minecraft-api.com/v1/get/?server=" + mServer).openStream();
-            DataInputStream dataInputStream = new DataInputStream(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(dataInputStream));
+            ServerListPing17 serverPing = new ServerListPing17();
+            serverPing.setAddress(new InetSocketAddress(server.getDomain(), server.getPort()));
 
-            List<String> serverDataList = new ArrayList<String>();
-            String line;
-            while ((line = bufferedReader.readLine()) != null)
-                serverDataList.add(line);
-            String data = "";
-            for (String serverData : serverDataList)
-                data += serverData;
-
-            Gson gson = new Gson();
-            return gson.fromJson(data, HashMap.class);
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            return serverPing.fetchData();
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
+
         return null;
     }
     private boolean isOnline() {
@@ -197,15 +188,17 @@ public class ServerStatusFragment extends ListFragment {
                 {
                     mServerList.add(server);
 
-                    HashMap JSON = getServerInformation(server);
-                    if (JSON.isEmpty())
-                        this.cancel(true);
-                    if (JSON.get("status").equals(true))
-                        server.setOnline(true);
-                    LinkedTreeMap players = (LinkedTreeMap) JSON.get("players");
-                    server.setServerInformation( ((Double)players.get("online")).intValue() + "/" + ((Double)players.get("max")).intValue() + " Spieler\n" + JSON.get("motd"));
+                    StatusResponse statusResponse = getServerInformation(server);
 
-                    mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
+                    if (statusResponse == null)
+                        this.cancel(true);
+                    else
+                    {
+                        server.setOnline(true);
+                        String motd = statusResponse.getDescription().replaceAll("§.", "");
+                        server.setServerInformation(statusResponse.getPlayers().getOnline() + "/" + statusResponse.getPlayers().getMax() + " Spieler\n" + motd);
+                        mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
+                    }
                 }
             }
             else if (mOwner.equals(getString(R.string.serverstatus_owner_mojang)))
