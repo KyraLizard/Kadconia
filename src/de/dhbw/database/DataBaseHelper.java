@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 	
-    public static final int DATABASE_VERSION = 23;
+    public static final int DATABASE_VERSION = 24;
     public static final String DATABASE_NAME = "Kadconia.db";
 
     private List<DataBaseTable> mDatabaseTables = new ArrayList<DataBaseTable>();
@@ -20,6 +20,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mDatabaseTables.add(new DataBaseInfos());
         mDatabaseTables.add(new DataBaseServer(context));
         mDatabaseTables.add(new DataBaseKontoEintraege());
+        mDatabaseTables.add(new DataBaseAdmins());
     }
 
     public void onCreate(SQLiteDatabase db) {

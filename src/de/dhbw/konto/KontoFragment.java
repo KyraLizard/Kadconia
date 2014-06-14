@@ -71,7 +71,8 @@ public class KontoFragment extends ListFragment {
 
         setHasOptionsMenu(true);
 
-        mContext = getActivity();View view = inflater.inflate(R.layout.fragment_konto, null);
+        mContext = getActivity();
+        View view = inflater.inflate(R.layout.fragment_konto, null);
 
         mWebView = (WebView) view.findViewById(R.id.konto_webview);
         mWebView.setWebViewClient(new CustomWebViewClient());

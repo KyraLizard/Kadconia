@@ -183,7 +183,10 @@ public class NavigationActivity extends Activity {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, fragment);
                 if (getFragmentManager().findFragmentById(R.id.content_frame) != null)  //Prevents empty activity window from being added to BackStack
-                    ft.addToBackStack(getActionBar().getTitle().toString());
+                    if (getActionBar() != null)
+                        if (getActionBar().getTitle() != null)
+                            ft.addToBackStack(getActionBar().getTitle().toString());
+
                 ft.commit();
 
                 // Highlight the selected item, update the title, and close the drawer

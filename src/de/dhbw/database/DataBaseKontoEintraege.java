@@ -112,8 +112,8 @@ public class DataBaseKontoEintraege implements DataBaseTable{
         return count > 0;
     }
 
-    public int getKontoEintraegeCount(Context context)
-    {
+    public int getKontoEintraegeCount(Context context){
+
         String countQuery = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = getReadableDatabase(context);
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -123,8 +123,8 @@ public class DataBaseKontoEintraege implements DataBaseTable{
         return count;
     }
 
-    public List<Kontoeintrag> getKontoEintraege(Context context, int count, int page)
-    {
+    public List<Kontoeintrag> getKontoEintraege(Context context, int count, int page) {
+
         if (count < 1)
             throw new IllegalArgumentException("Ungültige Anzahl angeforderter Kontoeinträge!");
         if (page < 1 || page > getKontoEintraegeCount(context) / count + 1)
@@ -158,8 +158,8 @@ public class DataBaseKontoEintraege implements DataBaseTable{
         return mKontoList;
     }
 
-    public List<Kontoeintrag> getAllKontoEintraege(Context context)
-    {
+    public List<Kontoeintrag> getAllKontoEintraege(Context context) {
+
         SQLiteDatabase db = getReadableDatabase(context);
         List<Kontoeintrag> mKontoList = new ArrayList<Kontoeintrag>();
         String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + KEY_DATE + " DESC";
