@@ -57,9 +57,10 @@ public class DataBaseServer implements DataBaseTable{
         String ownerKadcon = mContext.getString(R.string.serverstatus_owner_kadcon);
         String ownerMojang = mContext.getString(R.string.serverstatus_owner_mojang);
 
-        addServer(db, new Server("Server 1", ownerKadcon, "kadcon.de", 51332));
+        /*addServer(db, new Server("Server 1", ownerKadcon, "kadcon.de", 51332));
         addServer(db, new Server("Server 2", ownerKadcon, "kadcon.de", 41332));
-        addServer(db, new Server("Server 3", ownerKadcon, "kadcon.de", 31332));
+        addServer(db, new Server("Server 3", ownerKadcon, "kadcon.de", 31332));*/
+        addServer(db, new Server("Kadcon-Server", ownerKadcon, "kadcon.de", 25565));
 
         addServer(db, new Server("Website", ownerMojang, "minecraft.net", 80));
         addServer(db, new Server("Skinserver", ownerMojang, "skins.minecraft.net", 80));

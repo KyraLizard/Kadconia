@@ -2,10 +2,13 @@ package de.dhbw.serverstatus;
 
 import android.app.ListFragment;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,12 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -33,13 +39,13 @@ import de.dhbw.navigation.R;
 /**
  * Created by Mark on 21.11.13.
  */
-public class ServerStatusFragment extends ListFragment {
+public class ServerStatusKadconFragment extends ListFragment {
 
     private Context mContext;
     private ProgressBar mProgressBar;
-    private String mOwner;
+    private ImageView mImageView;
 
-    public ServerStatusFragment() {
+    public ServerStatusKadconFragment() {
     }
 
     @Override
@@ -48,26 +54,15 @@ public class ServerStatusFragment extends ListFragment {
         mContext = getActivity();
         setHasOptionsMenu(true);
 
-        if (getArguments().getString(getString(R.string.bundle_key_serverstatus_owner)) != null)
-            mOwner = getArguments().getString(getString(R.string.bundle_key_serverstatus_owner));
-        else
-            mOwner = savedInstanceState.getString(getString(R.string.bundle_key_serverstatus_owner));
+        View view = inflater.inflate(R.layout.fragment_serverstatus_kadcon, null);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.serverstatus_kadcon_progress);
+        mImageView = (ImageView) view.findViewById(R.id.serverstatus_kadcon_image);
 
-        View view = inflater.inflate(R.layout.fragment_serverstatus, null);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.serverstatus_progress);
-
-        (new RefreshListTask(mOwner)).execute();
+        (new RefreshListTask()).execute();
 
         return view;
         //return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(getString(R.string.bundle_key_serverstatus_owner),mOwner);
-    }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -81,7 +76,7 @@ public class ServerStatusFragment extends ListFragment {
         switch (item.getItemId())
         {
             case R.id.action_refresh:
-                (new RefreshListTask(mOwner)).execute();
+                (new RefreshListTask()).execute();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -111,14 +106,9 @@ public class ServerStatusFragment extends ListFragment {
             else
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_offline, 0, 0, 0);
 
-            if (mOwner.equals(getString(R.string.serverstatus_owner_kadcon)))
-            {
-                textView.getLayoutParams().height = 150;
-                if (server.getServerInformation() != null)
-                    textView.setText(textView.getText() + "\n" + server.getServerInformation());
-            }
-            else if (mOwner.equals(getString(R.string.serverstatus_owner_mojang)))
-                ;
+            textView.getLayoutParams().height = 150;
+            if (server.getServerInformation() != null)
+                textView.setText(textView.getText() + "\n" + server.getServerInformation());
 
             return textView;
             //return super.getView(position, convertView, parent);
@@ -151,11 +141,7 @@ public class ServerStatusFragment extends ListFragment {
     private class RefreshListTask extends AsyncTask<Object,Object,Object> {
 
         private List<Server> mServerList = new ArrayList<Server>();
-        private String mOwner;
-
-        private RefreshListTask(String owner) {
-            mOwner = owner;
-        }
+        private String faviconString = "";
 
         @Override
         protected void onPreExecute() {
@@ -174,61 +160,24 @@ public class ServerStatusFragment extends ListFragment {
         protected Object doInBackground(Object[] objects) {
 
             DataBaseServer mDataBaseServer = new DataBaseServer(mContext);
-            int serverCount = mDataBaseServer.getServerCountByOwner(mOwner);
+            int serverCount = mDataBaseServer.getServerCountByOwner(getString(R.string.serverstatus_owner_kadcon));
 
-            if (mOwner.equals(getString(R.string.serverstatus_owner_kadcon)))
+            for (Server server : mDataBaseServer.getAllServerByOwner(getString(R.string.serverstatus_owner_kadcon)))
             {
-                for (Server server : mDataBaseServer.getAllServerByOwner(getString(R.string.serverstatus_owner_kadcon)))
+                mServerList.add(server);
+
+                StatusResponse statusResponse = getServerInformation(server);
+
+                if (statusResponse != null)
                 {
-                    mServerList.add(server);
-
-                    StatusResponse statusResponse = getServerInformation(server);
-
-                    if (statusResponse == null)
-                        this.cancel(true);
-                    else
-                    {
-                        server.setOnline(true);
-                        String motd = statusResponse.getDescription().replaceAll("§.", "");
-                        server.setServerInformation(statusResponse.getPlayers().getOnline() + "/" + statusResponse.getPlayers().getMax() + " Spieler\n" + motd);
-                        mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
-                    }
-                }
-            }
-            else if (mOwner.equals(getString(R.string.serverstatus_owner_mojang)))
-            {
-                try
-                {
-                    URL url = new URL("http://status.mojang.com/check");
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-                    String serverStatusString = reader.readLine();
-                    serverStatusString = serverStatusString.replace("[", "");
-                    serverStatusString = serverStatusString.replace("]", "");
-                    serverStatusString = serverStatusString.replace("{", "");
-                    serverStatusString = serverStatusString.replace("}", "");
-                    serverStatusString = serverStatusString.replace("\"", "");
-
-                    String[] serverStatusArray = serverStatusString.split(",");
-
-                    for (Server server : mDataBaseServer.getAllServerByOwner(getString(R.string.serverstatus_owner_mojang)))
-                    {
-                        for (String serverStatus : serverStatusArray)
-                        {
-                            if (server.getDomain().equals(serverStatus.split(":")[0]) && serverStatus.split(":")[1].equals("green"))
-                                server.setOnline(true);
-                        }
-                        mServerList.add(server);
-                    }
-
+                    server.setOnline(true);
+                    String motd = statusResponse.getDescription().replaceAll("§.", "");
+                    server.setServerInformation(statusResponse.getPlayers().getOnline() + "/" + statusResponse.getPlayers().getMax() + " Spieler\n" + motd);
                     mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
-                }
-                catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
+                    faviconString = statusResponse.getFavicon();
                 }
             }
+
             publishProgress();
             return null;
         }
@@ -239,6 +188,16 @@ public class ServerStatusFragment extends ListFragment {
             setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, mServerList));
             mProgressBar.setVisibility(View.INVISIBLE);
             mProgressBar.setProgress(0);
+
+            //Set favicon
+            if (faviconString != null && !faviconString.isEmpty())
+            {
+                String faviconDataBytes = faviconString.substring(faviconString.indexOf(",") + 1);
+                InputStream stream = new ByteArrayInputStream(Base64.decode(faviconDataBytes.getBytes(), Base64.DEFAULT));
+                Bitmap faviconBitmap = BitmapFactory.decodeStream(stream);
+                mImageView.setImageBitmap(faviconBitmap);
+            }
+
             super.onProgressUpdate(values);
         }
     }

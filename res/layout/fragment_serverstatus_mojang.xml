@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:listSelector="@android:color/transparent"/>
     <ProgressBar
-        android:id="@+id/serverstatus_progress"
+        android:id="@+id/serverstatus_mojang_progress"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -3,7 +3,8 @@ package de.dhbw.navigation;
 import de.dhbw.infos.InfoFragment;
 import de.dhbw.konto.KontoFragment;
 import de.dhbw.links.LinkFragment;
-import de.dhbw.serverstatus.ServerStatusFragment;
+import de.dhbw.serverstatus.ServerStatusKadconFragment;
+import de.dhbw.serverstatus.ServerStatusMojangFragment;
 import de.dhbw.settings.SettingsFragment;
 import de.dhbw.vote.VoteFragment;
 
@@ -121,9 +122,6 @@ public class NavigationActivity extends Activity {
 
                 switch (i)
                 {
-                    /*case 0:
-                        fragment = new ServerStatusFragment();
-                        break;*/
                     case 1:
                         fragment = new VoteFragment();
                         break;
@@ -172,10 +170,12 @@ public class NavigationActivity extends Activity {
 
             if ((expandableListView.getExpandableListAdapter()).getGroup(i).equals(getString(R.string.nav_serverstatus)))
             {
-                Fragment fragment = new ServerStatusFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString(getString(R.string.bundle_key_serverstatus_owner), expandableListView.getExpandableListAdapter().getChild(i,i2).toString());
-                fragment.setArguments(bundle);
+                Fragment fragment;
+
+                if (expandableListView.getExpandableListAdapter().getChild(i,i2).toString().equals(getString(R.string.serverstatus_owner_kadcon)))
+                    fragment = new ServerStatusKadconFragment();
+                else
+                    fragment = new ServerStatusMojangFragment();
 
                 String[] mChildNavigationTitles = mContext.getResources().getStringArray(R.array.nav_elements_serverstatus);
 
