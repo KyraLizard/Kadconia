@@ -82,13 +82,13 @@ public class ServerStatusKadconFragment extends ListFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private class ServerStatusAdapter extends ArrayAdapter<Server> {
+    private class ServerStatusAdapter extends ArrayAdapter<String> {
 
-        private List<Server> mServerList;
+        private List<String> mServerPropertiesList;
 
-        public ServerStatusAdapter(Context context, int resource, List<Server> serverList) {
-            super(context, resource, serverList);
-            this.mServerList = serverList;
+        public ServerStatusAdapter(Context context, int resource, List<String> serverPropertiesList) {
+            super(context, resource, serverPropertiesList);
+            this.mServerPropertiesList = serverPropertiesList;
         }
 
         @Override
@@ -98,17 +98,14 @@ public class ServerStatusKadconFragment extends ListFragment {
             View view = inflater.inflate(R.layout.fragment_serverstatus_element, parent, false);
             TextView textView = (TextView) view.findViewById(R.id.server_element_text);
 
-            Server server = mServerList.get(position);
-            textView.setText(server.getName());
+            textView.setText(mServerPropertiesList.get(position));
 
-            if (server.isOnline())
+            if (mServerPropertiesList.get(position).equals("Online"))
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_online, 0, 0, 0);
-            else
+            else if (mServerPropertiesList.get(position).equals("Offline"))
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_server_offline, 0, 0, 0);
 
-            textView.getLayoutParams().height = 150;
-            if (server.getServerInformation() != null)
-                textView.setText(textView.getText() + "\n" + server.getServerInformation());
+            //textView.getLayoutParams().height = 150;
 
             return textView;
             //return super.getView(position, convertView, parent);
@@ -140,7 +137,7 @@ public class ServerStatusKadconFragment extends ListFragment {
     }
     private class RefreshListTask extends AsyncTask<Object,Object,Object> {
 
-        private List<Server> mServerList = new ArrayList<Server>();
+        private List<String> mServerPropertiesList = new ArrayList<String>();
         private String faviconString = "";
 
         @Override
@@ -160,22 +157,25 @@ public class ServerStatusKadconFragment extends ListFragment {
         protected Object doInBackground(Object[] objects) {
 
             DataBaseServer mDataBaseServer = new DataBaseServer(mContext);
-            int serverCount = mDataBaseServer.getServerCountByOwner(getString(R.string.serverstatus_owner_kadcon));
+            Server kadconServer = mDataBaseServer.getAllServerByOwner(getString(R.string.serverstatus_owner_kadcon)).get(0);
 
-            for (Server server : mDataBaseServer.getAllServerByOwner(getString(R.string.serverstatus_owner_kadcon)))
+            StatusResponse statusResponse = getServerInformation(kadconServer);
+
+            if (statusResponse != null)
             {
-                mServerList.add(server);
-
-                StatusResponse statusResponse = getServerInformation(server);
-
-                if (statusResponse != null)
-                {
-                    server.setOnline(true);
-                    String motd = statusResponse.getDescription().replaceAll("§.", "");
-                    server.setServerInformation(statusResponse.getPlayers().getOnline() + "/" + statusResponse.getPlayers().getMax() + " Spieler\n" + motd);
-                    mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
-                    faviconString = statusResponse.getFavicon();
-                }
+                mServerPropertiesList.add(kadconServer.getOwner() + "-Server");
+                mServerPropertiesList.add("Online");
+                mServerPropertiesList.add("Spieler online: " + statusResponse.getPlayers().getOnline() + "/" + statusResponse.getPlayers().getMax());
+                /*String motd = statusResponse.getDescription().replaceAll("§.", "");
+                mServerPropertiesList.add(motd);*/
+                faviconString = statusResponse.getFavicon();
+            }
+            else
+            {
+                mServerPropertiesList.add(kadconServer.getOwner() + "-Server");
+                mServerPropertiesList.add("Offline");
+                mServerPropertiesList.add("Spieler online: ???/???");
+                mServerPropertiesList.add("Server nicht erreichbar");
             }
 
             publishProgress();
@@ -185,9 +185,8 @@ public class ServerStatusKadconFragment extends ListFragment {
         @Override
         protected void onProgressUpdate(Object[] values) {
 
-            setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, mServerList));
+            setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, mServerPropertiesList));
             mProgressBar.setVisibility(View.INVISIBLE);
-            mProgressBar.setProgress(0);
 
             //Set favicon
             if (faviconString != null && !faviconString.isEmpty())

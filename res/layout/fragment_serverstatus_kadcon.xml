@@ -15,7 +15,7 @@
             android:layout_height="128dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:padding="10dp"
+            android:padding="4dp"
             android:background="@color/dark_grey" />
 
         <ListView
@@ -23,16 +23,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:listSelector="@android:color/transparent" />
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
 
     </LinearLayout>
 
     <ProgressBar
         android:id="@+id/serverstatus_kadcon_progress"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        style="@android:style/Widget.ProgressBar.Horizontal" />
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
 
 </RelativeLayout>

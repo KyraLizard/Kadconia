@@ -156,8 +156,6 @@ public class ServerStatusMojangFragment extends ListFragment {
                     }
                     mServerList.add(server);
                 }
-
-                mProgressBar.setProgress(mProgressBar.getProgress() + 100/serverCount + 1);
             }
             catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -175,7 +173,6 @@ public class ServerStatusMojangFragment extends ListFragment {
 
             setListAdapter(new ServerStatusAdapter(mContext, R.layout.fragment_serverstatus_element, mServerList));
             mProgressBar.setVisibility(View.INVISIBLE);
-            mProgressBar.setProgress(0);
             super.onProgressUpdate(values);
         }
     }
