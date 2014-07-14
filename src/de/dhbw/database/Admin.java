@@ -24,7 +24,7 @@ public class Admin {
     }
 
     public Admin(String name, String image, String rank, String detailedRank, long membershipDate,
-                 String location, int age, String gender, int postCount, int likeCount, int points)
+                 String location, String gender, int age, int postCount, int likeCount, int points)
     {
         setName(name);
         setImage(image);
@@ -32,8 +32,8 @@ public class Admin {
         setDetailedRank(detailedRank);
         setMembershipDate(membershipDate);
         setLocation(location);
-        setAge(age);
         setGender(gender);
+        setAge(age);
         setPostCount(postCount);
         setLikeCount(likeCount);
         setPoints(points);

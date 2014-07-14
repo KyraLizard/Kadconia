@@ -42,7 +42,7 @@ public class DataBaseAdmins implements DataBaseTable{
     }
 
     public void deleteAllEntries(SQLiteDatabase db) {
-        db.execSQL("DELETE * FROM " + TABLE_NAME);
+        db.execSQL("DELETE FROM " + TABLE_NAME);
     }
 
     public void dropTable(SQLiteDatabase db) {

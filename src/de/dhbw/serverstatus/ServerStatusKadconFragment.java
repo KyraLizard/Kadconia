@@ -165,7 +165,7 @@ public class ServerStatusKadconFragment extends ListFragment {
             {
                 mServerPropertiesList.add(kadconServer.getOwner() + "-Server");
                 mServerPropertiesList.add("Online");
-                mServerPropertiesList.add("Spieler online: " + statusResponse.getPlayers().getOnline() + "/" + statusResponse.getPlayers().getMax());
+                mServerPropertiesList.add("Spieler online: " + statusResponse.getPlayers().getOnline() + " / " + statusResponse.getPlayers().getMax());
                 /*String motd = statusResponse.getDescription().replaceAll("§.", "");
                 mServerPropertiesList.add(motd);*/
                 faviconString = statusResponse.getFavicon();
@@ -174,7 +174,7 @@ public class ServerStatusKadconFragment extends ListFragment {
             {
                 mServerPropertiesList.add(kadconServer.getOwner() + "-Server");
                 mServerPropertiesList.add("Offline");
-                mServerPropertiesList.add("Spieler online: ???/???");
+                mServerPropertiesList.add("Spieler online: ??? / ???");
                 mServerPropertiesList.add("Server nicht erreichbar");
             }
 

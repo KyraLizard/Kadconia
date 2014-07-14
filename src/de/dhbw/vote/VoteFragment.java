@@ -143,17 +143,17 @@ public class VoteFragment extends Fragment {
     private void reloadPage() {
 
         if (!isOnline())
-        {
             Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_SHORT).show();
-            return;
+        else
+        {
+            mHintText.setText(getString(R.string.vote_text_hint_default));
+            mCaptchaField.setText("");
+            submitButtonLock = true;
+            mWebpageState = 1;
+            mProgressBar.setVisibility(View.VISIBLE);
+            mImageView.setVisibility(View.GONE);
+            mWebView.loadUrl("http://minecraft-server.eu/?go=servervote&id=2421");
         }
-        mHintText.setText(getString(R.string.vote_text_hint_default));
-        mCaptchaField.setText("");
-        submitButtonLock = true;
-        mWebpageState = 1;
-        mProgressBar.setVisibility(View.VISIBLE);
-        mImageView.setVisibility(View.GONE);
-        mWebView.loadUrl("http://minecraft-server.eu/?go=servervote&id=2421");
     }
 
     @Override
