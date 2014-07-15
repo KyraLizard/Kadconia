@@ -1,9 +1,7 @@
 package de.dhbw.vote;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Fragment;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -12,7 +10,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;

@@ -183,9 +183,13 @@ public class NavigationActivity extends Activity {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, fragment);
                 if (getFragmentManager().findFragmentById(R.id.content_frame) != null)  //Prevents empty activity window from being added to BackStack
-                    if (getActionBar() != null)
-                        if (getActionBar().getTitle() != null)
-                            ft.addToBackStack(getActionBar().getTitle().toString());
+                {
+                    try {
+                        ft.addToBackStack(getActionBar().getTitle().toString());
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 ft.commit();
 
@@ -206,7 +210,13 @@ public class NavigationActivity extends Activity {
 
         int backStackCount = getFragmentManager().getBackStackEntryCount();
         if (backStackCount >= 1)
-            getActionBar().setTitle(getFragmentManager().getBackStackEntryAt(backStackCount-1).getName());
+        {
+            try {
+                getActionBar().setTitle(getFragmentManager().getBackStackEntryAt(backStackCount - 1).getName());
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
         super.onBackPressed();
     }
 

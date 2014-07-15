@@ -1,7 +1,5 @@
 package de.dhbw.database;
 
-import java.util.Date;
-
 /**
  * Created by MarkundFlo on 14.06.2014.
  */
